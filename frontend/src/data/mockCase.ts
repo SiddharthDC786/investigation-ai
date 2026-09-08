@@ -427,6 +427,11 @@ export const osintLookups: OsintLookup[] = [
     label: 'Licensed address directory lookup',
     description: 'Validate address against licensed directory API — logged with request ID.',
   },
+  {
+    id: 'OSINT-04',
+    label: 'Sanctions / watchlist screening',
+    description: 'Screen against public sanctions index — logged, hash-chained, no private scraping.',
+  },
 ]
 
 export const entityMap = Object.fromEntries(entities.map((e) => [e.id, e])) as Record<string, Entity>

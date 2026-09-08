@@ -10,6 +10,7 @@ import { SecurityBanner } from './components/SecurityBanner'
 import { TopBar } from './components/TopBar'
 import { CASE_ID, entityMap, osintLookups, seedAuditLog } from './data/mockCase'
 import { useLanguage } from './i18n/LanguageContext'
+import type { OsintEnrichResponse } from './api/osint'
 import type { AuditEntry, Entity, ReviewDecision, ViewId } from './types'
 import { SearchView } from './views/SearchView'
 import { AuditTrailView } from './views/AuditTrailView'
@@ -75,9 +76,12 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   )
 
   const handleOsintLookup = useCallback(
-    (lookupId: string, entityId: string) => {
+    (lookupId: string, entityId: string, result?: OsintEnrichResponse) => {
       const lookup = osintLookups.find((l) => l.id === lookupId)
       if (!lookup) return
+      if (result) {
+        return
+      }
       appendAudit({
         action: `OSINT lookup: ${lookup.label}`,
         entityId,
@@ -174,7 +178,18 @@ function VigilDashboard({ user }: { user: AuthUser }) {
         return <RiskScoringView selectedId={selectedId} onSelect={setSelectedId} />
       case 'osint':
         return (
-          <OsintView selectedId={selectedId} onRunLookup={handleOsintLookup} recentLogs={auditLog} />
+          <OsintView
+            selectedId={selectedId}
+            entityLookup={{ ...entityMap, ...liveEntities }}
+            onRunLookup={handleOsintLookup}
+            recentLogs={auditLog}
+            onAuditRefresh={(entries) =>
+              setAuditLog((prev) => {
+                const ids = new Set(entries.map((e) => e.id))
+                return [...entries, ...prev.filter((p) => !ids.has(p.id))]
+              })
+            }
+          />
         )
       case 'audit':
         return (
