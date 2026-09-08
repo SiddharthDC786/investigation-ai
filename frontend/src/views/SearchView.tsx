@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState, type FormEvent } from 'react'
 import { searchByFace, searchInvestigation } from '../api/search'
+import { formatApiError } from '../api/client'
 import { DemoScenarioChips } from '../components/DemoScenarioChips'
 import { CASE_ID, narrativeTags } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -30,11 +31,13 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
   const [results, setResults] = useState<Awaited<ReturnType<typeof searchInvestigation>> | null>(null)
   const [loading, setLoading] = useState(false)
   const [faceStatus, setFaceStatus] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const runSearch = useCallback(
     async (next: SearchFilters) => {
       setLoading(true)
       setFilters(next)
+      setError(null)
       try {
         const data = await searchInvestigation(CASE_ID, next)
         setResults(data)
@@ -56,11 +59,14 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
             data.nameCandidates[0]?.entity.id ?? CASE_ID,
           )
         }
+      } catch (err) {
+        setResults(null)
+        setError(formatApiError(err, t.search.apiError))
       } finally {
         setLoading(false)
       }
     },
-    [onSearchPerformed, onEntitiesLoaded],
+    [onSearchPerformed, onEntitiesLoaded, t.search.apiError],
   )
 
   function handleSubmit(e: FormEvent) {
@@ -131,6 +137,11 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
           </span>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.search.description}</p>
+        {error && (
+          <p className="mt-2 border border-risk-high/40 bg-risk-high/10 px-3 py-2 text-sm text-risk-high">
+            {error}
+          </p>
+        )}
       </header>
 
       <div className="grid flex-1 grid-cols-1 gap-0 overflow-hidden xl:grid-cols-[340px_1fr]">

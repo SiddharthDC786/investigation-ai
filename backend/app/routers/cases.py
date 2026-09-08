@@ -1,8 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
 from app.database import get_db
 from app.models.case import Case
 from app.schemas.case import CaseCreate
+from app.schemas.case_stats import CaseStatsResponse
+from app.services.case_stats import get_case_stats
 
 router = APIRouter(prefix="/cases", tags=["cases"])
 
@@ -24,3 +27,11 @@ def get_case(case_id: str, db: Session = Depends(get_db)):
     if not db_case:
         raise HTTPException(status_code=404, detail="Case not found")
     return db_case
+
+
+@router.get("/{case_id}/stats", response_model=CaseStatsResponse)
+def case_stats(case_id: str, db: Session = Depends(get_db)):
+    try:
+        return get_case_stats(db, case_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc

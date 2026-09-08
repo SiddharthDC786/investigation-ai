@@ -9,6 +9,8 @@ import { NavRail } from './components/NavRail'
 import { SecurityBanner } from './components/SecurityBanner'
 import { TopBar } from './components/TopBar'
 import { CASE_ID, entityMap, osintLookups, seedAuditLog } from './data/mockCase'
+import { getOsintAuditLog } from './api/osint'
+import { isApiConfigured } from './api/client'
 import { useLanguage } from './i18n/LanguageContext'
 import type { OsintEnrichResponse } from './api/osint'
 import type { AuditEntry, Entity, ReviewDecision, ViewId } from './types'
@@ -30,7 +32,10 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   const [selectedId, setSelectedId] = useState<string | null>('P00014')
   const [highlightedIds, setHighlightedIds] = useState<Set<string>>(new Set())
   const [guideOpen, setGuideOpen] = useState(true)
-  const [auditLog, setAuditLog] = useState<AuditEntry[]>(() => [...seedAuditLog])
+  const [auditLog, setAuditLog] = useState<AuditEntry[]>(() =>
+    isApiConfigured() ? [] : [...seedAuditLog],
+  )
+  const [chainStatus, setChainStatus] = useState<string>('unknown')
   const [reviews, setReviews] = useState<Record<string, ReviewDecision>>({})
   const [liveEntities, setLiveEntities] = useState<Record<string, Entity>>({})
 
@@ -44,6 +49,27 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   }, [])
 
   const operator = user.name
+
+  useEffect(() => {
+    if (!isApiConfigured()) return
+    let cancelled = false
+    void getOsintAuditLog(CASE_ID)
+      .then((res) => {
+        if (cancelled) return
+        setChainStatus(res.chain_status)
+        setAuditLog((prev) => {
+          const backendIds = new Set(res.entries.map((e) => e.id))
+          const sessionOnly = prev.filter((p) => !backendIds.has(p.id))
+          return [...sessionOnly, ...res.entries]
+        })
+      })
+      .catch(() => {
+        if (!cancelled) setChainStatus('offline')
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     setAuditLog((prev) => [
@@ -183,18 +209,20 @@ function VigilDashboard({ user }: { user: AuthUser }) {
             entityLookup={{ ...entityMap, ...liveEntities }}
             onRunLookup={handleOsintLookup}
             recentLogs={auditLog}
-            onAuditRefresh={(entries) =>
+            onAuditRefresh={(entries, status) => {
+              if (status) setChainStatus(status)
               setAuditLog((prev) => {
                 const ids = new Set(entries.map((e) => e.id))
                 return [...entries, ...prev.filter((p) => !ids.has(p.id))]
               })
-            }
+            }}
           />
         )
       case 'audit':
         return (
           <AuditTrailView
             logs={auditLog}
+            chainStatus={chainStatus}
             canExport={user.role === 'supervisor'}
             exportedBy={`${user.badgeId} · ${user.name}`}
             onExported={handleExportAudit}
@@ -203,7 +231,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
       default:
         return null
     }
-  }, [view, selectedId, highlightedIds, auditLog, handleOsintLookup, handleSearchPerformed, handleExportAudit, mergeLiveEntities, user.role, user.badgeId, user.name])
+  }, [view, selectedId, highlightedIds, auditLog, chainStatus, handleOsintLookup, handleSearchPerformed, handleExportAudit, mergeLiveEntities, user.role, user.badgeId, user.name])
 
   return (
     <div className="flex h-full flex-col bg-console-bg">

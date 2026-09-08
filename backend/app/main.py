@@ -1,11 +1,13 @@
 from contextlib import asynccontextmanager
 import logging
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from sqlalchemy import text
 
 from app.config import settings
-from app.database import SessionLocal
+from app.database import SessionLocal, get_db
 from app.routers import analyze, audit, case_summary, cases, entities, explain, graph, ingestion, leads, osint, search, timeline
 from app.services.audit_chain import ensure_audit_table
 from app.services.graph_sync import sync_postgres_to_neo4j
@@ -45,14 +47,29 @@ app.add_middleware(
 )
 
 
+@app.exception_handler(ValueError)
+async def value_error_handler(_request: Request, exc: ValueError):
+    return JSONResponse(status_code=400, content={"detail": str(exc)})
+
+
 @app.get("/health")
-def health_check():
+def health_check(db=Depends(get_db)):
     from app.services.neo4j_client import is_neo4j_available
 
+    postgres_ok = True
+    try:
+        db.execute(text("SELECT 1"))
+    except Exception:
+        postgres_ok = False
+
+    neo4j_ok = is_neo4j_available()
+    status = "ok" if postgres_ok else "degraded"
+
     return {
-        "status": "ok",
+        "status": status,
         "service": "backend",
-        "neo4j": is_neo4j_available(),
+        "postgres": postgres_ok,
+        "neo4j": neo4j_ok,
     }
 
 

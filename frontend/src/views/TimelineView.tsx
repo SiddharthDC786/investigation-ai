@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getCaseTimeline } from '../api/timeline'
+import { formatApiError } from '../api/client'
 import { CASE_ID, narrativeTags } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity, TimelineEvent } from '../types'
@@ -34,13 +35,21 @@ export function TimelineView({
   const { t } = useLanguage()
   const [events, setEvents] = useState<TimelineEvent[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
     setLoading(true)
+    setError(null)
     getCaseTimeline(CASE_ID)
       .then((res) => {
         if (!cancelled) setEvents(res.events)
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setEvents([])
+          setError(formatApiError(err, t.timeline.apiError))
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -48,7 +57,7 @@ export function TimelineView({
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [t.timeline.apiError])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -66,8 +75,11 @@ export function TimelineView({
         {loading && (
           <p className="text-sm text-text-muted">{t.views.timeline.description}…</p>
         )}
-        {!loading && events.length === 0 && (
-          <p className="text-sm text-text-muted">No timeline events for this case yet.</p>
+        {!loading && error && (
+          <p className="border border-risk-high/40 bg-risk-high/10 px-3 py-2 text-sm text-risk-high">{error}</p>
+        )}
+        {!loading && !error && events.length === 0 && (
+          <p className="text-sm text-text-muted">{t.timeline.empty}</p>
         )}
         <div className="relative ml-4 border-l border-console-border-strong pl-8">
           {events.map((event, idx) => {

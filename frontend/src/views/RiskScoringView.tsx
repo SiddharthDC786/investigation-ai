@@ -9,6 +9,7 @@ import {
   YAxis,
 } from 'recharts'
 import { getCommunities, getRiskScores, riskScoresToEntities } from '../api/analyze'
+import { formatApiError } from '../api/client'
 import { CASE_ID, narrativeTags } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity } from '../types'
@@ -33,18 +34,32 @@ export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) 
   const { t } = useLanguage()
   const [ranked, setRanked] = useState<Entity[]>([])
   const [communities, setCommunities] = useState<string[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([getRiskScores(CASE_ID), getCommunities(CASE_ID)]).then(([risk, comm]) => {
-      if (cancelled) return
-      setRanked(riskScoresToEntities(risk.scores))
-      setCommunities(comm.communities.map((c) => `${c.label} (${c.member_count})`))
-    })
+    setLoading(true)
+    setError(null)
+    Promise.all([getRiskScores(CASE_ID), getCommunities(CASE_ID)])
+      .then(([risk, comm]) => {
+        if (cancelled) return
+        setRanked(riskScoresToEntities(risk.scores))
+        setCommunities(comm.communities.map((c) => `${c.label} (${c.member_count})`))
+      })
+      .catch((err) => {
+        if (cancelled) return
+        setRanked([])
+        setCommunities([])
+        setError(formatApiError(err, t.risk.apiError))
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [t.risk.apiError])
 
   const chartData = ranked.map((e) => ({
     id: e.id,
@@ -63,6 +78,15 @@ export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) 
           </span>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.risk.description}</p>
+        {loading && <p className="mt-2 text-sm text-text-muted">{t.risk.loading}</p>}
+        {error && (
+          <p className="mt-2 border border-risk-high/40 bg-risk-high/10 px-3 py-2 text-sm text-risk-high">
+            {error}
+          </p>
+        )}
+        {!loading && !error && ranked.length === 0 && (
+          <p className="mt-2 text-sm text-text-muted">{t.risk.empty}</p>
+        )}
       </header>
 
       <div className="grid flex-1 grid-cols-1 gap-0 overflow-hidden lg:grid-cols-2">

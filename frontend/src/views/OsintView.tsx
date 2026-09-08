@@ -15,7 +15,7 @@ interface OsintViewProps {
   entityLookup: Record<string, Entity>
   onRunLookup: (lookupId: string, entityId: string, result?: OsintEnrichResponse) => void
   recentLogs: AuditEntry[]
-  onAuditRefresh?: (entries: AuditEntry[]) => void
+  onAuditRefresh?: (entries: AuditEntry[], chainStatus?: string) => void
 }
 
 export function OsintView({
@@ -40,7 +40,7 @@ export function OsintView({
         verifyAuditChain(CASE_ID),
       ])
       setChainStatus(verify.status)
-      onAuditRefresh?.(log.entries)
+      onAuditRefresh?.(log.entries, verify.status)
     } catch {
       setChainStatus('offline')
     }

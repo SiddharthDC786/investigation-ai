@@ -32,3 +32,16 @@ export async function listCases(): Promise<CaseSummary[]> {
     },
   ]
 }
+
+export interface CaseStats {
+  case_id: string
+  persons: number
+  cdr_records: number
+  transactions: number
+  timeline_events: number
+}
+
+export async function getCaseStats(caseId: string): Promise<CaseStats | null> {
+  if (!isApiConfigured()) return null
+  return apiGet<CaseStats>(`/cases/${caseId}/stats`)
+}

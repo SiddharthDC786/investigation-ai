@@ -42,8 +42,12 @@ export type TranslationTree = {
   connection: {
     live: string
     demo: string
+    checking: string
+    down: string
+    degraded: string
     liveHint: string
     demoHint: string
+    downHint: string
   }
   presentation: {
     on: string
@@ -152,6 +156,8 @@ export type TranslationTree = {
   }
   timeline: {
     source: string
+    empty: string
+    apiError: string
   }
   risk: {
     scoreChart: string
@@ -159,6 +165,9 @@ export type TranslationTree = {
     colScore: string
     colPriority: string
     colType: string
+    empty: string
+    apiError: string
+    loading: string
   }
   osint: {
     policy: string
@@ -180,6 +189,10 @@ export type TranslationTree = {
     colAction: string
     colRecord: string
     colOfficer: string
+    empty: string
+    chainVerified: string
+    chainBroken: string
+    chainUnknown: string
   }
   search: {
     nameLabel: string
@@ -195,6 +208,7 @@ export type TranslationTree = {
     faceScanning: string
     faceMatchResult: string
     faceError: string
+    apiError: string
     runSearch: string
     searching: string
     clear: string
@@ -259,8 +273,12 @@ export const translations: Record<Language, TranslationTree> = {
     connection: {
       live: 'Live backend',
       demo: 'Demo data',
+      checking: 'Checking…',
+      down: 'Backend offline',
+      degraded: 'Backend degraded',
       liveHint: 'Connected to investigation API',
       demoHint: 'Training mode — mock case data on this device',
+      downHint: 'Start backend on port 8000 or check frontend/.env',
     },
     presentation: {
       on: 'Presentation mode',
@@ -401,13 +419,16 @@ export const translations: Record<Language, TranslationTree> = {
         'Hidden bridge: prepaid 8871205599 links Mumbai suspect, Pune facilitator & Delhi handler — zero direct calls between them.',
       bridgeTap: 'Tap the highlighted burner SIM to see fusion explainability.',
     },
-    timeline: { source: 'Source' },
+    timeline: { source: 'Source', empty: 'No timeline events for this case yet.', apiError: 'Could not load timeline — check backend connection.' },
     risk: {
       scoreChart: 'Score chart',
       colName: 'Name',
       colScore: 'Score',
       colPriority: 'Priority',
       colType: 'Type',
+      empty: 'No risk scores yet — ingest case data first.',
+      apiError: 'Could not load risk analysis — check backend connection.',
+      loading: 'Computing risk scores…',
     },
     osint: {
       policy: 'Only lawful public records. Every search is saved with your name and time.',
@@ -429,6 +450,10 @@ export const translations: Record<Language, TranslationTree> = {
       colAction: 'What happened',
       colRecord: 'Record',
       colOfficer: 'Officer',
+      empty: 'No audit entries yet. OSINT lookups and session actions appear here.',
+      chainVerified: 'Hash chain verified',
+      chainBroken: 'Hash chain broken — investigate tampering',
+      chainUnknown: 'Chain status unknown',
     },
     search: {
       nameLabel: 'Name',
@@ -444,6 +469,7 @@ export const translations: Record<Language, TranslationTree> = {
       faceScanning: 'Scanning photo…',
       faceMatchResult: 'Possible match found ({confidence}% confidence)',
       faceError: 'Face scan failed — try again',
+      apiError: 'Search failed — check backend connection.',
       runSearch: 'Search',
       searching: 'Searching…',
       clear: 'Clear',
@@ -501,8 +527,12 @@ export const translations: Record<Language, TranslationTree> = {
     connection: {
       live: 'लाइव बैकएंड',
       demo: 'डेमो डेटा',
+      checking: 'जाँच हो रही है…',
+      down: 'बैकएंड ऑफलाइन',
+      degraded: 'बैकएंड कमज़ोर',
       liveHint: 'जांच API से जुड़ा',
       demoHint: 'प्रशिक्षण — इस डिवाइस पर मॉक डेटा',
+      downHint: 'पोर्ट 8000 पर बैकएंड चालू करें या frontend/.env जाँचें',
     },
     presentation: {
       on: 'प्रस्तुति मोड',
@@ -646,13 +676,20 @@ export const translations: Record<Language, TranslationTree> = {
         'छिपा पुल: prepaid 8871205599 — Mumbai संदिग्ध, Pune सहायक और Delhi हैंडलर (आपस में कोई सीधा कॉल नहीं)।',
       bridgeTap: 'फ्यूजन विवरण के लिए हाइलाइट burner SIM पर टैप करें।',
     },
-    timeline: { source: 'स्रोत' },
+    timeline: {
+      source: 'स्रोत',
+      empty: 'इस मामले के लिए अभी कोई टाइमलाइन घटना नहीं।',
+      apiError: 'टाइमलाइन लोड नहीं हुई — बैकएंड कनेक्शन जाँचें।',
+    },
     risk: {
       scoreChart: 'स्कोर चार्ट',
       colName: 'नाम',
       colScore: 'स्कोर',
       colPriority: 'प्राथमिकता',
       colType: 'प्रकार',
+      empty: 'अभी कोई जोखिम स्कोर नहीं — पहले केस डेटा इंगेस्ट करें।',
+      apiError: 'जोखिम विश्लेषण लोड नहीं हुआ — बैकएंड कनेक्शन जाँचें।',
+      loading: 'जोखिम स्कोर की गणना…',
     },
     osint: {
       policy: 'केवल कानूनी सार्वजनिक रिकॉर्ड। हर खोज आपके नाम और समय के साथ सहेजी जाती है।',
@@ -674,6 +711,10 @@ export const translations: Record<Language, TranslationTree> = {
       colAction: 'क्या हुआ',
       colRecord: 'रिकॉर्ड',
       colOfficer: 'अधिकारी',
+      empty: 'अभी कोई ऑडिट प्रविष्टि नहीं। OSINT और सत्र कार्रवाइयाँ यहाँ दिखेंगी।',
+      chainVerified: 'हैश चेन सत्यापित',
+      chainBroken: 'हैश चेन टूटी — छेड़छाड़ की जाँच करें',
+      chainUnknown: 'चेन स्थिति अज्ञात',
     },
     search: {
       nameLabel: 'नाम',
@@ -689,6 +730,7 @@ export const translations: Record<Language, TranslationTree> = {
       faceScanning: 'फोटो स्कैन हो रही है…',
       faceMatchResult: 'संभावित मिलान ({confidence}% विश्वास)',
       faceError: 'फेस स्कैन विफल — पुनः प्रयास करें',
+      apiError: 'खोज विफल — बैकएंड कनेक्शन जाँचें।',
       runSearch: 'खोजें',
       searching: 'खोज रहे हैं…',
       clear: 'साफ़ करें',

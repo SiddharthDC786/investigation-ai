@@ -5,13 +5,27 @@ import type { AuditEntry } from '../types'
 
 interface AuditTrailViewProps {
   logs: AuditEntry[]
+  chainStatus?: string
   canExport?: boolean
   exportedBy?: string
   onExported?: () => void
 }
 
+function chainLabel(status: string, t: ReturnType<typeof useLanguage>['t']) {
+  if (status === 'verified' || status === 'ok') return t.audit.chainVerified
+  if (status === 'broken') return t.audit.chainBroken
+  return t.audit.chainUnknown
+}
+
+function chainClass(status: string) {
+  if (status === 'verified' || status === 'ok') return 'border-risk-low/40 text-risk-low bg-risk-low/10'
+  if (status === 'broken') return 'border-risk-high/40 text-risk-high bg-risk-high/10'
+  return 'border-console-border-strong text-text-muted bg-console-raised'
+}
+
 export function AuditTrailView({
   logs,
+  chainStatus = 'unknown',
   canExport = false,
   exportedBy = 'Unknown',
   onExported,
@@ -27,6 +41,7 @@ export function AuditTrailView({
       caseId: CASE_ID,
       exportedAt: new Date().toISOString(),
       exportedBy,
+      chainStatus,
       entryCount: logs.length,
       entries: logs,
     }
@@ -49,10 +64,13 @@ export function AuditTrailView({
       <header className="border-b border-console-border px-5 py-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-base font-semibold text-text-primary">{t.views.audit.header}</h1>
               <span className="border border-accent-steel/30 bg-accent-steel/10 px-2 py-0.5 text-[10px] text-accent-steel">
                 {narrativeTags.audit}
+              </span>
+              <span className={`border px-2 py-0.5 text-[10px] ${chainClass(chainStatus)}`}>
+                {chainLabel(chainStatus, t)}
               </span>
             </div>
             <p className="mt-1 text-sm text-text-secondary">{t.views.audit.description}</p>
@@ -73,26 +91,30 @@ export function AuditTrailView({
       </header>
 
       <div className="flex-1 overflow-auto">
-        <table className="w-full min-w-[640px] text-left text-sm">
-          <thead className="sticky top-0 bg-console-surface text-xs text-text-muted">
-            <tr className="border-b border-console-border">
-              <th className="px-4 py-3 font-semibold">{t.audit.colWhen}</th>
-              <th className="px-3 py-3 font-semibold">{t.audit.colAction}</th>
-              <th className="px-3 py-3 font-semibold">{t.audit.colRecord}</th>
-              <th className="px-3 py-3 font-semibold">{t.audit.colOfficer}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {logs.map((log) => (
-              <tr key={log.id} className="border-b border-console-border/50 hover:bg-console-raised/50">
-                <td className="px-4 py-3 text-xs text-accent-amber whitespace-nowrap">{log.timestamp}</td>
-                <td className="px-3 py-3 text-text-primary">{log.action}</td>
-                <td className="px-3 py-3 text-xs text-accent-steel">{log.entityId}</td>
-                <td className="px-3 py-3 text-text-secondary">{log.operator}</td>
+        {logs.length === 0 ? (
+          <p className="px-5 py-8 text-sm text-text-muted">{t.audit.empty}</p>
+        ) : (
+          <table className="w-full min-w-[640px] text-left text-sm">
+            <thead className="sticky top-0 bg-console-surface text-xs text-text-muted">
+              <tr className="border-b border-console-border">
+                <th className="px-4 py-3 font-semibold">{t.audit.colWhen}</th>
+                <th className="px-3 py-3 font-semibold">{t.audit.colAction}</th>
+                <th className="px-3 py-3 font-semibold">{t.audit.colRecord}</th>
+                <th className="px-3 py-3 font-semibold">{t.audit.colOfficer}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {logs.map((log) => (
+                <tr key={log.id} className="border-b border-console-border/50 hover:bg-console-raised/50">
+                  <td className="px-4 py-3 text-xs text-accent-amber whitespace-nowrap">{log.timestamp}</td>
+                  <td className="px-3 py-3 text-text-primary">{log.action}</td>
+                  <td className="px-3 py-3 text-xs text-accent-steel">{log.entityId}</td>
+                  <td className="px-3 py-3 text-text-secondary">{log.operator}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   )
