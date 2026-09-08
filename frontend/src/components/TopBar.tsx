@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { getCase } from '../api/case'
+import { getCaseSummary } from '../api/summary'
 import { CASE_ID } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import { usePresentationMode } from '../i18n/PresentationModeContext'
@@ -13,11 +14,15 @@ export function TopBar() {
   const { t } = useLanguage()
   const { enabled: presentationMode, toggle: togglePresentation } = usePresentationMode()
   const [caseTitle, setCaseTitle] = useState('Loading case…')
+  const [briefing, setBriefing] = useState<string | null>(null)
 
   useEffect(() => {
     void getCase(CASE_ID)
       .then((c) => setCaseTitle(c.title))
       .catch(() => setCaseTitle('Case unavailable'))
+    void getCaseSummary(CASE_ID)
+      .then((s) => s && setBriefing(s.narrative))
+      .catch(() => setBriefing(null))
   }, [])
 
   return (
@@ -33,6 +38,9 @@ export function TopBar() {
             <span className="text-xs text-accent-steel">{CASE_ID}</span>
           </div>
           <p className="truncate text-sm text-text-secondary">{caseTitle}</p>
+          {briefing && (
+            <p className="mt-1 line-clamp-2 max-w-xl text-xs leading-relaxed text-text-muted">{briefing}</p>
+          )}
         </div>
       </div>
 

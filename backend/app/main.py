@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import SessionLocal
-from app.routers import analyze, audit, cases, entities, graph, ingestion, leads, osint, search, timeline
+from app.routers import analyze, audit, case_summary, cases, entities, explain, graph, ingestion, leads, osint, search, timeline
 from app.services.audit_chain import ensure_audit_table
 from app.services.graph_sync import sync_postgres_to_neo4j
 from app.services.neo4j_schema import ensure_schema
@@ -31,8 +31,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Investigation AI API",
-    version="0.5.0",
-    description="Vigil SIH PS 26189 — fusion, analytics, lawful OSINT with hash-chained audit",
+    version="0.6.0",
+    description="Vigil SIH PS 26189 — fusion, analytics, OSINT audit, explainability & triage",
     lifespan=lifespan,
 )
 
@@ -65,4 +65,6 @@ app.include_router(timeline.router)
 app.include_router(analyze.router)
 app.include_router(osint.router)
 app.include_router(audit.router)
+app.include_router(explain.router)
+app.include_router(case_summary.router)
 app.include_router(leads.router)

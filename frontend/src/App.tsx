@@ -224,6 +224,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
         <InspectorPanel
           entity={selectedEntity}
           entityLookup={{ ...entityMap, ...liveEntities }}
+          caseId={CASE_ID}
           reviewDecision={reviewDecision}
           onReview={handleReview}
         />

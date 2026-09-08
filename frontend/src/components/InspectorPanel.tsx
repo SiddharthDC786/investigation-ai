@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { getEntityExplanation } from '../api/explain'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { ReviewDecision, Entity } from '../types'
 import { CollapsibleSection } from './CollapsibleSection'
@@ -5,6 +7,7 @@ import { CollapsibleSection } from './CollapsibleSection'
 interface InspectorPanelProps {
   entity: Entity | null
   entityLookup: Record<string, Entity>
+  caseId: string
   reviewDecision: ReviewDecision
   onReview: (decision: ReviewDecision) => void
 }
@@ -21,8 +24,36 @@ const reviewKeys: { value: Exclude<ReviewDecision, null>; labelKey: 'confirm' | 
   { value: 'dismiss', labelKey: 'dismiss', hintKey: 'dismissHint' },
 ]
 
-export function InspectorPanel({ entity, entityLookup, reviewDecision, onReview }: InspectorPanelProps) {
+export function InspectorPanel({ entity, entityLookup, caseId, reviewDecision, onReview }: InspectorPanelProps) {
   const { t } = useLanguage()
+  const [liveExplain, setLiveExplain] = useState<string[]>([])
+  const [liveNarrative, setLiveNarrative] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!entity) {
+      setLiveExplain([])
+      setLiveNarrative(null)
+      return
+    }
+    let cancelled = false
+    getEntityExplanation(entity.id, caseId)
+      .then((res) => {
+        if (cancelled || !res) return
+        setLiveExplain(res.reasoning_steps)
+        setLiveNarrative(res.narrative)
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setLiveExplain([])
+          setLiveNarrative(null)
+        }
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [entity?.id, caseId])
+
+  const explainLines = liveExplain.length > 0 ? liveExplain : entity?.explainability ?? []
 
   return (
     <aside className="flex h-full w-[min(100%,380px)] shrink-0 flex-col border-l border-console-border bg-console-surface">
@@ -60,10 +91,17 @@ export function InspectorPanel({ entity, entityLookup, reviewDecision, onReview 
             </div>
           </section>
 
+          {liveNarrative && (
+            <section className="border-b border-console-border bg-accent-steel/5 px-4 py-4">
+              <h3 className="text-sm font-semibold text-accent-steel">Court-defensible summary</h3>
+              <p className="mt-2 text-sm leading-relaxed text-text-primary">{liveNarrative}</p>
+            </section>
+          )}
+
           <section className="border-b border-console-border px-4 py-4">
             <h3 className="text-sm font-semibold text-text-primary">{t.inspector.whyFlagged}</h3>
             <ul className="mt-3 space-y-2">
-              {entity.explainability.map((line) => (
+              {explainLines.map((line) => (
                 <li key={line} className="text-sm leading-relaxed text-text-primary">
                   • {line}
                 </li>

@@ -29,10 +29,52 @@ export interface CommunitiesResponse {
   communities: CommunityCluster[]
 }
 
+export interface RiskScoreComponents {
+  centrality: number
+  role: number
+  case_history: number
+}
+
+export interface RiskScoreEntry {
+  entity_id: string
+  label: string
+  role: Entity['role'] | null
+  composite_score: number
+  severity: SeverityBand
+  components: RiskScoreComponents
+  triage_rank: number
+  explainability: string[]
+}
+
+export interface RiskScoreResponse {
+  case_id: string
+  scores: RiskScoreEntry[]
+}
+
 function severityFromScore(score: number): SeverityBand {
   if (score >= 75) return 'high'
   if (score >= 50) return 'medium'
   return 'low'
+}
+
+export function riskScoresToEntities(scores: RiskScoreEntry[]): Entity[] {
+  return scores.map((r) => ({
+    id: r.entity_id,
+    label: r.label,
+    type: 'person' as const,
+    role: r.role ?? undefined,
+    score: r.composite_score,
+    severity: r.severity,
+    sources: ['risk_score'],
+    explainability: r.explainability,
+    connections: [],
+    metadata: {
+      triage_rank: String(r.triage_rank),
+      centrality: String(r.components.centrality),
+      role_component: String(r.components.role),
+      case_history: String(r.components.case_history),
+    },
+  }))
 }
 
 export function centralityToEntities(rankings: CentralityEntry[]): Entity[] {
@@ -58,6 +100,26 @@ export function centralityToEntities(rankings: CentralityEntry[]): Entity[] {
         },
       }
     })
+}
+
+export async function getRiskScores(caseId: string): Promise<RiskScoreResponse> {
+  if (isApiConfigured()) {
+    return apiGet<RiskScoreResponse>(`/cases/${caseId}/analyze/risk-score`)
+  }
+  const mockScores: RiskScoreEntry[] = [...entities]
+    .filter((e) => e.type === 'person')
+    .sort((a, b) => b.score - a.score)
+    .map((e, i) => ({
+      entity_id: e.id,
+      label: e.label,
+      role: e.role ?? null,
+      composite_score: e.score,
+      severity: e.severity,
+      components: { centrality: 20, role: 15, case_history: 10 },
+      triage_rank: i + 1,
+      explainability: e.explainability,
+    }))
+  return { case_id: caseId, scores: mockScores }
 }
 
 export async function getCentrality(caseId: string): Promise<CentralityResponse> {

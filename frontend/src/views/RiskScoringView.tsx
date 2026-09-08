@@ -8,7 +8,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { centralityToEntities, getCentrality, getCommunities } from '../api/analyze'
+import { getCommunities, getRiskScores, riskScoresToEntities } from '../api/analyze'
 import { CASE_ID, narrativeTags } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity } from '../types'
@@ -36,9 +36,9 @@ export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) 
 
   useEffect(() => {
     let cancelled = false
-    Promise.all([getCentrality(CASE_ID), getCommunities(CASE_ID)]).then(([cent, comm]) => {
+    Promise.all([getRiskScores(CASE_ID), getCommunities(CASE_ID)]).then(([risk, comm]) => {
       if (cancelled) return
-      setRanked(centralityToEntities(cent.rankings))
+      setRanked(riskScoresToEntities(risk.scores))
       setCommunities(comm.communities.map((c) => `${c.label} (${c.member_count})`))
     })
     return () => {

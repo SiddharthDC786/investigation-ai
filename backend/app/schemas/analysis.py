@@ -26,3 +26,25 @@ class CommunityCluster(BaseModel):
 class CommunitiesResponse(BaseModel):
     case_id: str
     communities: list[CommunityCluster] = Field(default_factory=list)
+
+
+class RiskScoreComponents(BaseModel):
+    centrality: float
+    role: float
+    case_history: float
+
+
+class RiskScoreEntry(BaseModel):
+    entity_id: str
+    label: str
+    role: str | None = None
+    composite_score: int
+    severity: str
+    components: RiskScoreComponents
+    triage_rank: int
+    explainability: list[str] = Field(default_factory=list)
+
+
+class RiskScoreResponse(BaseModel):
+    case_id: str
+    scores: list[RiskScoreEntry] = Field(default_factory=list)
