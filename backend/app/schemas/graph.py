@@ -1,16 +1,14 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+from app.schemas.investigation import InvestigationEntity
 
 
-class GraphNode(BaseModel):
-    id: str
-    type: str
-    label: str
-
-class GraphEdge(BaseModel):
+class GraphLink(BaseModel):
     source: str
     target: str
-    type: str
+    label: str
+
 
 class GraphResponse(BaseModel):
-    nodes: list[GraphNode]
-    edges: list[GraphEdge]
+    nodes: list[InvestigationEntity]
+    links: list[GraphLink] = Field(default_factory=list)

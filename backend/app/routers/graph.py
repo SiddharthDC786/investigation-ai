@@ -1,19 +1,24 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException, Query
+from sqlalchemy import text
+from sqlalchemy.orm import Session
 
+from app.database import get_db
 from app.schemas.graph import GraphResponse
+from app.services.case_graph import build_case_graph
 
 router = APIRouter(tags=["graph"])
 
+
 @router.get("/cases/{case_id}/graph", response_model=GraphResponse)
-def get_graph(case_id: str):
-    return {
-        "nodes": [
-            {"id": "P001", "type": "PERSON", "label": "Person 1"},
-            {"id": "PH001", "type": "PHONE", "label": "9876500001"},
-            {"id": "P002", "type": "PERSON", "label": "Person 2"},
-        ],
-        "edges": [
-            {"source": "P001", "target": "PH001", "type": "USES_PHONE"},
-            {"source": "PH001", "target": "P002", "type": "CALLED"},
-        ],
-    }
+def get_graph(
+    case_id: str,
+    center_person_id: str | None = Query(None, alias="center_person_id"),
+    db: Session = Depends(get_db),
+):
+    case_exists = db.execute(
+        text("SELECT 1 FROM cases WHERE case_id = :cid"),
+        {"cid": case_id},
+    ).first()
+    if not case_exists:
+        raise HTTPException(status_code=404, detail="Case not found")
+    return build_case_graph(db, case_id, center_person_id=center_person_id)
