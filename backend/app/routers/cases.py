@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from app.schemas.case import CaseCreate
 
+from app.schemas.case import CaseCreate
 
 router = APIRouter()
 
