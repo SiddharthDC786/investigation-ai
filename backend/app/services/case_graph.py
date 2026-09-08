@@ -12,6 +12,7 @@ from app.services.investigation_search import (
     _fetch_person,
     _phone_entity_id,
 )
+from app.services.network_analysis import analyze_case
 
 
 def _person_ids_for_case(db: Session, case_id: str) -> set[str]:
@@ -157,5 +158,20 @@ def build_case_graph(
         receiver_ph = _phone_entity_id(cdr["receiver_phone"])
         if caller_ph in nodes and receiver_ph in nodes:
             add_link(caller_ph, receiver_ph, "call")
+
+    analysis = analyze_case(db, case_id)
+    for node_id, entity in nodes.items():
+        pr = analysis.pagerank.get(node_id, 0.0)
+        bt = analysis.betweenness.get(node_id, 0.0)
+        comm = analysis.communities.get(node_id, "")
+        entity.metadata["pagerank"] = f"{pr:.4f}"
+        entity.metadata["betweenness"] = f"{bt:.4f}"
+        if comm:
+            entity.metadata["community"] = comm
+        if pr > 0:
+            entity.score = min(99, max(entity.score, int(pr * 500) + 40))
+            entity.explainability.append(
+                f"Auto-ranked: PageRank {pr:.3f}, betweenness {bt:.3f}."
+            )
 
     return GraphResponse(nodes=list(nodes.values()), links=links)

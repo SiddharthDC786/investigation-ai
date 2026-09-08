@@ -15,6 +15,7 @@ from app.services.entity_resolution import (
     new_source_id,
     resolve_entity,
 )
+from app.services.network_analysis import invalidate_case_analysis
 from app.services.neo4j_client import get_session, is_neo4j_available
 
 logger = logging.getLogger(__name__)
@@ -111,6 +112,8 @@ def ingest_text_document(
         )
 
     db.commit()
+    if case_id:
+        invalidate_case_analysis(case_id)
 
     return IngestResponse(
         status="success",
@@ -242,6 +245,8 @@ def ingest_cdr_csv(db: Session, *, file_bytes: bytes, case_id: str | None) -> In
         count += 1
 
     db.commit()
+    if case_id:
+        invalidate_case_analysis(case_id)
     return IngestResponse(
         status="success",
         source_id=source_id,
@@ -291,6 +296,8 @@ def ingest_transactions_csv(
         count += 1
 
     db.commit()
+    if case_id:
+        invalidate_case_analysis(case_id)
     return IngestResponse(
         status="success",
         source_id=source_id,

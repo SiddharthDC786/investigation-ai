@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -7,7 +8,8 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { entities, narrativeTags } from '../data/mockCase'
+import { centralityToEntities, getCentrality, getCommunities } from '../api/analyze'
+import { CASE_ID, narrativeTags } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity } from '../types'
 
@@ -29,7 +31,21 @@ function severityBadge(severity: Entity['severity'], label: string) {
 
 export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) {
   const { t } = useLanguage()
-  const ranked = [...entities].sort((a, b) => b.score - a.score)
+  const [ranked, setRanked] = useState<Entity[]>([])
+  const [communities, setCommunities] = useState<string[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    Promise.all([getCentrality(CASE_ID), getCommunities(CASE_ID)]).then(([cent, comm]) => {
+      if (cancelled) return
+      setRanked(centralityToEntities(cent.rankings))
+      setCommunities(comm.communities.map((c) => `${c.label} (${c.member_count})`))
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   const chartData = ranked.map((e) => ({
     id: e.id,
     label: e.label.length > 12 ? `${e.label.slice(0, 12)}…` : e.label,
@@ -78,36 +94,49 @@ export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) 
           </div>
         </div>
 
-        <div className="overflow-y-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="sticky top-0 bg-console-surface text-xs text-text-muted">
-              <tr className="border-b border-console-border">
-                <th className="px-4 py-3 font-semibold">{t.risk.colName}</th>
-                <th className="px-2 py-3 font-semibold">{t.risk.colScore}</th>
-                <th className="px-2 py-3 font-semibold">{t.risk.colPriority}</th>
-                <th className="px-2 py-3 font-semibold">{t.risk.colType}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {ranked.map((entity, rank) => (
-                <tr
-                  key={entity.id}
+        <div className="overflow-y-auto p-4">
+          <h2 className="text-sm font-semibold text-text-primary">{t.risk.colPriority}</h2>
+          {communities.length > 0 && (
+            <div className="mt-2 border border-console-border bg-console-raised p-3 text-xs text-text-secondary">
+              <p className="font-semibold text-accent-steel">Detected rings (Louvain)</p>
+              <ul className="mt-2 list-inside list-disc space-y-1">
+                {communities.slice(0, 4).map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <ul className="mt-4 space-y-2">
+            {ranked.map((entity) => (
+              <li key={entity.id}>
+                <button
+                  type="button"
                   onClick={() => onSelect(entity.id)}
-                  className={`cursor-pointer border-b border-console-border/60 transition-colors hover:bg-console-raised ${
-                    selectedId === entity.id ? 'bg-console-raised ring-1 ring-inset ring-accent-amber/40' : ''
+                  className={`flex w-full items-center justify-between border px-3 py-2 text-left transition-colors ${
+                    selectedId === entity.id
+                      ? 'border-accent-amber bg-accent-amber/5'
+                      : 'border-console-border hover:border-accent-steel'
                   }`}
                 >
-                  <td className="px-4 py-3">
-                    <span className="text-xs text-text-muted">#{rank + 1}</span>
-                    <p className="text-sm font-medium text-text-primary">{entity.label}</p>
-                  </td>
-                  <td className="px-2 py-3 text-base text-accent-amber">{entity.score}</td>
-                  <td className="px-2 py-3">{severityBadge(entity.severity, t.severity[entity.severity])}</td>
-                  <td className="px-2 py-3 text-sm text-text-secondary">{t.entityType[entity.type]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  <span>
+                    <span className="block text-sm font-medium text-text-primary">{entity.label}</span>
+                    <span className="text-xs text-text-muted">{entity.explainability[0]}</span>
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="font-mono text-sm text-accent-amber">{entity.score}</span>
+                    {severityBadge(
+                      entity.severity,
+                      entity.severity === 'high'
+                        ? 'High'
+                        : entity.severity === 'medium'
+                          ? 'Medium'
+                          : 'Low',
+                    )}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

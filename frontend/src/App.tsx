@@ -165,6 +165,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
           <TimelineView
             selectedId={selectedId}
             highlightedIds={highlightedIds}
+            entityLookup={{ ...entityMap, ...liveEntities }}
             onSelectEntity={setSelectedId}
             onHoverEntities={(ids) => setHighlightedIds(new Set(ids))}
           />

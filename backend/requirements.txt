@@ -48,6 +48,8 @@ typing_extensions==4.16.0
 urllib3==2.7.0
 uvicorn==0.52.4
 rapidfuzz==3.14.3
+networkx==3.4.2
+scipy==1.15.2
 neo4j==5.28.1
 spacy==3.8.4
 uvloop==0.22.1

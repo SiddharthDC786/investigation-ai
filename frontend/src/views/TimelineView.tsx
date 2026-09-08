@@ -1,10 +1,13 @@
-import { timelineEvents, narrativeTags, entityMap } from '../data/mockCase'
+import { useEffect, useState } from 'react'
+import { getCaseTimeline } from '../api/timeline'
+import { CASE_ID, narrativeTags } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
-import type { Entity } from '../types'
+import type { Entity, TimelineEvent } from '../types'
 
 interface TimelineViewProps {
   selectedId: string | null
   highlightedIds: Set<string>
+  entityLookup: Record<string, Entity>
   onSelectEntity: (id: string) => void
   onHoverEntities: (ids: string[]) => void
 }
@@ -14,13 +17,38 @@ const entityDotColor = (type: Entity['type']) => {
   return map[type]
 }
 
+const inferType = (id: string): Entity['type'] => {
+  if (id.startsWith('PH')) return 'phone'
+  if (id.startsWith('AC')) return 'account'
+  if (id.startsWith('LOC')) return 'address'
+  return 'person'
+}
+
 export function TimelineView({
   selectedId,
   highlightedIds,
+  entityLookup,
   onSelectEntity,
   onHoverEntities,
 }: TimelineViewProps) {
   const { t } = useLanguage()
+  const [events, setEvents] = useState<TimelineEvent[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+    setLoading(true)
+    getCaseTimeline(CASE_ID)
+      .then((res) => {
+        if (!cancelled) setEvents(res.events)
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -35,8 +63,14 @@ export function TimelineView({
       </header>
 
       <div className="flex-1 overflow-y-auto px-5 py-4">
+        {loading && (
+          <p className="text-sm text-text-muted">{t.views.timeline.description}…</p>
+        )}
+        {!loading && events.length === 0 && (
+          <p className="text-sm text-text-muted">No timeline events for this case yet.</p>
+        )}
         <div className="relative ml-4 border-l border-console-border-strong pl-8">
-          {timelineEvents.map((event, idx) => {
+          {events.map((event, idx) => {
             const active = event.entityIds.some((id) => id === selectedId || highlightedIds.has(id))
             return (
               <article
@@ -58,7 +92,7 @@ export function TimelineView({
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {event.entityIds.map((id) => {
-                    const linked = entityMap[id]
+                    const linked = entityLookup[id]
                     return (
                       <button
                         key={id}
@@ -75,22 +109,14 @@ export function TimelineView({
                     )
                   })}
                 </div>
-                {idx < timelineEvents.length - 1 && (
+                {idx < events.length - 1 && (
                   <div className="mt-4 flex gap-1">
                     {event.entityIds.slice(0, 3).map((id) => (
                       <span
                         key={id}
                         className="h-1 w-6"
                         style={{
-                          backgroundColor: entityDotColor(
-                            id.startsWith('P')
-                              ? 'person'
-                              : id.startsWith('PH')
-                                ? 'phone'
-                                : id.startsWith('AC')
-                                  ? 'account'
-                                  : 'address',
-                          ),
+                          backgroundColor: entityDotColor(linkedType(id, entityLookup)),
                         }}
                       />
                     ))}
@@ -103,4 +129,8 @@ export function TimelineView({
       </div>
     </div>
   )
+}
+
+function linkedType(id: string, lookup: Record<string, Entity>): Entity['type'] {
+  return lookup[id]?.type ?? inferType(id)
 }
