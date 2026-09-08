@@ -1,16 +1,10 @@
 from fastapi import APIRouter
-
-from app.schemas.lead import Lead
+from app.services.lead_service import get_case_leads
 
 router = APIRouter(tags=["leads"])
 
-@router.get("/cases/{case_id}/leads", response_model=list[Lead])
+@router.get("/cases/{case_id}/leads")
 def get_leads(case_id: str):
-    return [
-        {
-            "lead_id": "LEAD001",
-            "description": "Person 1 and Person 2 connected via shared phone contact",
-            "confidence": 0.62,
-            "evidence": ["cdr_0007"],
-        }
-    ]
+    return get_case_leads(case_id)
+
+     
