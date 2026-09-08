@@ -48,6 +48,8 @@ typing_extensions==4.16.0
 urllib3==2.7.0
 uvicorn==0.52.4
 rapidfuzz==3.14.3
+neo4j==5.28.1
+spacy==3.8.4
 uvloop==0.22.1
 watchfiles==1.2.0
 websockets==17.1

@@ -1,13 +1,37 @@
+from contextlib import asynccontextmanager
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.database import SessionLocal
 from app.routers import cases, entities, graph, ingestion, leads, search
+from app.services.graph_sync import sync_postgres_to_neo4j
+from app.services.neo4j_schema import ensure_schema
+
+logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db = SessionLocal()
+    try:
+        ensure_schema()
+        counts = sync_postgres_to_neo4j(db)
+        logger.info("Startup graph sync: %s", counts)
+    except Exception as exc:
+        logger.warning("Startup sync skipped: %s", exc)
+    finally:
+        db.close()
+    yield
+
 
 app = FastAPI(
     title="Investigation AI API",
-    version="0.2.0",
-    description="Vigil-compatible investigation API (search + cases + graph)",
+    version="0.3.0",
+    description="Vigil SIH PS 26189 — data fusion, entity resolution, cross-source search",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -21,9 +45,12 @@ app.add_middleware(
 
 @app.get("/health")
 def health_check():
+    from app.services.neo4j_client import is_neo4j_available
+
     return {
         "status": "ok",
         "service": "backend",
+        "neo4j": is_neo4j_available(),
     }
 
 

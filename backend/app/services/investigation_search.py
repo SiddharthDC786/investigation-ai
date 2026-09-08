@@ -17,6 +17,7 @@ from app.schemas.investigation import (
     NameMatchType,
     RelatedPersonHit,
 )
+from app.services.fulltext_search import cross_source_search
 
 RELATIONSHIP_ROLE_MAP: dict[str, str] = {
     "facilitator": "facilitator",
@@ -288,6 +289,28 @@ def _find_name_candidates(db: Session, case_id: str, name_query: str) -> list[Na
         {"pattern": f"%{q}%"},
     ).mappings().all()
 
+    # Cross-source full-text (Neo4j or PostgreSQL FIR/chat fallback)
+    fts_hits = cross_source_search(db, case_id, q, limit=15)
+    for hit in fts_hits:
+        if hit.get("entity_type") != "person":
+            continue
+        pid = hit.get("id", "")
+        if not pid.startswith("P"):
+            continue
+        if any(r["person_id"] == pid for r in rows):
+            continue
+        person = _fetch_person(db, pid)
+        if person:
+            rows.append(
+                {
+                    "person_id": person.person_id,
+                    "name": person.name,
+                    "dob": person.dob,
+                    "gender": person.gender,
+                    "city": person.city,
+                }
+            )
+
     hits: list[NameMatchHit] = []
     seen: set[str] = set()
     roles = _case_roles(db, case_id)
@@ -303,6 +326,11 @@ def _find_name_candidates(db: Session, case_id: str, name_query: str) -> list[Na
         if not hit:
             continue
         full = _build_person_entity(db, case_id, person, roles)
+        if any(h.get("source_type") == "fir" for h in fts_hits):
+            full.explainability.append(
+                "Also matched via cross-source full-text search (FIR/chat documents)."
+            )
+            full.sources.append("fir")
         hit.entity = full
         hits.append(hit)
 
