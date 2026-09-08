@@ -1,0 +1,102 @@
+# Vigil backend — implemented in backend-api (Siddharth repo clone)
+
+Location: hackk/backend-api/backend/
+
+================================================================================
+WHAT WAS ADDED
+================================================================================
+
+1. CORS for Vigil frontend (localhost:5173)
+2. GET /cases/{case_id}/search — full InvestigationSearchResult
+3. POST /cases/{case_id}/search/face — demo stub
+4. RapidFuzz name/alias/typo matching on people + recorded_names
+5. Related people expansion (relationships, CDR, transactions) up to 3 hops
+6. .env.example with local postgres + college WiFi template
+
+================================================================================
+RUN ON YOUR MAC (tonight)
+================================================================================
+
+Terminal 1 — backend:
+  cd hackk/backend-api/backend
+  cp .env.example .env
+  python3 -m venv .venv && source .venv/bin/activate
+  pip install -r requirements.txt
+  uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+Terminal 2 — frontend:
+  cd hackk/frontend
+  echo 'VITE_API_BASE_URL=http://localhost:8000' > .env
+  npm run dev
+
+Browser: login → Person Search → top bar should say "Live backend"
+
+Test:
+  curl "http://localhost:8000/cases/CASE0001/search?name=Rahul"
+  curl "http://localhost:8000/cases/CASE0001/search?name=Rahul&area=Mumbai&selected_person_id=P00014"
+
+================================================================================
+COLLEGE WiFi — SIDDHARTH'S LAPTOP
+================================================================================
+
+His backend/.env:
+  DATABASE_URL=postgresql+psycopg://vigil_friend:VigilShare2026%21@YOUR_IP:5432/crime_network
+
+Run:
+  uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+Your frontend/.env:
+  VITE_API_BASE_URL=http://HIS_LAPTOP_IP:8000
+
+================================================================================
+SEND CHANGES BACK TO SIDDHARTH
+================================================================================
+
+Option A — you push to his repo (if he added you as collaborator):
+  cd hackk/backend-api
+  git add backend/app backend/.env.example API_CONTRACT.md backend/requirements.txt
+  git commit -m "Add Vigil search endpoint, CORS, and identity resolution"
+  git push origin main
+
+Option B — he pulls from your fork or you send him the files:
+  backend/app/main.py
+  backend/app/config.py
+  backend/app/routers/search.py
+  backend/app/schemas/investigation.py
+  backend/app/services/investigation_search.py
+  backend/requirements.txt (rapidfuzz)
+  API_CONTRACT.md
+
+================================================================================
+STILL STUB (not done yet)
+================================================================================
+
+  GET /cases/{id}/graph — still fake data (Neo4j later)
+  ai/ folder — empty
+  Role filter — inferred from relationships + CDR (not eval answer key)
+
+Graph view in frontend still uses mock until /graph is wired to real data.
+
+UPDATE: /graph now returns live PostgreSQL case network. Frontend NetworkGraphView
+loads from GET /cases/{id}/graph?center_person_id= when VITE_API_BASE_URL is set.
+
+================================================================================
+PUSH TO SIDDHARTH GITHUB (you must run — AI cannot use your GitHub login)
+================================================================================
+
+  cd hackk/backend-api
+  git push origin main
+
+If auth fails, sign in via GitHub CLI or browser, OR send Siddharth the commit:
+  git format-patch -1 HEAD -o ~/Desktop
+  (he applies with git am)
+
+Commit already created locally: "Add Vigil-compatible search, CORS, and live case graph"
+
+================================================================================
+VERIFIED LOCALLY
+================================================================================
+
+  GET /health → 200
+  GET /cases/CASE0001/search?name=Rahul → 200, needsDisambiguation: true
+  selected_person_id=P00014 → related people populated

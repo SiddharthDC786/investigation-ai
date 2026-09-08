@@ -1,0 +1,101 @@
+org_id,name,org_type,city
+O0001,Global Solutions Bhopal,Logistics,Bhopal
+O0002,Apex Services Surat,Finance,Surat
+O0003,Apex Traders Kolkata,Hospitality,Kolkata
+O0004,Summit Traders Lucknow,Transport,Lucknow
+O0005,Prime Solutions Bengaluru,Transport,Bengaluru
+O0006,Unity Traders Ranchi,Hospitality,Ranchi
+O0007,Prime Enterprises Visakhapatnam,Transport,Visakhapatnam
+O0008,Nova Solutions Mumbai,Real Estate,Mumbai
+O0009,Global Holdings Mumbai,Import Export,Mumbai
+O0010,Metro Traders Ranchi,Transport,Ranchi
+O0011,Global Enterprises Guwahati,Hospitality,Guwahati
+O0012,Metro Traders Delhi,Retail,Delhi
+O0013,Prime Enterprises Nagpur,Logistics,Nagpur
+O0014,Global Enterprises Visakhapatnam,Construction,Visakhapatnam
+O0015,Nova Traders Bengaluru,Transport,Bengaluru
+O0016,Global Holdings Kolkata,Real Estate,Kolkata
+O0017,Unity Traders Jaipur,Real Estate,Jaipur
+O0018,Metro Holdings Lucknow,Logistics,Lucknow
+O0019,Global Holdings Guwahati,Logistics,Guwahati
+O0020,Global Enterprises Delhi,Finance,Delhi
+O0021,Prime Enterprises Chandigarh,Retail,Chandigarh
+O0022,Metro Traders Jaipur,Logistics,Jaipur
+O0023,Prime Solutions Pune,Hospitality,Pune
+O0024,Metro Solutions Ahmedabad,Transport,Ahmedabad
+O0025,Nova Services Bhopal,Logistics,Bhopal
+O0026,Metro Solutions Chandigarh,Technology,Chandigarh
+O0027,Metro Traders Bengaluru,Technology,Bengaluru
+O0028,Nova Services Ahmedabad,Transport,Ahmedabad
+O0029,Apex Traders Ranchi,Import Export,Ranchi
+O0030,Apex Holdings Patna,Construction,Patna
+O0031,Metro Enterprises Ranchi,Finance,Ranchi
+O0032,Prime Holdings Visakhapatnam,Retail,Visakhapatnam
+O0033,Prime Holdings Patna,Transport,Patna
+O0034,Summit Enterprises Nagpur,Logistics,Nagpur
+O0035,Unity Enterprises Mumbai,Hospitality,Mumbai
+O0036,Apex Holdings Lucknow,Logistics,Lucknow
+O0037,Metro Services Delhi,Hospitality,Delhi
+O0038,Unity Enterprises Jaipur,Retail,Jaipur
+O0039,Summit Solutions Pune,Construction,Pune
+O0040,Prime Solutions Delhi,Hospitality,Delhi
+O0041,Global Traders Bengaluru,Technology,Bengaluru
+O0042,Unity Holdings Hyderabad,Transport,Hyderabad
+O0043,Metro Holdings Jaipur,Hospitality,Jaipur
+O0044,Unity Services Visakhapatnam,Retail,Visakhapatnam
+O0045,Unity Enterprises Jaipur 45,Construction,Jaipur
+O0046,Apex Services Ahmedabad,Retail,Ahmedabad
+O0047,Metro Solutions Pune,Retail,Pune
+O0048,Apex Holdings Mumbai,Logistics,Mumbai
+O0049,Metro Traders Guwahati,Logistics,Guwahati
+O0050,Metro Solutions Kolkata,Healthcare,Kolkata
+O0051,Summit Traders Bhopal,Finance,Bhopal
+O0052,Nova Enterprises Patna,Finance,Patna
+O0053,Unity Enterprises Indore,Hospitality,Indore
+O0054,Metro Holdings Indore,Logistics,Indore
+O0055,Metro Services Hyderabad,Import Export,Hyderabad
+O0056,Nova Holdings Surat,Logistics,Surat
+O0057,Apex Services Jaipur,Import Export,Jaipur
+O0058,Unity Solutions Bengaluru,Construction,Bengaluru
+O0059,Prime Enterprises Ahmedabad,Retail,Ahmedabad
+O0060,Global Enterprises Delhi 60,Hospitality,Delhi
+O0061,Nova Holdings Pune,Technology,Pune
+O0062,Unity Services Hyderabad,Hospitality,Hyderabad
+O0063,Metro Holdings Visakhapatnam,Transport,Visakhapatnam
+O0064,Apex Solutions Pune,Hospitality,Pune
+O0065,Prime Traders Ranchi,Hospitality,Ranchi
+O0066,Apex Traders Chennai,Real Estate,Chennai
+O0067,Summit Holdings Jaipur,Transport,Jaipur
+O0068,Prime Traders Jaipur,Transport,Jaipur
+O0069,Global Solutions Guwahati,Healthcare,Guwahati
+O0070,Metro Traders Mumbai,Retail,Mumbai
+O0071,Unity Enterprises Nagpur,Construction,Nagpur
+O0072,Apex Solutions Hyderabad,Healthcare,Hyderabad
+O0073,Global Solutions Kochi,Logistics,Kochi
+O0074,Nova Services Ahmedabad 74,Technology,Ahmedabad
+O0075,Metro Services Patna,Logistics,Patna
+O0076,Prime Services Bhopal,Finance,Bhopal
+O0077,Unity Traders Ranchi 77,Import Export,Ranchi
+O0078,Nova Holdings Nagpur,Import Export,Nagpur
+O0079,Global Services Kolkata,Finance,Kolkata
+O0080,Nova Enterprises Hyderabad,Technology,Hyderabad
+O0081,Summit Services Mumbai,Construction,Mumbai
+O0082,Nova Enterprises Ahmedabad,Import Export,Ahmedabad
+O0083,Unity Traders Chandigarh,Retail,Chandigarh
+O0084,Unity Holdings Visakhapatnam,Finance,Visakhapatnam
+O0085,Summit Enterprises Guwahati,Finance,Guwahati
+O0086,Summit Traders Surat,Finance,Surat
+O0087,Nova Enterprises Delhi,Retail,Delhi
+O0088,Unity Holdings Bengaluru,Logistics,Bengaluru
+O0089,Nova Services Surat,Hospitality,Surat
+O0090,Nova Traders Nagpur,Logistics,Nagpur
+O0091,Nova Services Patna,Technology,Patna
+O0092,Nova Solutions Bhopal,Technology,Bhopal
+O0093,Unity Solutions Ahmedabad,Hospitality,Ahmedabad
+O0094,Metro Enterprises Mumbai,Healthcare,Mumbai
+O0095,Summit Solutions Nagpur,Finance,Nagpur
+O0096,Apex Traders Chandigarh,Healthcare,Chandigarh
+O0097,Global Solutions Visakhapatnam,Import Export,Visakhapatnam
+O0098,Nova Traders Hyderabad,Hospitality,Hyderabad
+O0099,Summit Holdings Bengaluru,Hospitality,Bengaluru
+O0100,Apex Solutions Chennai,Construction,Chennai

@@ -1,0 +1,99 @@
+import { useState } from 'react'
+import { CASE_ID, narrativeTags } from '../data/mockCase'
+import { useLanguage } from '../i18n/LanguageContext'
+import type { AuditEntry } from '../types'
+
+interface AuditTrailViewProps {
+  logs: AuditEntry[]
+  canExport?: boolean
+  exportedBy?: string
+  onExported?: () => void
+}
+
+export function AuditTrailView({
+  logs,
+  canExport = false,
+  exportedBy = 'Unknown',
+  onExported,
+}: AuditTrailViewProps) {
+  const { t } = useLanguage()
+  const [exportNotice, setExportNotice] = useState<string | null>(null)
+
+  function handleExport() {
+    if (!canExport) return
+
+    const bundle = {
+      watermark: t.audit.exportWatermark,
+      caseId: CASE_ID,
+      exportedAt: new Date().toISOString(),
+      exportedBy,
+      entryCount: logs.length,
+      entries: logs,
+    }
+
+    const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = `vigil-disclosure-${CASE_ID}-${Date.now()}.json`
+    anchor.click()
+    URL.revokeObjectURL(url)
+
+    setExportNotice(t.audit.exportSuccess)
+    onExported?.()
+    window.setTimeout(() => setExportNotice(null), 4000)
+  }
+
+  return (
+    <div className="flex h-full flex-col overflow-hidden">
+      <header className="border-b border-console-border px-5 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-base font-semibold text-text-primary">{t.views.audit.header}</h1>
+              <span className="border border-accent-steel/30 bg-accent-steel/10 px-2 py-0.5 text-[10px] text-accent-steel">
+                {narrativeTags.audit}
+              </span>
+            </div>
+            <p className="mt-1 text-sm text-text-secondary">{t.views.audit.description}</p>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <button
+              type="button"
+              onClick={handleExport}
+              disabled={!canExport}
+              title={canExport ? t.audit.exportTitleSupervisor : t.audit.exportTitleDenied}
+              className="min-h-[44px] border border-console-border-strong px-4 py-2 text-sm text-text-secondary hover:border-accent-steel hover:text-accent-steel disabled:cursor-not-allowed disabled:opacity-40 presentation-mode:min-h-[52px]"
+            >
+              {t.audit.export}
+            </button>
+            {exportNotice && <p className="text-xs text-risk-low">{exportNotice}</p>}
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 overflow-auto">
+        <table className="w-full min-w-[640px] text-left text-sm">
+          <thead className="sticky top-0 bg-console-surface text-xs text-text-muted">
+            <tr className="border-b border-console-border">
+              <th className="px-4 py-3 font-semibold">{t.audit.colWhen}</th>
+              <th className="px-3 py-3 font-semibold">{t.audit.colAction}</th>
+              <th className="px-3 py-3 font-semibold">{t.audit.colRecord}</th>
+              <th className="px-3 py-3 font-semibold">{t.audit.colOfficer}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {logs.map((log) => (
+              <tr key={log.id} className="border-b border-console-border/50 hover:bg-console-raised/50">
+                <td className="px-4 py-3 text-xs text-accent-amber whitespace-nowrap">{log.timestamp}</td>
+                <td className="px-3 py-3 text-text-primary">{log.action}</td>
+                <td className="px-3 py-3 text-xs text-accent-steel">{log.entityId}</td>
+                <td className="px-3 py-3 text-text-secondary">{log.operator}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,68 @@
+# Vigil — SOLO connected stack (you only, no Siddharth)
+
+Everything runs on YOUR Mac:
+
+  PostgreSQL (crime_network) → Backend (:8000) → Frontend (:5173)
+
+================================================================================
+ONE-TIME SETUP (already done if you followed before)
+================================================================================
+
+✓ backend-api/backend/.env     → postgres@localhost/crime_network
+✓ frontend/.env                → VITE_API_BASE_URL=http://localhost:8000
+✓ Dataset in Postgres          → python3 import_to_db.py --reset
+
+================================================================================
+EVERY DEMO — TWO TERMINALS
+================================================================================
+
+Terminal 1 — Postgres.app ON, then backend:
+
+  cd /Users/vallipatchamatla/Desktop/hackk/backend-api/backend
+  source .venv/bin/activate
+  uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+
+Terminal 2 — frontend:
+
+  cd /Users/vallipatchamatla/Desktop/hackk/frontend
+  npm run dev
+
+OR one script:
+
+  bash scripts/start-vigil.sh
+
+Browser: http://localhost:5173
+Login: INV-2847 / vigil2026
+
+Top bar must show: "Live backend" (green)
+
+================================================================================
+WHAT IS CONNECTED LIVE
+================================================================================
+
+✓ Case title in header     → GET /cases/CASE0001
+✓ Person Search            → GET /cases/CASE0001/search
+✓ Connection Map           → GET /cases/CASE0001/graph
+✓ Inspector panel          → entities from search + graph
+
+Still mock (add later):
+  Timeline, Risk list, OSINT detail
+
+================================================================================
+QUICK TEST (Terminal 3)
+================================================================================
+
+curl http://localhost:8000/health
+curl "http://localhost:8000/cases/CASE0001/search?name=Rahul" | head -c 200
+
+================================================================================
+SIH DEMO FLOW (5 min)
+================================================================================
+
+1. Presentation mode ON
+2. Judge demo → Same name collision → confirm Rahul Mumbai
+3. Connection Map (live graph)
+4. Inspector → confirm decision
+5. Supervisor login → export audit JSON
+
+No WiFi, no second laptop, no Siddharth required.

@@ -1,0 +1,401 @@
+surveillance_id,case_id,timestamp,location,report_text
+SUR00001,CASE0001,2025-12-04 05:29:56,Guwahati Plaza 152,Field unit observed individual recorded as 'Rahul Mukherjei' meeting associates near Mumbai Hub 76. Possible link to ongoing case activity.
+SUR00002,CASE0001,2024-12-22 22:11:26,Pune Market 17,Field unit observed individual recorded as 'Rahul Mukherjei' meeting associates near Lucknow Junction 137. Possible link to ongoing case activity.
+SUR00003,CASE0001,2025-03-04 21:22:12,Delhi Colony 133,Field unit observed individual recorded as 'Rahul Mukherjei' meeting associates near Patna Market 4. Possible link to ongoing case activity.
+SUR00004,CASE0001,2023-04-22 20:03:01,Guwahati Hub 60,Field unit observed individual recorded as 'Gopal Naia' meeting associates near Hyderabad Plaza 22. Possible link to ongoing case activity.
+SUR00005,CASE0001,2025-06-28 09:56:31,Nagpur Market 32,Field unit observed individual recorded as 'Gopal Naia' meeting associates near Pune Tower 71. Possible link to ongoing case activity.
+SUR00006,CASE0001,2023-09-11 18:34:06,Hyderabad Colony 145,Field unit observed individual recorded as 'Gopal Naia' meeting associates near Bengaluru Tower 105. Possible link to ongoing case activity.
+SUR00007,CASE0001,2023-01-25 06:03:04,Kochi Park 115,Field unit observed individual recorded as 'Sunil Patee' meeting associates near Pune Market 65. Possible link to ongoing case activity.
+SUR00008,CASE0001,2024-08-30 11:36:55,Delhi Market 141,Field unit observed individual recorded as 'Sunil Patee' meeting associates near Ranchi Plaza 100. Possible link to ongoing case activity.
+SUR00009,CASE0001,2023-11-14 09:38:18,Mumbai Hub 138,Field unit observed individual recorded as 'Sunil Patee' meeting associates near Bhopal Colony 97. Possible link to ongoing case activity.
+SUR00010,CASE0001,2023-04-29 22:21:02,Hyderabad Hub 16,Field unit observed individual recorded as 'Rohan Mirzza' meeting associates near Kochi Park 117. Possible link to ongoing case activity.
+SUR00011,CASE0001,2025-05-02 01:39:47,Nagpur Hub 26,Field unit observed individual recorded as 'Rohan Mirzza' meeting associates near Chandigarh Junction 44. Possible link to ongoing case activity.
+SUR00012,CASE0001,2024-12-02 08:01:42,Kochi Park 117,Field unit observed individual recorded as 'Rohan Mirzza' meeting associates near Surat Hub 154. Possible link to ongoing case activity.
+SUR00013,CASE0002,2023-08-07 03:09:31,Delhi Park 49,Field unit observed individual recorded as 'Ananya Mehat' meeting associates near Bhopal Hub 64. Possible link to ongoing case activity.
+SUR00014,CASE0002,2024-04-18 07:57:48,Patna Market 70,Field unit observed individual recorded as 'Ananya Mehat' meeting associates near Hyderabad Park 7. Possible link to ongoing case activity.
+SUR00015,CASE0002,2025-11-14 15:44:44,Lucknow Park 94,Field unit observed individual recorded as 'Ananya Mehat' meeting associates near Indore Tower 146. Possible link to ongoing case activity.
+SUR00016,CASE0002,2024-01-13 13:53:46,Nagpur Junction 51,Field unit observed individual recorded as 'Manoj Khae' meeting associates near Chandigarh Market 54. Possible link to ongoing case activity.
+SUR00017,CASE0002,2024-11-23 10:57:12,Chennai Tower 134,Field unit observed individual recorded as 'Manoj Khae' meeting associates near Pune Junction 125. Possible link to ongoing case activity.
+SUR00018,CASE0002,2023-11-14 15:34:05,Pune Colony 59,Field unit observed individual recorded as 'Manoj Khae' meeting associates near Visakhapatnam Market 84. Possible link to ongoing case activity.
+SUR00019,CASE0002,2025-05-03 13:22:32,Visakhapatnam Tower 42,Field unit observed individual recorded as 'Vikram Meonn' meeting associates near Chandigarh Tower 157. Possible link to ongoing case activity.
+SUR00020,CASE0002,2025-09-04 03:07:26,Surat Market 150,Field unit observed individual recorded as 'Vikram Meonn' meeting associates near Indore Market 136. Possible link to ongoing case activity.
+SUR00021,CASE0002,2025-07-24 15:09:07,Lucknow Colony 87,Field unit observed individual recorded as 'Vikram Meonn' meeting associates near Indore Tower 146. Possible link to ongoing case activity.
+SUR00022,CASE0002,2025-03-14 20:37:38,Mumbai Hub 138,Field unit observed individual recorded as 'Priya Deasi' meeting associates near Patna Market 4. Possible link to ongoing case activity.
+SUR00023,CASE0002,2024-05-17 11:45:40,Guwahati Park 158,Field unit observed individual recorded as 'Priya Deasi' meeting associates near Hyderabad Junction 86. Possible link to ongoing case activity.
+SUR00024,CASE0002,2023-04-14 21:47:25,Ranchi Colony 90,Field unit observed individual recorded as 'Priya Deasi' meeting associates near Mumbai Junction 88. Possible link to ongoing case activity.
+SUR00025,CASE0003,2025-12-18 04:29:29,Visakhapatnam Junction 110,Field unit observed individual recorded as 'Swati Asnari' meeting associates near Patna Market 67. Possible link to ongoing case activity.
+SUR00026,CASE0003,2025-06-22 23:40:28,Visakhapatnam Colony 6,Field unit observed individual recorded as 'Swati Asnari' meeting associates near Indore Hub 63. Possible link to ongoing case activity.
+SUR00027,CASE0003,2024-11-01 19:28:05,Visakhapatnam Market 84,Field unit observed individual recorded as 'Swati Asnari' meeting associates near Nagpur Junction 116. Possible link to ongoing case activity.
+SUR00028,CASE0003,2025-03-30 17:46:10,Delhi Colony 133,Field unit observed individual recorded as 'Deepak Veram' meeting associates near Chennai Colony 153. Possible link to ongoing case activity.
+SUR00029,CASE0003,2025-01-30 05:33:21,Visakhapatnam Hub 38,Field unit observed individual recorded as 'Deepak Veram' meeting associates near Guwahati Plaza 152. Possible link to ongoing case activity.
+SUR00030,CASE0003,2025-10-07 13:54:58,Guwahati Plaza 57,Field unit observed individual recorded as 'Deepak Veram' meeting associates near Lucknow Park 19. Possible link to ongoing case activity.
+SUR00031,CASE0003,2023-03-02 13:46:00,Hyderabad Plaza 22,Field unit observed individual recorded as 'Diya eRddy' meeting associates near Chennai Plaza 139. Possible link to ongoing case activity.
+SUR00032,CASE0003,2024-06-25 15:12:56,Patna Hub 91,Field unit observed individual recorded as 'Diya eRddy' meeting associates near Patna Market 70. Possible link to ongoing case activity.
+SUR00033,CASE0003,2023-01-18 12:34:06,Chennai Park 96,Field unit observed individual recorded as 'Diya eRddy' meeting associates near Pune Junction 125. Possible link to ongoing case activity.
+SUR00034,CASE0003,2025-03-12 14:28:31,Pune Junction 125,Field unit observed individual recorded as 'Rahul Anssari' meeting associates near Visakhapatnam Colony 6. Possible link to ongoing case activity.
+SUR00035,CASE0003,2023-12-09 13:52:01,Kolkata Hub 143,Field unit observed individual recorded as 'Rahul Anssari' meeting associates near Hyderabad Plaza 22. Possible link to ongoing case activity.
+SUR00036,CASE0003,2025-12-16 01:13:30,Indore Tower 128,Field unit observed individual recorded as 'Rahul Anssari' meeting associates near Pune Junction 25. Possible link to ongoing case activity.
+SUR00037,CASE0004,2025-06-22 07:10:31,Guwahati Plaza 152,Field unit observed individual recorded as 'Amit Ale' meeting associates near Indore Park 109. Possible link to ongoing case activity.
+SUR00038,CASE0004,2024-08-07 19:01:52,Bhopal Junction 58,Field unit observed individual recorded as 'Amit Ale' meeting associates near Guwahati Plaza 152. Possible link to ongoing case activity.
+SUR00039,CASE0004,2023-01-27 16:26:31,Kochi Park 115,Field unit observed individual recorded as 'Amit Ale' meeting associates near Pune Tower 71. Possible link to ongoing case activity.
+SUR00040,CASE0004,2024-10-19 07:27:53,Lucknow Park 53,Field unit observed individual recorded as 'Ramesh Shara' meeting associates near Chandigarh Market 54. Possible link to ongoing case activity.
+SUR00041,CASE0004,2025-02-18 11:56:31,Bhopal Plaza 160,Field unit observed individual recorded as 'Ramesh Shara' meeting associates near Hyderabad Plaza 22. Possible link to ongoing case activity.
+SUR00042,CASE0004,2023-09-28 21:58:49,Visakhapatnam Hub 38,Field unit observed individual recorded as 'Ramesh Shara' meeting associates near Indore Market 136. Possible link to ongoing case activity.
+SUR00043,CASE0004,2023-10-15 17:49:54,Guwahati Plaza 57,Field unit observed individual recorded as 'Reyansh hSeikh' meeting associates near Kochi Park 121. Possible link to ongoing case activity.
+SUR00044,CASE0004,2023-03-27 15:18:48,Bengaluru Tower 105,Field unit observed individual recorded as 'Reyansh hSeikh' meeting associates near Visakhapatnam Colony 6. Possible link to ongoing case activity.
+SUR00045,CASE0004,2025-08-27 13:17:27,Nagpur Junction 51,Field unit observed individual recorded as 'Reyansh hSeikh' meeting associates near Lucknow Park 19. Possible link to ongoing case activity.
+SUR00046,CASE0004,2024-12-12 21:14:41,Indore Hub 63,Field unit observed individual recorded as 'Lakshmi PPillai' meeting associates near Bhopal Hub 64. Possible link to ongoing case activity.
+SUR00047,CASE0004,2024-08-28 03:54:39,Lucknow Colony 29,Field unit observed individual recorded as 'Lakshmi PPillai' meeting associates near Mumbai Park 41. Possible link to ongoing case activity.
+SUR00048,CASE0004,2023-12-30 20:39:34,Bhopal Junction 151,Field unit observed individual recorded as 'Lakshmi PPillai' meeting associates near Jaipur Colony 56. Possible link to ongoing case activity.
+SUR00049,CASE0005,2023-01-17 17:43:58,Patna Hub 91,Field unit observed individual recorded as 'Ishaan Hussian' meeting associates near Hyderabad Park 81. Possible link to ongoing case activity.
+SUR00050,CASE0005,2024-02-15 03:52:42,Kochi Tower 126,Field unit observed individual recorded as 'Ishaan Hussian' meeting associates near Visakhapatnam Tower 14. Possible link to ongoing case activity.
+SUR00051,CASE0005,2023-03-28 10:01:49,Kochi Plaza 107,Field unit observed individual recorded as 'Ishaan Hussian' meeting associates near Kochi Tower 144. Possible link to ongoing case activity.
+SUR00052,CASE0005,2023-01-08 00:47:38,Nagpur Junction 36,Field unit observed individual recorded as 'Fatima Kumae' meeting associates near Hyderabad Colony 145. Possible link to ongoing case activity.
+SUR00053,CASE0005,2024-10-10 08:08:33,Visakhapatnam Junction 34,Field unit observed individual recorded as 'Fatima Kumae' meeting associates near Hyderabad Park 7. Possible link to ongoing case activity.
+SUR00054,CASE0005,2024-06-20 10:23:34,Bengaluru Tower 105,Field unit observed individual recorded as 'Fatima Kumae' meeting associates near Bhopal Hub 64. Possible link to ongoing case activity.
+SUR00055,CASE0005,2024-02-07 08:43:40,Patna Tower 13,Field unit observed individual recorded as 'Naveen Meta' meeting associates near Lucknow Colony 149. Possible link to ongoing case activity.
+SUR00056,CASE0005,2024-12-03 20:49:19,Bengaluru Tower 105,Field unit observed individual recorded as 'Naveen Meta' meeting associates near Visakhapatnam Hub 38. Possible link to ongoing case activity.
+SUR00057,CASE0005,2025-04-24 13:33:48,Visakhapatnam Tower 42,Field unit observed individual recorded as 'Naveen Meta' meeting associates near Jaipur Colony 114. Possible link to ongoing case activity.
+SUR00058,CASE0005,2025-05-16 11:07:22,Delhi Market 141,Field unit observed individual recorded as 'Rohan Rdedy' meeting associates near Delhi Junction 46. Possible link to ongoing case activity.
+SUR00059,CASE0005,2024-09-29 04:00:35,Indore Hub 63,Field unit observed individual recorded as 'Rohan Rdedy' meeting associates near Nagpur Market 32. Possible link to ongoing case activity.
+SUR00060,CASE0005,2023-01-31 11:50:43,Indore Tower 146,Field unit observed individual recorded as 'Rohan Rdedy' meeting associates near Nagpur Tower 104. Possible link to ongoing case activity.
+SUR00061,CASE0006,2025-12-06 08:53:11,Lucknow Park 19,Field unit observed individual recorded as 'Nisha Kumai' meeting associates near Surat Hub 154. Possible link to ongoing case activity.
+SUR00062,CASE0006,2023-11-09 00:01:01,Delhi Hub 82,Field unit observed individual recorded as 'Nisha Kumai' meeting associates near Jaipur Market 31. Possible link to ongoing case activity.
+SUR00063,CASE0006,2024-12-21 11:23:17,Delhi Junction 8,Field unit observed individual recorded as 'Nisha Kumai' meeting associates near Lucknow Plaza 142. Possible link to ongoing case activity.
+SUR00064,CASE0006,2024-10-08 17:12:07,Hyderabad Park 81,Field unit observed individual recorded as 'Imran Ansari' meeting associates near Visakhapatnam Tower 14. Possible link to ongoing case activity.
+SUR00065,CASE0006,2025-03-31 16:07:59,Lucknow Colony 29,Field unit observed individual recorded as 'Imran Ansari' meeting associates near Visakhapatnam Plaza 120. Possible link to ongoing case activity.
+SUR00066,CASE0006,2023-03-18 21:57:57,Lucknow Park 53,Field unit observed individual recorded as 'Imran Ansari' meeting associates near Bhopal Hub 113. Possible link to ongoing case activity.
+SUR00067,CASE0006,2023-12-04 00:23:08,Visakhapatnam Market 84,Field unit observed individual recorded as 'Rahul Iyei' meeting associates near Visakhapatnam Tower 42. Possible link to ongoing case activity.
+SUR00068,CASE0006,2024-03-23 04:08:26,Surat Plaza 40,Field unit observed individual recorded as 'Rahul Iyei' meeting associates near Lucknow Plaza 142. Possible link to ongoing case activity.
+SUR00069,CASE0006,2023-06-09 19:51:25,Visakhapatnam Junction 110,Field unit observed individual recorded as 'Rahul Iyei' meeting associates near Lucknow Colony 149. Possible link to ongoing case activity.
+SUR00070,CASE0006,2024-01-09 07:47:56,Ranchi Junction 140,Field unit observed individual recorded as 'Ramesh Khaan' meeting associates near Patna Market 67. Possible link to ongoing case activity.
+SUR00071,CASE0006,2024-05-03 19:09:43,Mumbai Junction 88,Field unit observed individual recorded as 'Ramesh Khaan' meeting associates near Patna Colony 77. Possible link to ongoing case activity.
+SUR00072,CASE0006,2023-09-10 00:48:51,Kolkata Plaza 119,Field unit observed individual recorded as 'Ramesh Khaan' meeting associates near Ahmedabad Plaza 35. Possible link to ongoing case activity.
+SUR00073,CASE0007,2023-06-17 04:19:08,Hyderabad Park 7,Field unit observed individual recorded as 'Neha Banerjei' meeting associates near Visakhapatnam Junction 110. Possible link to ongoing case activity.
+SUR00074,CASE0007,2024-04-05 05:59:49,Hyderabad Market 131,Field unit observed individual recorded as 'Neha Banerjei' meeting associates near Visakhapatnam Tower 14. Possible link to ongoing case activity.
+SUR00075,CASE0007,2023-08-13 22:56:24,Visakhapatnam Market 50,Field unit observed individual recorded as 'Neha Banerjei' meeting associates near Visakhapatnam Hub 38. Possible link to ongoing case activity.
+SUR00076,CASE0007,2024-09-08 13:41:37,Hyderabad Colony 145,Field unit observed individual recorded as 'Suresh Mirzaa' meeting associates near Bhopal Plaza 160. Possible link to ongoing case activity.
+SUR00077,CASE0007,2025-09-01 04:25:16,Hyderabad Market 131,Field unit observed individual recorded as 'Suresh Mirzaa' meeting associates near Chennai Hub 5. Possible link to ongoing case activity.
+SUR00078,CASE0007,2023-04-07 06:01:44,Chennai Plaza 139,Field unit observed individual recorded as 'Suresh Mirzaa' meeting associates near Mumbai Hub 138. Possible link to ongoing case activity.
+SUR00079,CASE0007,2025-03-26 16:54:55,Patna Colony 77,Field unit observed individual recorded as 'Vikram Pillai' meeting associates near Chennai Plaza 139. Possible link to ongoing case activity.
+SUR00080,CASE0007,2025-09-14 12:43:30,Surat Park 155,Field unit observed individual recorded as 'Vikram Pillai' meeting associates near Nagpur Colony 80. Possible link to ongoing case activity.
+SUR00081,CASE0007,2024-08-24 19:17:11,Hyderabad Tower 85,Field unit observed individual recorded as 'Vikram Pillai' meeting associates near Bhopal Park 68. Possible link to ongoing case activity.
+SUR00082,CASE0007,2023-10-08 01:47:07,Pune Tower 71,Field unit observed individual recorded as 'Diya eDsai' meeting associates near Kolkata Junction 45. Possible link to ongoing case activity.
+SUR00083,CASE0007,2023-08-13 09:45:00,Surat Hub 154,Field unit observed individual recorded as 'Diya eDsai' meeting associates near Nagpur Plaza 106. Possible link to ongoing case activity.
+SUR00084,CASE0007,2023-04-02 20:21:01,Indore Park 109,Field unit observed individual recorded as 'Diya eDsai' meeting associates near Guwahati Junction 159. Possible link to ongoing case activity.
+SUR00085,CASE0008,2023-10-13 10:32:28,Visakhapatnam Market 84,Field unit observed individual recorded as 'Rizwan Mizra' meeting associates near Delhi Junction 147. Possible link to ongoing case activity.
+SUR00086,CASE0008,2025-06-22 15:13:02,Visakhapatnam Colony 6,Field unit observed individual recorded as 'Rizwan Mizra' meeting associates near Patna Market 67. Possible link to ongoing case activity.
+SUR00087,CASE0008,2025-11-23 10:55:47,Indore Hub 2,Field unit observed individual recorded as 'Rizwan Mizra' meeting associates near Kolkata Park 18. Possible link to ongoing case activity.
+SUR00088,CASE0008,2024-04-30 20:03:33,Kochi Tower 144,Field unit observed individual recorded as 'Sana Josi' meeting associates near Kochi Colony 148. Possible link to ongoing case activity.
+SUR00089,CASE0008,2025-03-02 16:50:52,Visakhapatnam Junction 21,Field unit observed individual recorded as 'Sana Josi' meeting associates near Hyderabad Market 131. Possible link to ongoing case activity.
+SUR00090,CASE0008,2024-03-27 23:59:03,Guwahati Park 61,Field unit observed individual recorded as 'Sana Josi' meeting associates near Chennai Colony 48. Possible link to ongoing case activity.
+SUR00091,CASE0008,2024-07-16 10:34:29,Indore Tower 128,Field unit observed individual recorded as 'Suresh Verrma' meeting associates near Nagpur Colony 80. Possible link to ongoing case activity.
+SUR00092,CASE0008,2023-12-30 16:49:28,Nagpur Colony 80,Field unit observed individual recorded as 'Suresh Verrma' meeting associates near Delhi Park 47. Possible link to ongoing case activity.
+SUR00093,CASE0008,2024-05-04 06:02:15,Guwahati Plaza 152,Field unit observed individual recorded as 'Suresh Verrma' meeting associates near Patna Hub 91. Possible link to ongoing case activity.
+SUR00094,CASE0008,2023-08-31 07:28:21,Kolkata Hub 143,Field unit observed individual recorded as 'Sana Rdedy' meeting associates near Nagpur Tower 104. Possible link to ongoing case activity.
+SUR00095,CASE0008,2025-06-24 05:04:13,Hyderabad Junction 86,Field unit observed individual recorded as 'Sana Rdedy' meeting associates near Nagpur Junction 37. Possible link to ongoing case activity.
+SUR00096,CASE0008,2025-06-26 15:16:28,Guwahati Plaza 57,Field unit observed individual recorded as 'Sana Rdedy' meeting associates near Guwahati Hub 129. Possible link to ongoing case activity.
+SUR00097,CASE0009,2024-08-01 15:10:01,Lucknow Park 19,Field unit observed individual recorded as 'Diya Kapooa' meeting associates near Hyderabad Junction 86. Possible link to ongoing case activity.
+SUR00098,CASE0009,2025-10-25 16:20:49,Nagpur Hub 103,Field unit observed individual recorded as 'Diya Kapooa' meeting associates near Bhopal Plaza 160. Possible link to ongoing case activity.
+SUR00099,CASE0009,2025-03-18 23:34:35,Bhopal Junction 58,Field unit observed individual recorded as 'Diya Kapooa' meeting associates near Mumbai Park 41. Possible link to ongoing case activity.
+SUR00100,CASE0009,2025-06-17 11:26:06,Lucknow Park 19,Field unit observed individual recorded as 'Ashok Mukhejee' meeting associates near Delhi Market 141. Possible link to ongoing case activity.
+SUR00101,CASE0009,2023-04-15 00:22:39,Visakhapatnam Tower 42,Field unit observed individual recorded as 'Ashok Mukhejee' meeting associates near Nagpur Tower 130. Possible link to ongoing case activity.
+SUR00102,CASE0009,2025-09-03 01:01:20,Indore Hub 2,Field unit observed individual recorded as 'Ashok Mukhejee' meeting associates near Surat Plaza 156. Possible link to ongoing case activity.
+SUR00103,CASE0009,2024-12-28 13:37:48,Kochi Park 121,Field unit observed individual recorded as 'Neha Ali' meeting associates near Delhi Junction 8. Possible link to ongoing case activity.
+SUR00104,CASE0009,2023-05-05 11:11:37,Kochi Colony 148,Field unit observed individual recorded as 'Neha Ali' meeting associates near Indore Market 135. Possible link to ongoing case activity.
+SUR00105,CASE0009,2023-10-18 08:52:08,Pune Junction 125,Field unit observed individual recorded as 'Neha Ali' meeting associates near Kolkata Plaza 119. Possible link to ongoing case activity.
+SUR00106,CASE0009,2025-07-06 15:46:34,Lucknow Colony 87,Field unit observed individual recorded as 'Riya Mukherjee' meeting associates near Nagpur Tower 104. Possible link to ongoing case activity.
+SUR00107,CASE0009,2025-02-10 00:44:50,Delhi Colony 133,Field unit observed individual recorded as 'Riya Mukherjee' meeting associates near Hyderabad Tower 85. Possible link to ongoing case activity.
+SUR00108,CASE0009,2025-09-11 07:37:37,Kochi Tower 144,Field unit observed individual recorded as 'Riya Mukherjee' meeting associates near Bhopal Hub 113. Possible link to ongoing case activity.
+SUR00109,CASE0010,2023-04-01 12:31:56,Nagpur Tower 130,Field unit observed individual recorded as 'Deepak Day' meeting associates near Bhopal Hub 64. Possible link to ongoing case activity.
+SUR00110,CASE0010,2023-02-11 23:39:54,Bhopal Hub 113,Field unit observed individual recorded as 'Deepak Day' meeting associates near Bhopal Hub 64. Possible link to ongoing case activity.
+SUR00111,CASE0010,2024-05-27 08:31:52,Visakhapatnam Colony 72,Field unit observed individual recorded as 'Deepak Day' meeting associates near Surat Tower 108. Possible link to ongoing case activity.
+SUR00112,CASE0010,2025-01-27 18:50:12,Lucknow Colony 149,Field unit observed individual recorded as 'Pallavi aNir' meeting associates near Nagpur Hub 118. Possible link to ongoing case activity.
+SUR00113,CASE0010,2024-01-30 23:07:21,Hyderabad Hub 16,Field unit observed individual recorded as 'Pallavi aNir' meeting associates near Kochi Park 121. Possible link to ongoing case activity.
+SUR00114,CASE0010,2024-11-09 22:35:08,Delhi Colony 133,Field unit observed individual recorded as 'Pallavi aNir' meeting associates near Ranchi Colony 90. Possible link to ongoing case activity.
+SUR00115,CASE0010,2024-02-06 05:16:05,Chennai Colony 153,Field unit observed individual recorded as 'Manoj Hussaia' meeting associates near Indore Tower 39. Possible link to ongoing case activity.
+SUR00116,CASE0010,2024-05-01 08:17:20,Lucknow Colony 87,Field unit observed individual recorded as 'Manoj Hussaia' meeting associates near Kochi Colony 148. Possible link to ongoing case activity.
+SUR00117,CASE0010,2023-12-25 13:50:40,Bhopal Hub 64,Field unit observed individual recorded as 'Manoj Hussaia' meeting associates near Pune Market 65. Possible link to ongoing case activity.
+SUR00118,CASE0010,2024-04-23 22:53:54,Bengaluru Tower 105,Field unit observed individual recorded as 'Prakash Naia' meeting associates near Ranchi Junction 140. Possible link to ongoing case activity.
+SUR00119,CASE0010,2023-04-04 17:16:24,Indore Hub 2,Field unit observed individual recorded as 'Prakash Naia' meeting associates near Ahmedabad Plaza 33. Possible link to ongoing case activity.
+SUR00120,CASE0010,2023-10-03 03:08:14,Patna Market 4,Field unit observed individual recorded as 'Prakash Naia' meeting associates near Chandigarh Tower 157. Possible link to ongoing case activity.
+SUR00121,CASE0011,2023-10-04 02:31:32,Visakhapatnam Hub 38,Field unit observed individual recorded as 'Farhan Shikh' meeting associates near Chennai Colony 48. Possible link to ongoing case activity.
+SUR00122,CASE0011,2024-01-12 16:31:54,Ahmedabad Plaza 35,Field unit observed individual recorded as 'Farhan Shikh' meeting associates near Nagpur Hub 103. Possible link to ongoing case activity.
+SUR00123,CASE0011,2023-02-27 10:14:43,Chennai Tower 24,Field unit observed individual recorded as 'Farhan Shikh' meeting associates near Kochi Park 117. Possible link to ongoing case activity.
+SUR00124,CASE0011,2023-08-12 13:31:51,Indore Junction 101,Field unit observed individual recorded as 'Vikram Ala' meeting associates near Bhopal Plaza 160. Possible link to ongoing case activity.
+SUR00125,CASE0011,2025-04-04 15:31:03,Chennai Tower 134,Field unit observed individual recorded as 'Vikram Ala' meeting associates near Lucknow Park 53. Possible link to ongoing case activity.
+SUR00126,CASE0011,2023-09-17 13:36:09,Hyderabad Hub 16,Field unit observed individual recorded as 'Vikram Ala' meeting associates near Guwahati Park 158. Possible link to ongoing case activity.
+SUR00127,CASE0011,2024-02-28 09:57:52,Indore Tower 39,Field unit observed individual recorded as 'Arjun Cohpra' meeting associates near Chandigarh Market 54. Possible link to ongoing case activity.
+SUR00128,CASE0011,2024-04-27 22:05:36,Lucknow Plaza 142,Field unit observed individual recorded as 'Arjun Cohpra' meeting associates near Delhi Park 49. Possible link to ongoing case activity.
+SUR00129,CASE0011,2025-10-13 02:20:56,Guwahati Junction 159,Field unit observed individual recorded as 'Arjun Cohpra' meeting associates near Hyderabad Tower 10. Possible link to ongoing case activity.
+SUR00130,CASE0011,2025-12-29 02:34:07,Delhi Colony 133,Field unit observed individual recorded as 'Ayesha Reddi' meeting associates near Patna Market 70. Possible link to ongoing case activity.
+SUR00131,CASE0011,2024-05-30 10:54:58,Nagpur Tower 104,Field unit observed individual recorded as 'Ayesha Reddi' meeting associates near Visakhapatnam Tower 124. Possible link to ongoing case activity.
+SUR00132,CASE0011,2023-08-12 04:25:46,Bhopal Hub 113,Field unit observed individual recorded as 'Ayesha Reddi' meeting associates near Hyderabad Market 131. Possible link to ongoing case activity.
+SUR00133,CASE0012,2023-07-30 01:18:21,Surat Plaza 156,Field unit observed individual recorded as 'Ishaan Reeddy' meeting associates near Pune Colony 59. Possible link to ongoing case activity.
+SUR00134,CASE0012,2025-05-18 01:25:14,Hyderabad Plaza 102,Field unit observed individual recorded as 'Ishaan Reeddy' meeting associates near Bengaluru Market 43. Possible link to ongoing case activity.
+SUR00135,CASE0012,2025-06-11 07:37:31,Visakhapatnam Junction 21,Field unit observed individual recorded as 'Ishaan Reeddy' meeting associates near Mumbai Hub 138. Possible link to ongoing case activity.
+SUR00136,CASE0012,2025-10-20 02:11:27,Visakhapatnam Plaza 120,Field unit observed individual recorded as 'Vivaan Banerjee' meeting associates near Mumbai Junction 88. Possible link to ongoing case activity.
+SUR00137,CASE0012,2025-07-30 21:30:26,Bhopal Hub 64,Field unit observed individual recorded as 'Vivaan Banerjee' meeting associates near Kochi Park 117. Possible link to ongoing case activity.
+SUR00138,CASE0012,2025-09-13 00:52:58,Visakhapatnam Junction 34,Field unit observed individual recorded as 'Vivaan Banerjee' meeting associates near Visakhapatnam Hub 123. Possible link to ongoing case activity.
+SUR00139,CASE0012,2023-12-03 13:38:08,Surat Hub 20,Field unit observed individual recorded as 'Lakshmi KKapoor' meeting associates near Visakhapatnam Market 84. Possible link to ongoing case activity.
+SUR00140,CASE0012,2025-03-19 00:11:46,Ahmedabad Tower 98,Field unit observed individual recorded as 'Lakshmi KKapoor' meeting associates near Nagpur Junction 37. Possible link to ongoing case activity.
+SUR00141,CASE0012,2023-02-06 02:12:56,Kochi Park 121,Field unit observed individual recorded as 'Lakshmi KKapoor' meeting associates near Lucknow Park 19. Possible link to ongoing case activity.
+SUR00142,CASE0012,2025-01-09 09:47:12,Visakhapatnam Plaza 120,Field unit observed individual recorded as 'Riya Khaa' meeting associates near Lucknow Plaza 142. Possible link to ongoing case activity.
+SUR00143,CASE0012,2024-06-06 00:54:44,Patna Colony 77,Field unit observed individual recorded as 'Riya Khaa' meeting associates near Visakhapatnam Tower 14. Possible link to ongoing case activity.
+SUR00144,CASE0012,2024-11-20 16:38:10,Surat Market 150,Field unit observed individual recorded as 'Riya Khaa' meeting associates near Patna Market 67. Possible link to ongoing case activity.
+SUR00145,CASE0013,2025-03-21 22:07:24,Surat Hub 20,Field unit observed individual recorded as 'Rizwan Malotra' meeting associates near Kolkata Colony 127. Possible link to ongoing case activity.
+SUR00146,CASE0013,2025-09-15 18:13:17,Chennai Colony 48,Field unit observed individual recorded as 'Rizwan Malotra' meeting associates near Chandigarh Tower 157. Possible link to ongoing case activity.
+SUR00147,CASE0013,2025-02-04 10:48:27,Mumbai Plaza 27,Field unit observed individual recorded as 'Rizwan Malotra' meeting associates near Jaipur Colony 56. Possible link to ongoing case activity.
+SUR00148,CASE0013,2025-11-23 07:26:22,Visakhapatnam Market 84,Field unit observed individual recorded as 'Sanjay aNir' meeting associates near Ranchi Market 132. Possible link to ongoing case activity.
+SUR00149,CASE0013,2023-09-19 19:11:32,Visakhapatnam Market 84,Field unit observed individual recorded as 'Sanjay aNir' meeting associates near Patna Tower 13. Possible link to ongoing case activity.
+SUR00150,CASE0013,2025-04-16 23:05:46,Kolkata Tower 75,Field unit observed individual recorded as 'Sanjay aNir' meeting associates near Mumbai Hub 55. Possible link to ongoing case activity.
+SUR00151,CASE0013,2023-05-26 08:29:59,Jaipur Market 31,Field unit observed individual recorded as 'Prakash Miirza' meeting associates near Mumbai Park 41. Possible link to ongoing case activity.
+SUR00152,CASE0013,2023-05-28 04:05:58,Ranchi Junction 140,Field unit observed individual recorded as 'Prakash Miirza' meeting associates near Delhi Park 47. Possible link to ongoing case activity.
+SUR00153,CASE0013,2025-04-15 12:05:39,Indore Market 135,Field unit observed individual recorded as 'Prakash Miirza' meeting associates near Chandigarh Junction 44. Possible link to ongoing case activity.
+SUR00154,CASE0013,2024-06-27 07:30:01,Nagpur Colony 80,Field unit observed individual recorded as 'Salman Ieyr' meeting associates near Visakhapatnam Plaza 120. Possible link to ongoing case activity.
+SUR00155,CASE0013,2023-03-10 01:44:03,Delhi Hub 82,Field unit observed individual recorded as 'Salman Ieyr' meeting associates near Lucknow Colony 73. Possible link to ongoing case activity.
+SUR00156,CASE0013,2024-01-21 18:47:01,Chandigarh Market 54,Field unit observed individual recorded as 'Salman Ieyr' meeting associates near Delhi Junction 46. Possible link to ongoing case activity.
+SUR00157,CASE0014,2024-04-24 12:37:12,Lucknow Colony 87,Field unit observed individual recorded as 'Kiran Singgh' meeting associates near Hyderabad Tower 10. Possible link to ongoing case activity.
+SUR00158,CASE0014,2025-09-13 01:17:04,Bhopal Park 68,Field unit observed individual recorded as 'Kiran Singgh' meeting associates near Surat Hub 9. Possible link to ongoing case activity.
+SUR00159,CASE0014,2025-12-28 17:32:55,Visakhapatnam Hub 123,Field unit observed individual recorded as 'Kiran Singgh' meeting associates near Guwahati Plaza 152. Possible link to ongoing case activity.
+SUR00160,CASE0014,2025-09-27 19:24:39,Ranchi Colony 90,Field unit observed individual recorded as 'Zara Siingh' meeting associates near Surat Hub 154. Possible link to ongoing case activity.
+SUR00161,CASE0014,2023-08-08 14:32:42,Ahmedabad Plaza 33,Field unit observed individual recorded as 'Zara Siingh' meeting associates near Patna Market 4. Possible link to ongoing case activity.
+SUR00162,CASE0014,2023-09-16 16:24:47,Pune Market 17,Field unit observed individual recorded as 'Zara Siingh' meeting associates near Pune Colony 59. Possible link to ongoing case activity.
+SUR00163,CASE0014,2023-02-10 08:00:21,Kochi Park 121,Field unit observed individual recorded as 'Sana Deesai' meeting associates near Nagpur Plaza 106. Possible link to ongoing case activity.
+SUR00164,CASE0014,2024-02-11 23:52:53,Bhopal Hub 64,Field unit observed individual recorded as 'Sana Deesai' meeting associates near Mumbai Junction 88. Possible link to ongoing case activity.
+SUR00165,CASE0014,2025-06-01 02:58:52,Jaipur Colony 56,Field unit observed individual recorded as 'Sana Deesai' meeting associates near Indore Tower 39. Possible link to ongoing case activity.
+SUR00166,CASE0014,2023-07-09 22:57:32,Hyderabad Market 131,Field unit observed individual recorded as 'Suresh Menoon' meeting associates near Patna Hub 52. Possible link to ongoing case activity.
+SUR00167,CASE0014,2025-12-05 17:34:07,Kochi Park 121,Field unit observed individual recorded as 'Suresh Menoon' meeting associates near Guwahati Colony 11. Possible link to ongoing case activity.
+SUR00168,CASE0014,2023-07-13 02:35:54,Mumbai Junction 88,Field unit observed individual recorded as 'Suresh Menoon' meeting associates near Kochi Park 117. Possible link to ongoing case activity.
+SUR00169,CASE0015,2023-06-26 08:49:11,Visakhapatnam Junction 110,Field unit observed individual recorded as 'Ananya Kapooe' meeting associates near Ahmedabad Tower 98. Possible link to ongoing case activity.
+SUR00170,CASE0015,2024-03-24 20:35:37,Hyderabad Hub 16,Field unit observed individual recorded as 'Ananya Kapooe' meeting associates near Visakhapatnam Junction 21. Possible link to ongoing case activity.
+SUR00171,CASE0015,2024-08-27 01:10:20,Delhi Junction 46,Field unit observed individual recorded as 'Ananya Kapooe' meeting associates near Indore Market 83. Possible link to ongoing case activity.
+SUR00172,CASE0015,2024-02-01 18:11:53,Indore Market 93,Field unit observed individual recorded as 'Shreya Rae' meeting associates near Chennai Colony 69. Possible link to ongoing case activity.
+SUR00173,CASE0015,2024-12-07 13:07:13,Chandigarh Tower 157,Field unit observed individual recorded as 'Shreya Rae' meeting associates near Surat Plaza 122. Possible link to ongoing case activity.
+SUR00174,CASE0015,2023-08-05 06:44:48,Lucknow Junction 137,Field unit observed individual recorded as 'Shreya Rae' meeting associates near Delhi Junction 8. Possible link to ongoing case activity.
+SUR00175,CASE0015,2023-08-29 13:07:24,Indore Market 83,Field unit observed individual recorded as 'Harish Meon' meeting associates near Kochi Colony 148. Possible link to ongoing case activity.
+SUR00176,CASE0015,2024-06-24 09:03:33,Visakhapatnam Junction 110,Field unit observed individual recorded as 'Harish Meon' meeting associates near Kochi Market 28. Possible link to ongoing case activity.
+SUR00177,CASE0015,2024-08-31 12:37:29,Lucknow Junction 137,Field unit observed individual recorded as 'Harish Meon' meeting associates near Surat Hub 154. Possible link to ongoing case activity.
+SUR00178,CASE0015,2025-11-06 15:05:42,Hyderabad Park 81,Field unit observed individual recorded as 'Kabir Meta' meeting associates near Chennai Hub 5. Possible link to ongoing case activity.
+SUR00179,CASE0015,2023-06-14 11:30:01,Lucknow Park 79,Field unit observed individual recorded as 'Kabir Meta' meeting associates near Lucknow Plaza 142. Possible link to ongoing case activity.
+SUR00180,CASE0015,2023-07-14 02:25:32,Hyderabad Hub 12,Field unit observed individual recorded as 'Kabir Meta' meeting associates near Chandigarh Junction 44. Possible link to ongoing case activity.
+SUR00181,CASE0016,2024-05-30 09:18:28,Bhopal Plaza 160,Field unit observed individual recorded as 'Vikram Veram' meeting associates near Pune Colony 59. Possible link to ongoing case activity.
+SUR00182,CASE0016,2023-07-02 19:03:53,Visakhapatnam Hub 38,Field unit observed individual recorded as 'Vikram Veram' meeting associates near Bhopal Park 68. Possible link to ongoing case activity.
+SUR00183,CASE0016,2025-03-16 09:49:47,Surat Park 62,Field unit observed individual recorded as 'Vikram Veram' meeting associates near Lucknow Junction 137. Possible link to ongoing case activity.
+SUR00184,CASE0016,2025-08-03 13:56:45,Patna Tower 13,Field unit observed individual recorded as 'Gopal Ansai' meeting associates near Ranchi Plaza 100. Possible link to ongoing case activity.
+SUR00185,CASE0016,2025-09-06 07:06:56,Hyderabad Park 81,Field unit observed individual recorded as 'Gopal Ansai' meeting associates near Jaipur Plaza 78. Possible link to ongoing case activity.
+SUR00186,CASE0016,2024-06-07 17:10:39,Nagpur Junction 116,Field unit observed individual recorded as 'Gopal Ansai' meeting associates near Guwahati Park 61. Possible link to ongoing case activity.
+SUR00187,CASE0016,2024-02-28 06:04:48,Jaipur Market 31,Field unit observed individual recorded as 'Salman Daa' meeting associates near Jaipur Colony 56. Possible link to ongoing case activity.
+SUR00188,CASE0016,2023-07-30 18:28:54,Guwahati Hub 60,Field unit observed individual recorded as 'Salman Daa' meeting associates near Visakhapatnam Hub 112. Possible link to ongoing case activity.
+SUR00189,CASE0016,2024-08-15 02:14:36,Lucknow Park 19,Field unit observed individual recorded as 'Salman Daa' meeting associates near Kochi Plaza 107. Possible link to ongoing case activity.
+SUR00190,CASE0016,2023-10-11 00:25:05,Bhopal Junction 58,Field unit observed individual recorded as 'Rohan Sigh' meeting associates near Surat Hub 9. Possible link to ongoing case activity.
+SUR00191,CASE0016,2025-10-24 09:26:13,Lucknow Plaza 142,Field unit observed individual recorded as 'Rohan Sigh' meeting associates near Kolkata Park 18. Possible link to ongoing case activity.
+SUR00192,CASE0016,2025-07-16 21:29:02,Kolkata Plaza 119,Field unit observed individual recorded as 'Rohan Sigh' meeting associates near Jaipur Colony 56. Possible link to ongoing case activity.
+SUR00193,CASE0017,2024-02-29 23:18:45,Patna Market 70,Field unit observed individual recorded as 'Sneha Husain' meeting associates near Guwahati Park 61. Possible link to ongoing case activity.
+SUR00194,CASE0017,2023-02-02 14:06:24,Pune Market 65,Field unit observed individual recorded as 'Sneha Husain' meeting associates near Surat Plaza 122. Possible link to ongoing case activity.
+SUR00195,CASE0017,2023-05-20 23:52:19,Lucknow Park 79,Field unit observed individual recorded as 'Sneha Husain' meeting associates near Kolkata Junction 45. Possible link to ongoing case activity.
+SUR00196,CASE0017,2023-01-18 19:42:03,Chandigarh Plaza 89,Field unit observed individual recorded as 'Ramesh Ansare' meeting associates near Visakhapatnam Junction 21. Possible link to ongoing case activity.
+SUR00197,CASE0017,2023-10-27 23:23:02,Surat Park 155,Field unit observed individual recorded as 'Ramesh Ansare' meeting associates near Guwahati Plaza 92. Possible link to ongoing case activity.
+SUR00198,CASE0017,2024-03-18 21:53:42,Nagpur Hub 26,Field unit observed individual recorded as 'Ramesh Ansare' meeting associates near Kolkata Tower 75. Possible link to ongoing case activity.
+SUR00199,CASE0017,2023-07-02 07:13:54,Indore Market 23,Field unit observed individual recorded as 'Fatima Day' meeting associates near Visakhapatnam Junction 21. Possible link to ongoing case activity.
+SUR00200,CASE0017,2023-08-21 13:52:29,Indore Market 136,Field unit observed individual recorded as 'Fatima Day' meeting associates near Bengaluru Tower 66. Possible link to ongoing case activity.
+SUR00201,CASE0017,2023-08-17 16:00:03,Delhi Hub 82,Field unit observed individual recorded as 'Fatima Day' meeting associates near Nagpur Plaza 106. Possible link to ongoing case activity.
+SUR00202,CASE0017,2024-09-05 07:38:03,Kolkata Junction 45,Field unit observed individual recorded as 'Lakshmi Iyre' meeting associates near Surat Park 62. Possible link to ongoing case activity.
+SUR00203,CASE0017,2023-07-29 00:59:33,Nagpur Tower 104,Field unit observed individual recorded as 'Lakshmi Iyre' meeting associates near Lucknow Junction 137. Possible link to ongoing case activity.
+SUR00204,CASE0017,2024-10-11 19:46:35,Nagpur Junction 37,Field unit observed individual recorded as 'Lakshmi Iyre' meeting associates near Ranchi Park 95. Possible link to ongoing case activity.
+SUR00205,CASE0018,2023-07-28 17:23:37,Kochi Tower 126,Field unit observed individual recorded as 'Rizwan Patle' meeting associates near Kochi Park 115. Possible link to ongoing case activity.
+SUR00206,CASE0018,2023-05-09 13:42:37,Lucknow Plaza 142,Field unit observed individual recorded as 'Rizwan Patle' meeting associates near Surat Tower 108. Possible link to ongoing case activity.
+SUR00207,CASE0018,2025-06-27 19:15:32,Delhi Colony 133,Field unit observed individual recorded as 'Rizwan Patle' meeting associates near Nagpur Plaza 106. Possible link to ongoing case activity.
+SUR00208,CASE0018,2023-06-22 18:46:16,Jaipur Colony 114,Field unit observed individual recorded as 'Sneha Mkherjee' meeting associates near Kolkata Colony 127. Possible link to ongoing case activity.
+SUR00209,CASE0018,2024-10-17 21:45:46,Delhi Junction 46,Field unit observed individual recorded as 'Sneha Mkherjee' meeting associates near Nagpur Tower 104. Possible link to ongoing case activity.
+SUR00210,CASE0018,2023-03-24 20:19:51,Chandigarh Tower 157,Field unit observed individual recorded as 'Sneha Mkherjee' meeting associates near Pune Market 65. Possible link to ongoing case activity.
+SUR00211,CASE0018,2025-11-19 06:30:03,Lucknow Park 79,Field unit observed individual recorded as 'Zara Shara' meeting associates near Ranchi Park 95. Possible link to ongoing case activity.
+SUR00212,CASE0018,2024-01-17 22:10:38,Kochi Park 121,Field unit observed individual recorded as 'Zara Shara' meeting associates near Surat Hub 154. Possible link to ongoing case activity.
+SUR00213,CASE0018,2024-07-30 22:52:59,Nagpur Hub 103,Field unit observed individual recorded as 'Zara Shara' meeting associates near Guwahati Junction 159. Possible link to ongoing case activity.
+SUR00214,CASE0018,2024-09-07 08:52:50,Kolkata Park 15,Field unit observed individual recorded as 'Fatima Menoe' meeting associates near Nagpur Tower 104. Possible link to ongoing case activity.
+SUR00215,CASE0018,2025-07-26 21:49:17,Nagpur Junction 37,Field unit observed individual recorded as 'Fatima Menoe' meeting associates near Kochi Tower 144. Possible link to ongoing case activity.
+SUR00216,CASE0018,2023-01-30 10:25:43,Lucknow Park 79,Field unit observed individual recorded as 'Fatima Menoe' meeting associates near Jaipur Market 31. Possible link to ongoing case activity.
+SUR00217,CASE0019,2024-12-27 00:26:24,Kolkata Hub 143,Field unit observed individual recorded as 'Reyansh iMrza' meeting associates near Kolkata Junction 45. Possible link to ongoing case activity.
+SUR00218,CASE0019,2025-02-20 16:23:30,Jaipur Market 31,Field unit observed individual recorded as 'Reyansh iMrza' meeting associates near Nagpur Hub 103. Possible link to ongoing case activity.
+SUR00219,CASE0019,2023-01-19 07:53:04,Patna Market 67,Field unit observed individual recorded as 'Reyansh iMrza' meeting associates near Kolkata Tower 30. Possible link to ongoing case activity.
+SUR00220,CASE0019,2025-07-05 21:24:18,Indore Park 109,Field unit observed individual recorded as 'Fatima Mukhrjee' meeting associates near Patna Market 70. Possible link to ongoing case activity.
+SUR00221,CASE0019,2025-11-07 10:49:36,Guwahati Colony 11,Field unit observed individual recorded as 'Fatima Mukhrjee' meeting associates near Kolkata Tower 75. Possible link to ongoing case activity.
+SUR00222,CASE0019,2025-05-28 15:26:48,Visakhapatnam Tower 124,Field unit observed individual recorded as 'Fatima Mukhrjee' meeting associates near Guwahati Colony 11. Possible link to ongoing case activity.
+SUR00223,CASE0019,2023-12-31 22:37:21,Lucknow Park 79,Field unit observed individual recorded as 'Diya Patl' meeting associates near Pune Junction 25. Possible link to ongoing case activity.
+SUR00224,CASE0019,2023-01-05 08:46:48,Surat Park 62,Field unit observed individual recorded as 'Diya Patl' meeting associates near Kolkata Park 18. Possible link to ongoing case activity.
+SUR00225,CASE0019,2023-06-06 15:33:35,Lucknow Park 19,Field unit observed individual recorded as 'Diya Patl' meeting associates near Ranchi Park 95. Possible link to ongoing case activity.
+SUR00226,CASE0019,2025-09-17 13:30:28,Visakhapatnam Tower 124,Field unit observed individual recorded as 'Kavya Kapooor' meeting associates near Visakhapatnam Tower 14. Possible link to ongoing case activity.
+SUR00227,CASE0019,2023-04-19 01:34:00,Mumbai Hub 138,Field unit observed individual recorded as 'Kavya Kapooor' meeting associates near Guwahati Plaza 57. Possible link to ongoing case activity.
+SUR00228,CASE0019,2023-01-20 01:40:46,Kochi Park 121,Field unit observed individual recorded as 'Kavya Kapooor' meeting associates near Nagpur Tower 130. Possible link to ongoing case activity.
+SUR00229,CASE0020,2025-12-20 08:07:02,Kochi Plaza 107,Field unit observed individual recorded as 'Gopal Desaai' meeting associates near Delhi Hub 3. Possible link to ongoing case activity.
+SUR00230,CASE0020,2023-10-13 21:31:42,Delhi Junction 8,Field unit observed individual recorded as 'Gopal Desaai' meeting associates near Kolkata Colony 127. Possible link to ongoing case activity.
+SUR00231,CASE0020,2024-10-24 11:30:39,Nagpur Junction 37,Field unit observed individual recorded as 'Gopal Desaai' meeting associates near Visakhapatnam Colony 72. Possible link to ongoing case activity.
+SUR00232,CASE0020,2024-01-05 07:25:33,Hyderabad Hub 16,Field unit observed individual recorded as 'Kiran MMirza' meeting associates near Lucknow Colony 149. Possible link to ongoing case activity.
+SUR00233,CASE0020,2024-09-26 01:15:15,Lucknow Colony 29,Field unit observed individual recorded as 'Kiran MMirza' meeting associates near Nagpur Junction 37. Possible link to ongoing case activity.
+SUR00234,CASE0020,2024-12-16 02:54:07,Bhopal Junction 58,Field unit observed individual recorded as 'Kiran MMirza' meeting associates near Kolkata Tower 75. Possible link to ongoing case activity.
+SUR00235,CASE0020,2025-07-19 16:23:58,Nagpur Colony 80,Field unit observed individual recorded as 'Vikram Mukherjeee' meeting associates near Bhopal Plaza 160. Possible link to ongoing case activity.
+SUR00236,CASE0020,2024-04-08 15:32:37,Surat Hub 20,Field unit observed individual recorded as 'Vikram Mukherjeee' meeting associates near Kolkata Hub 143. Possible link to ongoing case activity.
+SUR00237,CASE0020,2024-03-24 19:22:47,Patna Colony 77,Field unit observed individual recorded as 'Vikram Mukherjeee' meeting associates near Bengaluru Market 43. Possible link to ongoing case activity.
+SUR00238,CASE0020,2025-11-15 19:55:17,Pune Tower 71,Field unit observed individual recorded as 'Ishaan Ala' meeting associates near Lucknow Colony 149. Possible link to ongoing case activity.
+SUR00239,CASE0020,2025-09-16 17:52:16,Delhi Hub 82,Field unit observed individual recorded as 'Ishaan Ala' meeting associates near Bhopal Junction 58. Possible link to ongoing case activity.
+SUR00240,CASE0020,2024-11-14 11:26:27,Guwahati Colony 11,Field unit observed individual recorded as 'Ishaan Ala' meeting associates near Ranchi Park 95. Possible link to ongoing case activity.
+SUR00241,CASE0021,2024-08-25 21:32:52,Mumbai Junction 88,Field unit observed individual recorded as 'Neha Joshe' meeting associates near Delhi Hub 3. Possible link to ongoing case activity.
+SUR00242,CASE0021,2023-03-15 19:47:13,Lucknow Park 53,Field unit observed individual recorded as 'Neha Joshe' meeting associates near Visakhapatnam Junction 21. Possible link to ongoing case activity.
+SUR00243,CASE0021,2023-09-23 19:49:53,Chandigarh Market 54,Field unit observed individual recorded as 'Neha Joshe' meeting associates near Chennai Park 96. Possible link to ongoing case activity.
+SUR00244,CASE0021,2023-12-25 05:27:13,Visakhapatnam Hub 112,Field unit observed individual recorded as 'Arjun Menonn' meeting associates near Surat Tower 108. Possible link to ongoing case activity.
+SUR00245,CASE0021,2023-09-01 05:33:13,Delhi Hub 82,Field unit observed individual recorded as 'Arjun Menonn' meeting associates near Pune Colony 59. Possible link to ongoing case activity.
+SUR00246,CASE0021,2025-08-17 13:14:44,Bhopal Colony 97,Field unit observed individual recorded as 'Arjun Menonn' meeting associates near Kochi Tower 126. Possible link to ongoing case activity.
+SUR00247,CASE0021,2023-08-17 10:45:08,Jaipur Colony 56,Field unit observed individual recorded as 'Neha Gputa' meeting associates near Bhopal Junction 151. Possible link to ongoing case activity.
+SUR00248,CASE0021,2024-05-24 19:20:32,Nagpur Junction 51,Field unit observed individual recorded as 'Neha Gputa' meeting associates near Indore Hub 2. Possible link to ongoing case activity.
+SUR00249,CASE0021,2023-08-18 08:39:32,Lucknow Park 19,Field unit observed individual recorded as 'Neha Gputa' meeting associates near Mumbai Junction 88. Possible link to ongoing case activity.
+SUR00250,CASE0021,2023-10-17 01:00:29,Surat Plaza 40,Field unit observed individual recorded as 'Reyansh Naiik' meeting associates near Mumbai Hub 55. Possible link to ongoing case activity.
+SUR00251,CASE0021,2025-07-09 11:25:29,Guwahati Hub 60,Field unit observed individual recorded as 'Reyansh Naiik' meeting associates near Kochi Market 28. Possible link to ongoing case activity.
+SUR00252,CASE0021,2024-06-09 15:49:04,Chennai Colony 153,Field unit observed individual recorded as 'Reyansh Naiik' meeting associates near Visakhapatnam Junction 21. Possible link to ongoing case activity.
+SUR00253,CASE0022,2023-12-05 10:44:23,Nagpur Colony 80,Field unit observed individual recorded as 'Vinod Kapor' meeting associates near Surat Market 150. Possible link to ongoing case activity.
+SUR00254,CASE0022,2024-04-01 13:34:57,Hyderabad Park 81,Field unit observed individual recorded as 'Vinod Kapor' meeting associates near Guwahati Park 158. Possible link to ongoing case activity.
+SUR00255,CASE0022,2023-03-07 20:13:31,Visakhapatnam Market 84,Field unit observed individual recorded as 'Vinod Kapor' meeting associates near Mumbai Hub 55. Possible link to ongoing case activity.
+SUR00256,CASE0022,2025-09-25 15:27:08,Patna Market 70,Field unit observed individual recorded as 'Amit Iyea' meeting associates near Hyderabad Colony 145. Possible link to ongoing case activity.
+SUR00257,CASE0022,2025-08-02 10:23:32,Kolkata Park 15,Field unit observed individual recorded as 'Amit Iyea' meeting associates near Pune Tower 71. Possible link to ongoing case activity.
+SUR00258,CASE0022,2025-07-29 01:16:54,Lucknow Colony 87,Field unit observed individual recorded as 'Amit Iyea' meeting associates near Jaipur Market 31. Possible link to ongoing case activity.
+SUR00259,CASE0022,2023-06-24 23:50:48,Delhi Hub 3,Field unit observed individual recorded as 'Ashok Mukhrejee' meeting associates near Visakhapatnam Junction 21. Possible link to ongoing case activity.
+SUR00260,CASE0022,2023-01-11 14:05:07,Lucknow Plaza 142,Field unit observed individual recorded as 'Ashok Mukhrejee' meeting associates near Guwahati Park 158. Possible link to ongoing case activity.
+SUR00261,CASE0022,2025-04-09 21:45:15,Kolkata Plaza 119,Field unit observed individual recorded as 'Ashok Mukhrejee' meeting associates near Bengaluru Market 43. Possible link to ongoing case activity.
+SUR00262,CASE0022,2024-06-29 09:32:45,Guwahati Junction 159,Field unit observed individual recorded as 'Ramesh Menoi' meeting associates near Lucknow Park 79. Possible link to ongoing case activity.
+SUR00263,CASE0022,2024-11-29 11:02:27,Pune Junction 25,Field unit observed individual recorded as 'Ramesh Menoi' meeting associates near Patna Hub 52. Possible link to ongoing case activity.
+SUR00264,CASE0022,2025-02-05 14:52:27,Visakhapatnam Market 50,Field unit observed individual recorded as 'Ramesh Menoi' meeting associates near Guwahati Plaza 152. Possible link to ongoing case activity.
+SUR00265,CASE0023,2024-05-08 06:17:16,Kolkata Tower 30,Field unit observed individual recorded as 'Manoj Redy' meeting associates near Guwahati Park 158. Possible link to ongoing case activity.
+SUR00266,CASE0023,2024-06-26 11:21:41,Nagpur Plaza 106,Field unit observed individual recorded as 'Manoj Redy' meeting associates near Indore Market 83. Possible link to ongoing case activity.
+SUR00267,CASE0023,2024-03-06 12:51:55,Guwahati Plaza 92,Field unit observed individual recorded as 'Manoj Redy' meeting associates near Bengaluru Tower 105. Possible link to ongoing case activity.
+SUR00268,CASE0023,2024-06-26 15:10:50,Nagpur Tower 104,Field unit observed individual recorded as 'Lakshmi Ptael' meeting associates near Ahmedabad Tower 98. Possible link to ongoing case activity.
+SUR00269,CASE0023,2023-07-10 05:33:16,Bhopal Plaza 160,Field unit observed individual recorded as 'Lakshmi Ptael' meeting associates near Kolkata Colony 127. Possible link to ongoing case activity.
+SUR00270,CASE0023,2023-10-28 00:21:37,Kochi Colony 148,Field unit observed individual recorded as 'Lakshmi Ptael' meeting associates near Bhopal Plaza 160. Possible link to ongoing case activity.
+SUR00271,CASE0023,2023-04-10 22:21:26,Visakhapatnam Hub 123,Field unit observed individual recorded as 'Vikram Ala' meeting associates near Hyderabad Plaza 102. Possible link to ongoing case activity.
+SUR00272,CASE0023,2025-10-17 12:45:14,Lucknow Colony 87,Field unit observed individual recorded as 'Vikram Ala' meeting associates near Visakhapatnam Plaza 120. Possible link to ongoing case activity.
+SUR00273,CASE0023,2023-01-07 02:50:06,Visakhapatnam Tower 124,Field unit observed individual recorded as 'Vikram Ala' meeting associates near Kochi Park 115. Possible link to ongoing case activity.
+SUR00274,CASE0023,2023-05-30 16:21:59,Kolkata Junction 45,Field unit observed individual recorded as 'Rohan Sharmma' meeting associates near Chandigarh Hub 1. Possible link to ongoing case activity.
+SUR00275,CASE0023,2023-03-19 10:10:51,Delhi Park 49,Field unit observed individual recorded as 'Rohan Sharmma' meeting associates near Visakhapatnam Junction 34. Possible link to ongoing case activity.
+SUR00276,CASE0023,2024-07-25 10:12:26,Ranchi Market 132,Field unit observed individual recorded as 'Rohan Sharmma' meeting associates near Ahmedabad Tower 98. Possible link to ongoing case activity.
+SUR00277,CASE0024,2023-03-09 06:29:37,Guwahati Plaza 57,Field unit observed individual recorded as 'Meera Naiy' meeting associates near Kolkata Hub 143. Possible link to ongoing case activity.
+SUR00278,CASE0024,2025-04-12 02:12:53,Lucknow Colony 87,Field unit observed individual recorded as 'Meera Naiy' meeting associates near Nagpur Junction 116. Possible link to ongoing case activity.
+SUR00279,CASE0024,2024-11-16 21:02:35,Ahmedabad Plaza 33,Field unit observed individual recorded as 'Meera Naiy' meeting associates near Kochi Plaza 107. Possible link to ongoing case activity.
+SUR00280,CASE0024,2023-11-30 16:36:15,Delhi Park 49,Field unit observed individual recorded as 'Pallavi Kmuar' meeting associates near Bhopal Colony 97. Possible link to ongoing case activity.
+SUR00281,CASE0024,2023-02-11 20:03:04,Indore Park 109,Field unit observed individual recorded as 'Pallavi Kmuar' meeting associates near Visakhapatnam Market 50. Possible link to ongoing case activity.
+SUR00282,CASE0024,2024-06-19 15:15:04,Kochi Colony 148,Field unit observed individual recorded as 'Pallavi Kmuar' meeting associates near Hyderabad Colony 145. Possible link to ongoing case activity.
+SUR00283,CASE0024,2024-11-11 20:37:53,Patna Market 4,Field unit observed individual recorded as 'Shreya Mehat' meeting associates near Ahmedabad Plaza 35. Possible link to ongoing case activity.
+SUR00284,CASE0024,2023-12-09 17:20:08,Nagpur Hub 26,Field unit observed individual recorded as 'Shreya Mehat' meeting associates near Nagpur Hub 118. Possible link to ongoing case activity.
+SUR00285,CASE0024,2024-05-28 15:58:53,Hyderabad Hub 12,Field unit observed individual recorded as 'Shreya Mehat' meeting associates near Indore Market 135. Possible link to ongoing case activity.
+SUR00286,CASE0024,2024-05-12 23:31:16,Indore Hub 63,Field unit observed individual recorded as 'Sanjay eVrma' meeting associates near Hyderabad Tower 85. Possible link to ongoing case activity.
+SUR00287,CASE0024,2023-07-30 05:20:32,Mumbai Plaza 27,Field unit observed individual recorded as 'Sanjay eVrma' meeting associates near Visakhapatnam Hub 112. Possible link to ongoing case activity.
+SUR00288,CASE0024,2023-10-03 19:14:03,Ahmedabad Plaza 33,Field unit observed individual recorded as 'Sanjay eVrma' meeting associates near Kochi Colony 148. Possible link to ongoing case activity.
+SUR00289,CASE0025,2024-12-18 13:01:36,Chandigarh Hub 1,Field unit observed individual recorded as 'Ashok Guptaa' meeting associates near Kolkata Tower 30. Possible link to ongoing case activity.
+SUR00290,CASE0025,2025-10-17 20:45:21,Chennai Tower 24,Field unit observed individual recorded as 'Ashok Guptaa' meeting associates near Delhi Junction 147. Possible link to ongoing case activity.
+SUR00291,CASE0025,2023-01-07 09:21:39,Nagpur Tower 130,Field unit observed individual recorded as 'Ashok Guptaa' meeting associates near Guwahati Colony 11. Possible link to ongoing case activity.
+SUR00292,CASE0025,2025-07-20 21:00:52,Patna Colony 77,Field unit observed individual recorded as 'Arjun Iyerr' meeting associates near Lucknow Colony 149. Possible link to ongoing case activity.
+SUR00293,CASE0025,2025-09-24 05:31:02,Hyderabad Hub 12,Field unit observed individual recorded as 'Arjun Iyerr' meeting associates near Patna Hub 91. Possible link to ongoing case activity.
+SUR00294,CASE0025,2023-05-16 09:32:42,Chennai Park 96,Field unit observed individual recorded as 'Arjun Iyerr' meeting associates near Chennai Tower 134. Possible link to ongoing case activity.
+SUR00295,CASE0025,2025-03-23 02:56:32,Nagpur Tower 130,Field unit observed individual recorded as 'Rizwan Kapooor' meeting associates near Visakhapatnam Junction 34. Possible link to ongoing case activity.
+SUR00296,CASE0025,2024-08-02 09:15:26,Nagpur Tower 130,Field unit observed individual recorded as 'Rizwan Kapooor' meeting associates near Kolkata Park 18. Possible link to ongoing case activity.
+SUR00297,CASE0025,2023-10-15 07:02:12,Kolkata Park 15,Field unit observed individual recorded as 'Rizwan Kapooor' meeting associates near Chennai Colony 48. Possible link to ongoing case activity.
+SUR00298,CASE0025,2024-05-23 01:55:46,Nagpur Tower 130,Field unit observed individual recorded as 'Suresh Naie' meeting associates near Nagpur Market 32. Possible link to ongoing case activity.
+SUR00299,CASE0025,2025-09-27 08:39:40,Lucknow Park 19,Field unit observed individual recorded as 'Suresh Naie' meeting associates near Pune Tower 71. Possible link to ongoing case activity.
+SUR00300,CASE0025,2023-06-14 15:56:32,Ranchi Colony 111,Field unit observed individual recorded as 'Suresh Naie' meeting associates near Ranchi Market 132. Possible link to ongoing case activity.
+SUR00301,CASE0187,2023-10-06 08:24:56,Visakhapatnam Colony 72,Night movement detected between warehouse and secondary safe house location.
+SUR00302,CASE0155,2025-12-11 21:16:57,Pune Colony 59,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00303,CASE0033,2023-10-28 02:48:30,Indore Market 23,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00304,CASE0035,2023-01-12 04:53:14,Hyderabad Tower 85,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00305,CASE0014,2024-04-10 14:27:00,Hyderabad Plaza 102,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00306,CASE0226,2024-04-05 04:13:42,Hyderabad Hub 12,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00307,CASE0177,2025-06-15 08:57:30,Mumbai Hub 76,Subject observed meeting two associates near commercial hub; duration forty minutes.
+SUR00308,CASE0159,2024-02-05 16:51:28,Nagpur Junction 51,Night movement detected between warehouse and secondary safe house location.
+SUR00309,CASE0127,2024-02-20 03:44:20,Kochi Tower 126,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00310,CASE0198,2025-01-23 11:34:39,Hyderabad Colony 145,Subject avoided main roads and used alternate route to destination.
+SUR00311,CASE0133,2023-08-22 20:20:17,Surat Tower 108,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00312,CASE0222,2024-10-22 04:18:37,Surat Plaza 40,Night movement detected between warehouse and secondary safe house location.
+SUR00313,CASE0083,2025-03-17 07:02:16,Visakhapatnam Market 50,Vehicle linked to case parked outside target premises for extended period.
+SUR00314,CASE0176,2024-04-05 01:11:50,Surat Hub 9,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00315,CASE0030,2025-11-30 23:22:55,Jaipur Colony 114,Vehicle linked to case parked outside target premises for extended period.
+SUR00316,CASE0070,2025-01-20 07:06:35,Kolkata Junction 45,Subject avoided main roads and used alternate route to destination.
+SUR00317,CASE0009,2024-01-02 14:08:52,Guwahati Junction 159,Subject switched mobile handset twice within surveillance window.
+SUR00318,CASE0151,2024-07-13 00:18:54,Chennai Colony 69,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00319,CASE0187,2025-05-14 02:20:13,Indore Hub 63,Subject attended organizational meeting with known associates under watch.
+SUR00320,CASE0052,2023-12-23 14:33:42,Bengaluru Tower 105,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00321,CASE0039,2025-08-23 14:22:23,Ranchi Colony 111,Subject avoided main roads and used alternate route to destination.
+SUR00322,CASE0120,2024-05-18 18:56:59,Visakhapatnam Tower 14,Repeated short calls observed before cash handoff at public location.
+SUR00323,CASE0051,2025-01-14 12:18:09,Chandigarh Tower 157,Subject switched mobile handset twice within surveillance window.
+SUR00324,CASE0193,2023-09-28 03:38:13,Mumbai Junction 88,Subject attended organizational meeting with known associates under watch.
+SUR00325,CASE0068,2025-06-12 02:24:10,Hyderabad Hub 12,Night movement detected between warehouse and secondary safe house location.
+SUR00326,CASE0029,2025-04-25 21:54:23,Lucknow Park 79,Subject attended organizational meeting with known associates under watch.
+SUR00327,CASE0130,2024-09-11 21:49:09,Mumbai Park 41,Subject switched mobile handset twice within surveillance window.
+SUR00328,CASE0146,2023-04-30 20:00:36,Nagpur Junction 51,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00329,CASE0100,2025-02-05 19:23:08,Jaipur Colony 114,Night movement detected between warehouse and secondary safe house location.
+SUR00330,CASE0063,2024-02-03 04:58:19,Mumbai Plaza 27,Night movement detected between warehouse and secondary safe house location.
+SUR00331,CASE0097,2024-11-15 17:45:39,Lucknow Park 19,Subject avoided main roads and used alternate route to destination.
+SUR00332,CASE0168,2023-01-17 03:02:46,Kolkata Park 18,Repeated short calls observed before cash handoff at public location.
+SUR00333,CASE0077,2024-05-17 01:36:23,Chandigarh Junction 44,Subject avoided main roads and used alternate route to destination.
+SUR00334,CASE0054,2024-06-26 14:14:08,Nagpur Junction 37,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00335,CASE0212,2023-01-24 06:45:41,Kolkata Park 18,Subject switched mobile handset twice within surveillance window.
+SUR00336,CASE0054,2024-03-31 02:44:03,Pune Colony 59,Repeated short calls observed before cash handoff at public location.
+SUR00337,CASE0151,2024-04-07 19:28:46,Chandigarh Colony 99,Night movement detected between warehouse and secondary safe house location.
+SUR00338,CASE0089,2025-06-01 14:47:05,Chandigarh Hub 74,Night movement detected between warehouse and secondary safe house location.
+SUR00339,CASE0094,2023-03-22 06:18:53,Indore Hub 2,Night movement detected between warehouse and secondary safe house location.
+SUR00340,CASE0008,2023-06-17 11:14:53,Kochi Park 115,Subject avoided main roads and used alternate route to destination.
+SUR00341,CASE0211,2025-12-10 23:26:39,Kochi Plaza 107,Subject avoided main roads and used alternate route to destination.
+SUR00342,CASE0209,2024-08-03 17:24:17,Nagpur Junction 36,Subject observed meeting two associates near commercial hub; duration forty minutes.
+SUR00343,CASE0002,2023-12-29 21:33:51,Lucknow Park 79,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00344,CASE0155,2024-02-16 06:02:28,Pune Market 17,Vehicle linked to case parked outside target premises for extended period.
+SUR00345,CASE0081,2023-07-18 11:45:08,Surat Plaza 156,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00346,CASE0042,2024-09-17 19:15:52,Kolkata Tower 75,Night movement detected between warehouse and secondary safe house location.
+SUR00347,CASE0013,2025-05-15 01:23:54,Pune Market 65,Vehicle linked to case parked outside target premises for extended period.
+SUR00348,CASE0005,2025-04-18 03:06:30,Bhopal Colony 97,Subject avoided main roads and used alternate route to destination.
+SUR00349,CASE0040,2024-03-21 15:24:03,Delhi Junction 8,Subject switched mobile handset twice within surveillance window.
+SUR00350,CASE0005,2024-06-01 09:58:23,Pune Market 65,Repeated short calls observed before cash handoff at public location.
+SUR00351,CASE0093,2025-05-01 21:06:44,Indore Tower 128,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00352,CASE0114,2024-04-02 16:53:10,Jaipur Colony 114,Repeated short calls observed before cash handoff at public location.
+SUR00353,CASE0129,2024-04-30 13:53:48,Hyderabad Plaza 22,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00354,CASE0062,2023-08-17 16:48:34,Guwahati Plaza 152,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00355,CASE0223,2024-11-07 11:10:09,Delhi Park 49,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00356,CASE0118,2023-12-06 15:30:23,Surat Hub 20,Vehicle linked to case parked outside target premises for extended period.
+SUR00357,CASE0161,2023-09-01 12:26:45,Surat Park 155,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00358,CASE0041,2025-09-25 16:25:30,Delhi Junction 147,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00359,CASE0133,2023-12-31 12:15:53,Hyderabad Market 131,Subject observed meeting two associates near commercial hub; duration forty minutes.
+SUR00360,CASE0196,2025-12-17 20:57:48,Pune Tower 71,Vehicle linked to case parked outside target premises for extended period.
+SUR00361,CASE0105,2025-07-26 19:07:37,Bhopal Plaza 160,Subject switched mobile handset twice within surveillance window.
+SUR00362,CASE0117,2024-10-05 04:29:18,Guwahati Park 158,Subject avoided main roads and used alternate route to destination.
+SUR00363,CASE0002,2025-02-23 16:49:56,Ranchi Colony 111,Subject switched mobile handset twice within surveillance window.
+SUR00364,CASE0043,2025-06-14 19:48:10,Guwahati Plaza 92,Repeated short calls observed before cash handoff at public location.
+SUR00365,CASE0190,2025-02-10 02:07:10,Hyderabad Tower 85,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00366,CASE0069,2025-06-23 02:42:34,Guwahati Plaza 57,Vehicle linked to case parked outside target premises for extended period.
+SUR00367,CASE0212,2025-06-26 09:23:08,Kochi Tower 126,Night movement detected between warehouse and secondary safe house location.
+SUR00368,CASE0064,2024-08-18 20:09:48,Surat Plaza 40,Subject avoided main roads and used alternate route to destination.
+SUR00369,CASE0204,2023-06-02 02:11:58,Bengaluru Tower 66,Vehicle linked to case parked outside target premises for extended period.
+SUR00370,CASE0162,2025-08-30 23:32:44,Kochi Tower 126,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00371,CASE0038,2023-08-21 09:10:37,Delhi Market 141,Subject switched mobile handset twice within surveillance window.
+SUR00372,CASE0005,2024-04-13 08:05:55,Ranchi Market 132,Repeated short calls observed before cash handoff at public location.
+SUR00373,CASE0221,2024-12-14 18:14:52,Indore Market 136,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00374,CASE0226,2025-03-24 14:02:25,Guwahati Hub 129,Subject attended organizational meeting with known associates under watch.
+SUR00375,CASE0054,2025-01-21 22:32:27,Lucknow Plaza 142,Subject switched mobile handset twice within surveillance window.
+SUR00376,CASE0136,2025-09-12 00:00:07,Kochi Market 28,Night movement detected between warehouse and secondary safe house location.
+SUR00377,CASE0149,2025-12-14 12:23:04,Nagpur Hub 103,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00378,CASE0062,2025-08-30 01:12:52,Mumbai Hub 76,Subject observed meeting two associates near commercial hub; duration forty minutes.
+SUR00379,CASE0168,2023-09-03 03:19:53,Surat Hub 20,Repeated short calls observed before cash handoff at public location.
+SUR00380,CASE0066,2024-10-11 00:22:51,Indore Park 109,Subject avoided main roads and used alternate route to destination.
+SUR00381,CASE0026,2025-08-08 00:51:13,Bhopal Hub 64,Night movement detected between warehouse and secondary safe house location.
+SUR00382,CASE0220,2025-10-18 11:44:25,Indore Tower 39,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00383,CASE0137,2024-10-08 16:41:14,Ahmedabad Plaza 33,Night movement detected between warehouse and secondary safe house location.
+SUR00384,CASE0137,2023-07-25 08:40:45,Bhopal Plaza 160,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00385,CASE0048,2025-06-01 06:10:47,Bengaluru Tower 66,Subject switched mobile handset twice within surveillance window.
+SUR00386,CASE0034,2023-09-10 02:09:19,Kolkata Plaza 119,Vehicle linked to case parked outside target premises for extended period.
+SUR00387,CASE0232,2023-05-01 12:40:38,Delhi Hub 82,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00388,CASE0054,2024-06-22 23:38:56,Kochi Tower 126,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00389,CASE0019,2024-03-18 07:50:45,Lucknow Plaza 142,Vehicle linked to case parked outside target premises for extended period.
+SUR00390,CASE0218,2025-05-01 19:36:38,Hyderabad Hub 16,Financial courier activity noted; subject exchanged envelope with unknown male.
+SUR00391,CASE0203,2023-02-27 13:30:49,Ranchi Park 95,Night movement detected between warehouse and secondary safe house location.
+SUR00392,CASE0197,2023-01-20 06:27:23,Hyderabad Junction 86,Intelligence corroborates prior FIR allegations regarding fund movement.
+SUR00393,CASE0034,2025-02-08 00:33:25,Guwahati Park 158,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00394,CASE0018,2024-03-12 01:52:28,Patna Market 4,Night movement detected between warehouse and secondary safe house location.
+SUR00395,CASE0030,2025-05-11 06:26:48,Nagpur Plaza 106,Surveillance team lost visual contact near crowded market area for twelve minutes.
+SUR00396,CASE0015,2024-06-24 23:46:17,Nagpur Tower 104,Subject switched mobile handset twice within surveillance window.
+SUR00397,CASE0129,2023-01-26 02:57:29,Mumbai Hub 76,Subject observed meeting two associates near commercial hub; duration forty minutes.
+SUR00398,CASE0005,2024-04-19 08:17:19,Lucknow Park 94,Subject attended organizational meeting with known associates under watch.
+SUR00399,CASE0047,2024-08-04 18:16:24,Indore Tower 39,Repeated short calls observed before cash handoff at public location.
+SUR00400,CASE0081,2024-03-08 04:27:26,Ranchi Plaza 100,Subject observed meeting two associates near commercial hub; duration forty minutes.

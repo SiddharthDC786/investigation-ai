@@ -1,0 +1,92 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --color-console-bg: #0a0e15;
+  --color-console-surface: #0d1219;
+  --color-console-raised: #111822;
+  --color-console-border: #1e2a3a;
+  --color-console-border-strong: #2a3d54;
+
+  --color-accent-amber: #d9a441;
+  --color-accent-amber-dim: #a67c2e;
+  --color-accent-steel: #5b8bb0;
+  --color-accent-steel-dim: #3d627a;
+
+  --color-text-primary: #e8edf4;
+  --color-text-secondary: #8fa3b8;
+  --color-text-muted: #5c7085;
+
+  --color-risk-high: #9e4a42;
+  --color-risk-medium: #b8893a;
+  --color-risk-low: #4a7c59;
+
+  --color-node-person: #5b8bb0;
+  --color-node-phone: #d9a441;
+  --color-node-account: #7a9e8e;
+  --color-node-address: #8b7aa8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  background-color: var(--color-console-bg);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  touch-action: manipulation;
+}
+
+.font-mono-data {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' 1;
+  letter-spacing: 0.02em;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-console-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-console-border-strong);
+  border-radius: 0;
+}
+
+html.presentation-mode {
+  font-size: 17px;
+}
+
+html.presentation-mode button,
+html.presentation-mode input,
+html.presentation-mode select {
+  min-height: 48px;
+}
+
+html.presentation-mode .presentation-mode\:min-h-\[56px\] {
+  min-height: 56px;
+}
+
+html.presentation-mode .presentation-mode\:min-h-\[52px\] {
+  min-height: 52px;
+}

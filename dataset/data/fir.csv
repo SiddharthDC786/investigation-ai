@@ -1,0 +1,751 @@
+fir_id,case_id,date,police_station,complaint_text
+FIR00001,CASE0001,2025-12-15,Secunderabad Police Station,Initial synthetic FIR for planted crime network CASE0001. Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00002,CASE0002,2024-12-12,Sector 17 Police Station,Initial synthetic FIR for planted crime network CASE0002. Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00003,CASE0003,2022-07-20,Satellite Police Station,Initial synthetic FIR for planted crime network CASE0003. Missing person report filed after individual failed to return from scheduled business travel.
+FIR00004,CASE0004,2024-05-24,Gomti Nagar Police Station,Initial synthetic FIR for planted crime network CASE0004. Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00005,CASE0005,2022-06-26,Koramangala Police Station,Initial synthetic FIR for planted crime network CASE0005. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00006,CASE0006,2025-03-08,Malviya Nagar Police Station,Initial synthetic FIR for planted crime network CASE0006. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00007,CASE0007,2024-05-07,Koregaon Park Police Station,Initial synthetic FIR for planted crime network CASE0007. Missing person report filed after individual failed to return from scheduled business travel.
+FIR00008,CASE0008,2024-07-27,Secunderabad Police Station,Initial synthetic FIR for planted crime network CASE0008. Cheating case registered involving forged property documents and misrepresentation.
+FIR00009,CASE0009,2022-10-23,Malviya Nagar Police Station,Initial synthetic FIR for planted crime network CASE0009. Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00010,CASE0010,2023-01-07,Secunderabad Police Station,Initial synthetic FIR for planted crime network CASE0010. Cheating case registered involving forged property documents and misrepresentation.
+FIR00011,CASE0011,2023-04-06,Satellite Police Station,Initial synthetic FIR for planted crime network CASE0011. Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00012,CASE0012,2024-10-28,Gomti Nagar Police Station,Initial synthetic FIR for planted crime network CASE0012. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00013,CASE0013,2025-02-14,Gomti Nagar Police Station,Initial synthetic FIR for planted crime network CASE0013. Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00014,CASE0014,2023-12-25,Satellite Police Station,Initial synthetic FIR for planted crime network CASE0014. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00015,CASE0015,2022-11-26,Whitefield Police Station,Initial synthetic FIR for planted crime network CASE0015. Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00016,CASE0016,2025-08-05,Andheri Police Station,Initial synthetic FIR for planted crime network CASE0016. Assault complaint filed following dispute at commercial premises; medical report attached. Subject also referred to as Vikram Vera. Phone noted in station diary as 6796859596. Subject also referred to as Gopal Ansary. Phone noted in station diary as 6001707862. Subject also referred to as Salman Dai. Phone noted in station diary as 6725877393. Subject also referred to as Rohan Singe. Phone noted in station diary as 7524392225.
+FIR00017,CASE0017,2023-03-15,MG Road Police Station,Initial synthetic FIR for planted crime network CASE0017. Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00018,CASE0018,2023-01-17,Colaba Police Station,Initial synthetic FIR for planted crime network CASE0018. Vehicle theft reported from residential parking area; CCTV footage requested. Subject also referred to as Rizwan Pattel. Phone noted in station diary as 7997418533. Subject also referred to as Sneha Mukherjee. Phone noted in station diary as 8058717692. Subject also referred to as Zara Sharmma. Phone noted in station diary as 9422972252. Subject also referred to as Fatima Menonn. Phone noted in station diary as 6922884980.
+FIR00019,CASE0019,2022-04-29,T Nagar Police Station,Initial synthetic FIR for planted crime network CASE0019. Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00020,CASE0020,2023-08-12,Whitefield Police Station,Initial synthetic FIR for planted crime network CASE0020. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00021,CASE0021,2023-09-28,Koregaon Park Police Station,Initial synthetic FIR for planted crime network CASE0021. Assault complaint filed following dispute at commercial premises; medical report attached. Subject also referred to as Neha Josi. Phone noted in station diary as 6924744117. Subject also referred to as Arjun Mneon. Phone noted in station diary as 6093781430. Subject also referred to as Neha Gpta. Phone noted in station diary as 6042797393. Subject also referred to as Reyansh Naaik. Phone noted in station diary as 7083168063.
+FIR00022,CASE0022,2025-03-15,Sector 17 Police Station,Initial synthetic FIR for planted crime network CASE0022. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00023,CASE0023,2025-08-30,Whitefield Police Station,Initial synthetic FIR for planted crime network CASE0023. Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00024,CASE0024,2024-05-03,Secunderabad Police Station,Initial synthetic FIR for planted crime network CASE0024. Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00025,CASE0025,2023-08-28,Park Street Police Station,Initial synthetic FIR for planted crime network CASE0025. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00026,CASE0210,2025-01-18,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00027,CASE0191,2023-02-18,Andheri Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00028,CASE0091,2022-08-12,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00029,CASE0177,2025-12-01,Andheri Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00030,CASE0157,2022-03-17,Gomti Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00031,CASE0218,2024-09-17,T Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00032,CASE0204,2022-11-20,Colaba Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00033,CASE0039,2022-11-25,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00034,CASE0194,2024-06-24,Sector 17 Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00035,CASE0073,2022-05-12,Whitefield Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00036,CASE0170,2025-03-02,Secunderabad Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00037,CASE0225,2024-09-15,Whitefield Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00038,CASE0029,2022-03-15,Satellite Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00039,CASE0148,2024-12-01,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00040,CASE0183,2024-10-11,Gomti Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00041,CASE0192,2023-11-21,Satellite Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00042,CASE0156,2025-06-26,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00043,CASE0121,2022-01-30,Gomti Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00044,CASE0197,2025-03-11,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00045,CASE0070,2023-03-01,Koregaon Park Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00046,CASE0114,2024-12-03,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00047,CASE0046,2025-09-25,Satellite Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00048,CASE0231,2022-03-22,MG Road Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00049,CASE0154,2023-05-25,Hazratganj Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00050,CASE0087,2022-02-21,Whitefield Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00051,CASE0175,2023-08-19,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00052,CASE0132,2022-05-10,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00053,CASE0203,2022-11-03,Secunderabad Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00054,CASE0126,2022-08-30,Andheri Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00055,CASE0134,2023-12-21,MG Road Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00056,CASE0159,2024-10-03,Hazratganj Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00057,CASE0130,2023-01-13,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00058,CASE0078,2023-08-06,Malviya Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00059,CASE0101,2024-11-08,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00060,CASE0228,2024-04-29,Sector 17 Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00061,CASE0186,2022-04-21,T Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00062,CASE0236,2025-09-12,Hazratganj Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00063,CASE0133,2025-03-27,Colaba Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00064,CASE0071,2024-12-18,Malviya Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00065,CASE0113,2025-02-22,Bandra Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00066,CASE0217,2024-04-13,Koramangala Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00067,CASE0193,2022-02-16,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00068,CASE0214,2023-01-10,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00069,CASE0124,2025-12-06,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00070,CASE0042,2024-01-04,T Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00071,CASE0153,2025-02-09,Koramangala Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00072,CASE0112,2023-08-31,Hazratganj Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00073,CASE0207,2023-03-03,Koramangala Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00074,CASE0059,2025-06-20,Park Street Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00075,CASE0140,2023-06-18,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00076,CASE0174,2025-03-27,Satellite Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00077,CASE0033,2025-04-18,Colaba Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00078,CASE0125,2025-02-14,Park Street Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00079,CASE0053,2024-11-18,Colaba Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00080,CASE0052,2022-03-11,Koramangala Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00081,CASE0027,2023-07-13,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00082,CASE0096,2023-06-21,Bandra Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00083,CASE0128,2025-07-02,Satellite Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00084,CASE0155,2024-09-24,Andheri Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00085,CASE0216,2025-09-03,Bandra Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00086,CASE0173,2024-10-14,Park Street Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00087,CASE0142,2024-05-04,Hazratganj Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00088,CASE0226,2023-01-26,Satellite Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00089,CASE0066,2025-10-14,Gomti Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00090,CASE0031,2025-12-21,Koregaon Park Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00091,CASE0032,2023-03-11,Andheri Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00092,CASE0167,2023-01-12,Bandra Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00093,CASE0026,2024-12-29,Gomti Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00094,CASE0187,2025-11-10,Park Street Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00095,CASE0090,2025-02-28,Koregaon Park Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00096,CASE0057,2023-09-17,MG Road Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00097,CASE0208,2022-01-26,Whitefield Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00098,CASE0089,2024-07-05,Hazratganj Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00099,CASE0144,2025-09-16,T Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00100,CASE0055,2024-03-14,Hazratganj Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00101,CASE0086,2023-01-25,Park Street Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00102,CASE0205,2022-07-25,Koramangala Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00103,CASE0230,2022-10-26,Andheri Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00104,CASE0085,2025-12-27,Satellite Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00105,CASE0058,2025-10-17,Koregaon Park Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00106,CASE0092,2023-10-25,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00107,CASE0111,2022-03-31,Colaba Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00108,CASE0233,2024-11-13,Colaba Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00109,CASE0206,2023-01-15,Bandra Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00110,CASE0035,2023-11-13,Hazratganj Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00111,CASE0141,2024-03-06,Hazratganj Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00112,CASE0202,2023-12-18,Hazratganj Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00113,CASE0182,2022-11-07,Whitefield Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00114,CASE0162,2025-12-19,Andheri Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00115,CASE0229,2025-11-05,Park Street Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00116,CASE0050,2024-12-26,Koramangala Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00117,CASE0213,2023-06-27,Koramangala Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00118,CASE0081,2024-07-08,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00119,CASE0181,2023-09-11,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00120,CASE0129,2024-04-23,MG Road Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00121,CASE0082,2022-09-01,Hazratganj Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00122,CASE0103,2023-10-02,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00123,CASE0098,2023-07-25,T Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00124,CASE0069,2023-09-13,Andheri Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00125,CASE0054,2022-02-13,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00126,CASE0120,2025-10-03,Sector 17 Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00127,CASE0189,2022-02-15,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00128,CASE0188,2024-09-23,Koramangala Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00129,CASE0158,2023-02-21,Satellite Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00130,CASE0179,2023-02-19,Andheri Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00131,CASE0060,2022-12-23,Malviya Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00132,CASE0064,2022-10-21,Park Street Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00133,CASE0043,2024-05-06,Hazratganj Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00134,CASE0136,2025-07-04,Secunderabad Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00135,CASE0161,2024-02-08,Hazratganj Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00136,CASE0093,2023-05-26,T Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00137,CASE0211,2024-04-15,Koregaon Park Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00138,CASE0180,2023-09-30,Satellite Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00139,CASE0178,2024-04-27,Bandra Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00140,CASE0100,2025-12-17,Whitefield Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00141,CASE0061,2023-08-09,Koregaon Park Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00142,CASE0084,2023-12-01,Sector 17 Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00143,CASE0097,2024-09-24,Whitefield Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00144,CASE0099,2023-06-28,Secunderabad Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00145,CASE0063,2025-02-17,Colaba Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00146,CASE0163,2023-11-10,Whitefield Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00147,CASE0045,2024-12-07,Sector 17 Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00148,CASE0240,2024-06-20,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00149,CASE0036,2022-05-27,MG Road Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00150,CASE0237,2025-12-29,T Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00151,CASE0107,2025-12-13,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00152,CASE0221,2025-07-29,Park Street Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00153,CASE0195,2022-06-12,Gomti Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00154,CASE0105,2023-09-25,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00155,CASE0047,2024-04-30,Sector 17 Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00156,CASE0190,2024-11-21,Malviya Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00157,CASE0131,2023-07-09,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00158,CASE0146,2022-05-09,MG Road Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00159,CASE0223,2025-08-13,Andheri Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00160,CASE0076,2023-07-03,Whitefield Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00161,CASE0209,2024-07-27,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00162,CASE0200,2022-10-01,Koramangala Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00163,CASE0198,2022-05-03,Koramangala Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00164,CASE0044,2023-10-17,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00165,CASE0138,2025-12-14,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00166,CASE0165,2024-05-09,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00167,CASE0234,2025-09-14,Whitefield Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00168,CASE0123,2022-06-05,Whitefield Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00169,CASE0122,2022-02-13,Satellite Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00170,CASE0212,2025-12-29,Sector 17 Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00171,CASE0117,2025-12-02,Andheri Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00172,CASE0119,2024-01-02,Colaba Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00173,CASE0150,2025-01-04,Park Street Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00174,CASE0220,2024-08-24,Sector 17 Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00175,CASE0135,2025-04-09,Koregaon Park Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00176,CASE0235,2023-03-07,Hazratganj Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00177,CASE0116,2024-03-02,Koramangala Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00178,CASE0143,2023-10-17,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00179,CASE0028,2024-05-16,MG Road Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00180,CASE0062,2024-01-31,Whitefield Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00181,CASE0048,2025-12-26,Koregaon Park Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00182,CASE0106,2025-09-25,Park Street Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00183,CASE0034,2022-09-21,Gomti Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00184,CASE0115,2023-04-11,Bandra Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00185,CASE0077,2022-08-16,Andheri Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00186,CASE0083,2025-08-28,Whitefield Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00187,CASE0038,2025-01-16,Sector 17 Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00188,CASE0109,2025-10-12,Andheri Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00189,CASE0145,2022-10-31,Satellite Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00190,CASE0041,2024-10-22,Malviya Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00191,CASE0168,2022-10-19,Malviya Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00192,CASE0184,2022-12-03,Koregaon Park Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00193,CASE0139,2025-02-07,MG Road Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00194,CASE0067,2023-01-20,Koramangala Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00195,CASE0088,2025-10-04,Hazratganj Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00196,CASE0224,2024-06-29,Park Street Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00197,CASE0104,2022-12-18,Andheri Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00198,CASE0068,2023-12-20,Whitefield Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00199,CASE0227,2023-09-08,T Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00200,CASE0185,2024-03-31,Koramangala Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00201,CASE0075,2023-09-30,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00202,CASE0172,2025-05-23,Malviya Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00203,CASE0152,2023-02-25,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00204,CASE0169,2024-01-29,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00205,CASE0164,2023-10-08,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00206,CASE0051,2024-04-11,Koramangala Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00207,CASE0201,2023-01-20,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00208,CASE0160,2022-01-13,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00209,CASE0037,2023-11-09,Koramangala Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00210,CASE0147,2022-06-12,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00211,CASE0108,2023-11-18,Secunderabad Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00212,CASE0239,2024-04-20,Koramangala Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00213,CASE0127,2024-11-09,MG Road Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00214,CASE0102,2024-04-08,Gomti Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00215,CASE0199,2025-08-10,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00216,CASE0030,2025-10-20,Sector 17 Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00217,CASE0151,2022-11-26,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00218,CASE0095,2025-02-21,MG Road Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00219,CASE0040,2024-03-14,Satellite Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00220,CASE0171,2023-01-27,Sector 17 Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00221,CASE0219,2025-06-12,Hazratganj Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00222,CASE0137,2022-05-11,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00223,CASE0238,2022-02-25,Park Street Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00224,CASE0166,2024-05-31,Whitefield Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00225,CASE0176,2025-09-24,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00226,CASE0072,2025-09-07,Andheri Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00227,CASE0074,2023-01-15,Sector 17 Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00228,CASE0094,2025-12-28,Whitefield Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00229,CASE0215,2025-04-07,Hazratganj Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00230,CASE0196,2022-05-06,Sector 17 Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00231,CASE0080,2022-02-21,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00232,CASE0149,2023-05-19,Koregaon Park Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00233,CASE0049,2023-10-03,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00234,CASE0056,2024-11-08,Bandra Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00235,CASE0232,2024-12-12,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00236,CASE0079,2023-04-04,Whitefield Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00237,CASE0110,2023-05-01,MG Road Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00238,CASE0065,2023-11-11,Satellite Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00239,CASE0118,2022-02-24,Satellite Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00240,CASE0222,2024-07-11,Satellite Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00241,CASE0141,2022-07-04,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00242,CASE0191,2024-12-10,Koregaon Park Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00243,CASE0061,2024-02-18,MG Road Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00244,CASE0183,2022-09-20,T Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00245,CASE0047,2025-01-21,Andheri Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00246,CASE0075,2022-07-13,Koregaon Park Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00247,CASE0083,2023-09-15,Secunderabad Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00248,CASE0123,2022-06-07,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00249,CASE0142,2024-03-19,MG Road Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00250,CASE0133,2023-02-07,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00251,CASE0146,2024-07-28,Andheri Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00252,CASE0097,2023-06-21,Secunderabad Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00253,CASE0065,2024-10-16,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00254,CASE0192,2025-06-24,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00255,CASE0082,2023-05-22,Hazratganj Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00256,CASE0047,2022-04-28,Secunderabad Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00257,CASE0148,2025-02-27,Colaba Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00258,CASE0098,2025-12-03,Bandra Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00259,CASE0177,2025-12-21,Secunderabad Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00260,CASE0165,2022-07-28,Secunderabad Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00261,CASE0012,2023-08-08,Koregaon Park Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00262,CASE0011,2024-09-07,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00263,CASE0234,2022-09-19,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00264,CASE0082,2025-09-23,Gomti Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00265,CASE0232,2022-12-22,Secunderabad Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00266,CASE0165,2024-01-15,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00267,CASE0170,2022-11-23,Sector 17 Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00268,CASE0075,2025-07-15,Satellite Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00269,CASE0015,2022-01-04,Gomti Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00270,CASE0066,2023-10-15,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00271,CASE0103,2024-10-12,Whitefield Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00272,CASE0081,2025-05-18,Colaba Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00273,CASE0229,2024-02-22,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00274,CASE0140,2025-07-29,Hazratganj Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00275,CASE0207,2022-03-05,Hazratganj Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00276,CASE0185,2022-03-14,Satellite Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00277,CASE0161,2022-09-13,Koramangala Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00278,CASE0223,2023-08-17,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00279,CASE0203,2023-01-31,Secunderabad Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00280,CASE0070,2025-11-29,Bandra Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00281,CASE0093,2022-10-10,Gomti Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00282,CASE0089,2025-08-14,Secunderabad Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00283,CASE0027,2024-10-10,T Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00284,CASE0128,2024-02-01,Park Street Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00285,CASE0110,2023-11-10,Whitefield Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00286,CASE0186,2022-04-03,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00287,CASE0071,2025-04-07,Hazratganj Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00288,CASE0164,2025-04-26,Andheri Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00289,CASE0005,2025-11-07,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network. Subject also referred to as Ishaan Hussaiin. Phone noted in station diary as 8983074880. Subject also referred to as Fatima uKmar. Phone noted in station diary as 9501526944. Subject also referred to as Naveen Meehta. Phone noted in station diary as 7063435248. Subject also referred to as Rohan RReddy. Phone noted in station diary as 6237109728.
+FIR00290,CASE0221,2022-07-12,Gomti Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00291,CASE0231,2022-09-25,Koramangala Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00292,CASE0199,2024-03-29,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00293,CASE0053,2023-01-07,Gomti Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00294,CASE0240,2023-11-22,Koregaon Park Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00295,CASE0147,2022-05-15,Malviya Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00296,CASE0069,2025-06-10,Hazratganj Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00297,CASE0154,2023-04-15,Whitefield Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00298,CASE0146,2022-10-10,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00299,CASE0097,2025-08-11,Whitefield Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00300,CASE0094,2022-03-31,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00301,CASE0240,2025-10-12,Gomti Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00302,CASE0203,2025-10-12,Malviya Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00303,CASE0218,2022-07-05,Hazratganj Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00304,CASE0080,2024-11-24,Andheri Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00305,CASE0066,2023-08-01,Whitefield Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00306,CASE0027,2024-01-23,Koramangala Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00307,CASE0054,2023-07-24,Andheri Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00308,CASE0183,2025-11-02,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00309,CASE0180,2023-07-15,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00310,CASE0236,2023-04-05,MG Road Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00311,CASE0123,2022-09-25,Koramangala Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00312,CASE0101,2022-08-27,Koregaon Park Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00313,CASE0132,2025-11-12,Malviya Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00314,CASE0159,2024-10-11,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00315,CASE0119,2022-12-25,Secunderabad Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00316,CASE0212,2024-07-17,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00317,CASE0218,2023-09-28,Satellite Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00318,CASE0190,2023-04-07,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00319,CASE0084,2024-07-28,Sector 17 Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00320,CASE0092,2025-05-20,Koramangala Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00321,CASE0150,2023-12-25,Hazratganj Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00322,CASE0083,2023-04-20,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00323,CASE0070,2023-08-24,Park Street Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00324,CASE0118,2024-01-05,Malviya Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00325,CASE0059,2022-04-15,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00326,CASE0094,2025-01-03,Park Street Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00327,CASE0051,2022-03-29,Malviya Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00328,CASE0190,2025-06-01,Hazratganj Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00329,CASE0110,2025-09-14,MG Road Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00330,CASE0123,2022-08-10,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00331,CASE0118,2022-04-09,Malviya Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00332,CASE0063,2024-09-15,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00333,CASE0152,2025-07-15,Park Street Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00334,CASE0180,2022-09-20,T Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00335,CASE0125,2023-10-17,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00336,CASE0015,2025-02-26,Koramangala Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00337,CASE0226,2022-07-04,Malviya Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00338,CASE0065,2024-01-09,Whitefield Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00339,CASE0155,2022-01-10,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00340,CASE0130,2024-11-07,Colaba Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00341,CASE0112,2022-03-09,Hazratganj Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00342,CASE0046,2025-01-28,Hazratganj Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00343,CASE0043,2022-02-04,Satellite Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00344,CASE0004,2023-10-25,Bandra Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00345,CASE0041,2024-02-22,Koregaon Park Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00346,CASE0088,2022-11-25,Andheri Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00347,CASE0099,2023-09-04,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00348,CASE0218,2022-12-24,Gomti Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00349,CASE0218,2022-11-09,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00350,CASE0098,2025-09-05,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00351,CASE0180,2022-03-07,Malviya Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00352,CASE0035,2022-04-30,Gomti Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00353,CASE0179,2023-11-03,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00354,CASE0081,2022-08-04,Koramangala Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00355,CASE0111,2025-07-18,Andheri Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00356,CASE0051,2025-01-30,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00357,CASE0126,2022-04-04,Satellite Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00358,CASE0192,2025-03-08,Bandra Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00359,CASE0233,2024-12-21,Park Street Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00360,CASE0085,2023-05-09,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00361,CASE0080,2025-06-24,MG Road Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00362,CASE0004,2024-01-30,T Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00363,CASE0198,2022-12-06,Satellite Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00364,CASE0012,2024-12-07,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00365,CASE0090,2024-06-20,Secunderabad Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00366,CASE0229,2023-09-03,Koramangala Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00367,CASE0095,2022-03-22,Whitefield Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00368,CASE0052,2022-07-25,Andheri Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00369,CASE0119,2023-11-23,Park Street Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00370,CASE0225,2023-08-28,Bandra Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00371,CASE0063,2022-12-16,Andheri Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00372,CASE0220,2024-10-09,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00373,CASE0028,2023-05-10,T Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00374,CASE0113,2022-10-28,Bandra Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00375,CASE0204,2024-05-05,Whitefield Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00376,CASE0037,2023-02-18,Park Street Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00377,CASE0138,2022-11-03,Andheri Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00378,CASE0099,2024-11-14,Colaba Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00379,CASE0228,2022-02-06,Gomti Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00380,CASE0088,2023-04-02,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00381,CASE0052,2022-04-20,Colaba Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00382,CASE0144,2024-12-17,Koregaon Park Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00383,CASE0048,2023-02-23,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00384,CASE0221,2022-02-28,Hazratganj Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00385,CASE0004,2025-09-07,Whitefield Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00386,CASE0025,2023-09-21,Hazratganj Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00387,CASE0191,2022-11-21,Secunderabad Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00388,CASE0230,2022-10-09,Secunderabad Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00389,CASE0164,2023-07-12,MG Road Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00390,CASE0176,2023-05-03,Koregaon Park Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00391,CASE0204,2025-07-05,Bandra Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00392,CASE0049,2023-08-29,Whitefield Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00393,CASE0077,2022-12-01,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00394,CASE0150,2023-02-03,Park Street Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00395,CASE0008,2025-10-20,Park Street Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00396,CASE0168,2024-04-01,Sector 17 Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00397,CASE0180,2024-09-05,Gomti Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00398,CASE0093,2025-10-17,Bandra Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00399,CASE0045,2024-10-03,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00400,CASE0096,2023-11-30,Satellite Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00401,CASE0240,2025-03-31,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00402,CASE0098,2022-10-08,Secunderabad Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00403,CASE0078,2024-10-02,Malviya Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00404,CASE0228,2022-06-29,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00405,CASE0177,2022-12-20,Gomti Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00406,CASE0022,2024-11-30,Whitefield Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00407,CASE0168,2025-11-13,Park Street Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00408,CASE0008,2022-05-26,Sector 17 Police Station,Cheating case registered involving forged property documents and misrepresentation. Subject also referred to as Rizwan Mrza. Phone noted in station diary as 9383182756. Subject also referred to as Sana Jooshi. Phone noted in station diary as 7766998681. Subject also referred to as Suresh Vrema. Phone noted in station diary as 8723875982. Subject also referred to as Sana Redy. Phone noted in station diary as 7109222544.
+FIR00409,CASE0135,2025-11-21,Gomti Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00410,CASE0113,2025-08-19,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00411,CASE0063,2023-12-09,Koregaon Park Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00412,CASE0017,2022-02-11,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00413,CASE0088,2023-12-10,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00414,CASE0056,2025-04-04,Bandra Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00415,CASE0078,2023-05-08,Hazratganj Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00416,CASE0169,2023-12-02,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00417,CASE0179,2023-06-22,Hazratganj Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00418,CASE0188,2022-05-05,Secunderabad Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00419,CASE0094,2023-01-30,Bandra Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00420,CASE0090,2023-11-23,Satellite Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00421,CASE0044,2024-04-22,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00422,CASE0181,2022-12-02,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00423,CASE0212,2025-11-18,Satellite Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00424,CASE0211,2022-09-11,T Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00425,CASE0226,2023-07-21,Malviya Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00426,CASE0133,2025-03-09,Malviya Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00427,CASE0167,2025-10-26,Malviya Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00428,CASE0233,2022-06-25,Hazratganj Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00429,CASE0194,2023-03-19,Sector 17 Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00430,CASE0153,2022-10-14,Koregaon Park Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00431,CASE0155,2023-06-11,Park Street Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00432,CASE0155,2024-03-12,Malviya Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00433,CASE0015,2022-10-21,Gomti Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached. Subject also referred to as Ananya Kapooor. Phone noted in station diary as 6423552033. Subject also referred to as Shreya Rae. Phone noted in station diary as 9591922571. Subject also referred to as Harish Mennon. Phone noted in station diary as 6696904928. Subject also referred to as Kabir Mehty. Phone noted in station diary as 6878844844.
+FIR00434,CASE0053,2025-02-07,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00435,CASE0196,2025-03-26,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00436,CASE0166,2025-08-08,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00437,CASE0043,2022-09-25,Gomti Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00438,CASE0147,2024-09-13,Satellite Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00439,CASE0056,2024-10-04,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00440,CASE0070,2022-04-06,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00441,CASE0213,2023-11-04,MG Road Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00442,CASE0030,2022-05-18,Sector 17 Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00443,CASE0226,2025-06-05,Whitefield Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00444,CASE0215,2024-02-23,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00445,CASE0130,2023-09-13,Secunderabad Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00446,CASE0113,2024-11-29,Whitefield Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00447,CASE0108,2023-03-04,Gomti Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00448,CASE0171,2022-10-10,Koregaon Park Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00449,CASE0152,2022-12-13,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00450,CASE0140,2022-07-19,Gomti Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00451,CASE0175,2024-07-04,T Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00452,CASE0116,2024-09-05,Satellite Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00453,CASE0124,2025-05-27,Colaba Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00454,CASE0207,2022-11-25,Park Street Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00455,CASE0230,2022-10-13,Park Street Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00456,CASE0052,2025-06-15,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00457,CASE0027,2022-02-18,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00458,CASE0094,2024-10-03,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00459,CASE0011,2023-06-17,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00460,CASE0022,2023-09-20,Park Street Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00461,CASE0088,2024-10-16,Malviya Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00462,CASE0232,2022-05-01,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00463,CASE0033,2024-09-18,Hazratganj Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00464,CASE0113,2025-10-22,Koregaon Park Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00465,CASE0217,2025-05-21,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00466,CASE0062,2024-08-28,Satellite Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00467,CASE0111,2024-08-06,Koramangala Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00468,CASE0176,2022-05-13,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00469,CASE0012,2024-05-03,Gomti Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00470,CASE0037,2023-01-13,T Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00471,CASE0117,2023-10-11,Gomti Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00472,CASE0180,2025-08-31,Colaba Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00473,CASE0188,2025-05-25,MG Road Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00474,CASE0171,2024-06-10,Secunderabad Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00475,CASE0146,2022-01-26,Satellite Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00476,CASE0228,2022-09-04,Bandra Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00477,CASE0070,2024-05-04,Sector 17 Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00478,CASE0022,2023-04-04,Koramangala Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00479,CASE0201,2024-01-01,Gomti Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00480,CASE0160,2022-05-26,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00481,CASE0184,2025-06-23,Andheri Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00482,CASE0063,2025-09-06,Park Street Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00483,CASE0048,2023-01-18,Whitefield Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00484,CASE0045,2025-12-06,Sector 17 Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00485,CASE0082,2022-12-04,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00486,CASE0009,2025-06-24,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00487,CASE0034,2022-08-07,Koramangala Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00488,CASE0108,2024-12-17,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00489,CASE0114,2024-03-28,Satellite Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00490,CASE0027,2023-11-04,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00491,CASE0087,2025-02-02,Whitefield Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00492,CASE0154,2022-08-28,T Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00493,CASE0215,2023-01-26,Colaba Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00494,CASE0028,2022-08-26,Secunderabad Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00495,CASE0187,2025-02-18,Sector 17 Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00496,CASE0010,2023-01-31,Koregaon Park Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00497,CASE0213,2022-06-04,Colaba Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00498,CASE0113,2025-11-26,Koramangala Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00499,CASE0189,2022-02-09,Secunderabad Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00500,CASE0050,2022-07-20,T Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00501,CASE0019,2024-02-13,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up. Subject also referred to as Reyansh iMrza. Phone noted in station diary as 9694473388. Subject also referred to as Fatima Mukherjea. Phone noted in station diary as 6012789693. Subject also referred to as Diya Patell. Phone noted in station diary as 8637114204. Subject also referred to as Kavya Kapooor. Phone noted in station diary as 8421065109.
+FIR00502,CASE0022,2023-05-24,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00503,CASE0133,2024-07-30,Andheri Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00504,CASE0146,2025-04-15,Malviya Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00505,CASE0151,2024-06-09,Whitefield Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00506,CASE0165,2024-07-18,T Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00507,CASE0039,2022-08-30,MG Road Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00508,CASE0078,2023-05-19,Koregaon Park Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00509,CASE0170,2025-12-11,Gomti Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00510,CASE0114,2025-09-27,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00511,CASE0235,2023-09-03,Bandra Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00512,CASE0022,2024-09-26,MG Road Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00513,CASE0116,2022-03-20,Gomti Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00514,CASE0123,2024-08-08,Satellite Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00515,CASE0175,2025-03-27,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00516,CASE0031,2025-07-13,Secunderabad Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00517,CASE0051,2022-02-14,Bandra Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00518,CASE0091,2024-08-27,MG Road Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00519,CASE0222,2022-10-25,T Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00520,CASE0221,2025-10-23,Koramangala Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00521,CASE0203,2025-03-09,Andheri Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00522,CASE0166,2022-03-14,Gomti Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00523,CASE0030,2022-09-03,Sector 17 Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00524,CASE0240,2023-08-05,Andheri Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00525,CASE0164,2025-08-16,Andheri Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00526,CASE0209,2023-10-17,Hazratganj Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00527,CASE0203,2022-05-03,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00528,CASE0228,2022-06-15,Gomti Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00529,CASE0177,2023-07-16,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00530,CASE0073,2022-11-01,Satellite Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00531,CASE0174,2022-03-22,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00532,CASE0089,2023-04-15,Sector 17 Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00533,CASE0079,2022-05-16,Koregaon Park Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00534,CASE0082,2022-07-15,Andheri Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00535,CASE0064,2025-07-11,Colaba Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00536,CASE0109,2025-03-13,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00537,CASE0057,2023-08-09,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00538,CASE0109,2023-01-13,T Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00539,CASE0146,2024-09-26,Colaba Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00540,CASE0001,2023-07-29,Whitefield Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up. Subject also referred to as Rahul Mukhrjee. Phone noted in station diary as 9783471066. Subject also referred to as Gopal Niar. Phone noted in station diary as 7241832927. Subject also referred to as Sunil Patee. Phone noted in station diary as 8679327486. Subject also referred to as Rohan Mirzaa. Phone noted in station diary as 9445475631.
+FIR00541,CASE0037,2023-06-23,Colaba Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00542,CASE0063,2025-02-03,Gomti Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00543,CASE0146,2025-01-07,Gomti Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00544,CASE0034,2022-05-08,Secunderabad Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00545,CASE0173,2024-02-22,Koregaon Park Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00546,CASE0011,2022-08-12,Koregaon Park Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00547,CASE0086,2022-01-12,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00548,CASE0125,2024-04-27,Koregaon Park Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00549,CASE0159,2022-01-27,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00550,CASE0166,2025-10-07,Koregaon Park Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00551,CASE0228,2025-12-01,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00552,CASE0205,2022-05-04,Andheri Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00553,CASE0195,2022-07-01,Gomti Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00554,CASE0210,2024-06-05,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00555,CASE0053,2025-03-13,Gomti Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00556,CASE0073,2022-01-23,Whitefield Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00557,CASE0029,2024-09-04,Secunderabad Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00558,CASE0130,2022-08-02,Koregaon Park Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00559,CASE0038,2024-02-23,Secunderabad Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00560,CASE0120,2025-08-03,Andheri Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00561,CASE0043,2024-05-15,Malviya Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00562,CASE0010,2025-01-03,MG Road Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up. Subject also referred to as Deepak Dai. Phone noted in station diary as 9314976460. Subject also referred to as Pallavi Naiir. Phone noted in station diary as 9682125564. Subject also referred to as Manoj Hussaii. Phone noted in station diary as 6496023676. Subject also referred to as Prakash Nari. Phone noted in station diary as 7176619120.
+FIR00563,CASE0030,2025-04-05,Malviya Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00564,CASE0095,2022-02-13,Secunderabad Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00565,CASE0238,2024-03-03,MG Road Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00566,CASE0093,2022-08-17,Secunderabad Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00567,CASE0084,2022-05-01,Gomti Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00568,CASE0193,2025-03-05,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00569,CASE0238,2023-09-27,Hazratganj Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00570,CASE0022,2025-12-25,Koregaon Park Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00571,CASE0009,2024-08-15,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network. Subject also referred to as Diya Kaapoor. Phone noted in station diary as 8137272685. Subject also referred to as Ashok Mukherjey. Phone noted in station diary as 7275856859. Subject also referred to as Neha Ali. Phone noted in station diary as 7744417734. Subject also referred to as Riya Mkherjee. Phone noted in station diary as 7598125547.
+FIR00572,CASE0201,2022-08-30,Whitefield Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00573,CASE0236,2025-08-23,Sector 17 Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00574,CASE0215,2023-08-02,Hazratganj Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00575,CASE0084,2022-05-27,Hazratganj Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00576,CASE0036,2022-06-12,MG Road Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00577,CASE0085,2023-09-22,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00578,CASE0050,2024-11-09,Whitefield Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00579,CASE0169,2024-10-31,Andheri Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00580,CASE0069,2024-11-25,T Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00581,CASE0129,2025-11-12,MG Road Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00582,CASE0125,2023-05-21,MG Road Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00583,CASE0112,2023-08-15,Satellite Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00584,CASE0030,2022-09-29,Gomti Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00585,CASE0042,2022-08-14,Park Street Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00586,CASE0028,2023-08-21,Sector 17 Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00587,CASE0152,2023-09-23,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00588,CASE0115,2025-02-11,MG Road Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00589,CASE0087,2023-01-20,MG Road Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00590,CASE0025,2022-03-29,Koregaon Park Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown. Subject also referred to as Ashok Gupty. Phone noted in station diary as 7448500778. Subject also referred to as Arjun yIer. Phone noted in station diary as 9093659920. Subject also referred to as Rizwan Kappoor. Phone noted in station diary as 6546602417. Subject also referred to as Suresh NNaik. Phone noted in station diary as 7336939806.
+FIR00591,CASE0214,2022-09-15,Koramangala Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00592,CASE0069,2024-07-24,Koramangala Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00593,CASE0211,2022-11-30,T Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00594,CASE0075,2022-05-22,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00595,CASE0030,2023-11-03,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00596,CASE0157,2024-09-12,Bandra Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00597,CASE0120,2025-12-03,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00598,CASE0142,2024-01-06,Satellite Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00599,CASE0073,2023-10-01,Gomti Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00600,CASE0029,2022-04-05,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00601,CASE0007,2025-06-15,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel. Subject also referred to as Neha Banerjey. Phone noted in station diary as 7686276369. Subject also referred to as Suresh Mirzza. Phone noted in station diary as 7449134243. Subject also referred to as Vikram Pillay. Phone noted in station diary as 9552977641. Subject also referred to as Diya Desai. Phone noted in station diary as 9775698983.
+FIR00602,CASE0099,2024-09-05,Colaba Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00603,CASE0022,2025-11-03,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel. Subject also referred to as Vinod Kaoor. Phone noted in station diary as 9386407672. Subject also referred to as Amit Iyei. Phone noted in station diary as 7369149411. Subject also referred to as Ashok Mkherjee. Phone noted in station diary as 6599944263. Subject also referred to as Ramesh eMnon. Phone noted in station diary as 6608277076.
+FIR00604,CASE0004,2023-02-14,Park Street Police Station,Extortion complaint regarding repeated threatening calls demanding payment. Subject also referred to as Amit Aly. Phone noted in station diary as 8782905549. Subject also referred to as Ramesh Shara. Phone noted in station diary as 8928153370. Subject also referred to as Reyansh Sheiki. Phone noted in station diary as 6375658063. Subject also referred to as Lakshmi Plilai. Phone noted in station diary as 6096242357.
+FIR00605,CASE0035,2024-10-21,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00606,CASE0152,2024-04-08,Park Street Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00607,CASE0104,2024-11-18,Bandra Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00608,CASE0179,2025-02-28,Gomti Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00609,CASE0024,2024-12-05,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel. Subject also referred to as Meera Naia. Phone noted in station diary as 6015944533. Subject also referred to as Pallavi Kumr. Phone noted in station diary as 7407875018. Subject also referred to as Shreya Mehte. Phone noted in station diary as 8569641309. Subject also referred to as Sanjay Vemra. Phone noted in station diary as 9022939449.
+FIR00610,CASE0013,2023-12-27,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00611,CASE0023,2022-06-15,Satellite Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00612,CASE0226,2024-08-06,Koramangala Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00613,CASE0052,2025-10-24,Colaba Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00614,CASE0095,2022-11-20,MG Road Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00615,CASE0058,2023-11-05,Sector 17 Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00616,CASE0055,2024-08-07,Park Street Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00617,CASE0090,2023-11-06,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00618,CASE0040,2024-02-26,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00619,CASE0122,2022-07-08,Colaba Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00620,CASE0095,2022-11-30,Koramangala Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00621,CASE0225,2022-02-28,Hazratganj Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00622,CASE0221,2022-10-26,Koramangala Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00623,CASE0145,2025-11-19,Malviya Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00624,CASE0003,2023-10-16,Secunderabad Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00625,CASE0156,2023-11-07,T Nagar Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00626,CASE0085,2025-07-17,Satellite Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00627,CASE0061,2022-11-08,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00628,CASE0012,2022-06-03,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network. Subject also referred to as Ishaan Redy. Phone noted in station diary as 6980574369. Subject also referred to as Vivaan Banerjee. Phone noted in station diary as 7654358941. Subject also referred to as Lakshmi Kaoor. Phone noted in station diary as 8991192886. Subject also referred to as Riya Khaa. Phone noted in station diary as 9509263233.
+FIR00629,CASE0051,2024-04-24,Bandra Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00630,CASE0122,2022-07-23,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00631,CASE0039,2025-06-07,Hazratganj Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00632,CASE0023,2024-09-05,Gomti Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network. Subject also referred to as Manoj Rddy. Phone noted in station diary as 9768893828. Subject also referred to as Lakshmi Ptael. Phone noted in station diary as 9876401818. Subject also referred to as Vikram Ali. Phone noted in station diary as 8029362409. Subject also referred to as Rohan Sharam. Phone noted in station diary as 6423573389.
+FIR00633,CASE0237,2025-09-06,Colaba Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00634,CASE0132,2022-05-14,Bandra Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00635,CASE0017,2025-09-16,Koramangala Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00636,CASE0157,2023-03-31,Park Street Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00637,CASE0040,2025-11-12,Secunderabad Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00638,CASE0112,2025-12-22,T Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00639,CASE0168,2024-09-14,Whitefield Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00640,CASE0126,2023-01-19,Gomti Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00641,CASE0011,2025-05-24,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up. Subject also referred to as Farhan Shiekh. Phone noted in station diary as 7767742893. Subject also referred to as Vikram Ali. Phone noted in station diary as 6714876509. Subject also referred to as Arjun Chpra. Phone noted in station diary as 9601389500. Subject also referred to as Ayesha Rddy. Phone noted in station diary as 6326551337.
+FIR00642,CASE0037,2023-10-16,Bandra Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00643,CASE0002,2024-02-23,Sector 17 Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking. Subject also referred to as Ananya Mehat. Phone noted in station diary as 9861114573. Subject also referred to as Manoj Khae. Phone noted in station diary as 8436436442. Subject also referred to as Vikram Meon. Phone noted in station diary as 9480164483. Subject also referred to as Priya DDesai. Phone noted in station diary as 9085173789.
+FIR00644,CASE0062,2024-06-08,T Nagar Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00645,CASE0164,2025-05-16,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00646,CASE0161,2023-08-27,Gomti Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00647,CASE0071,2022-11-28,Bandra Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00648,CASE0048,2022-02-18,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00649,CASE0131,2022-09-26,Secunderabad Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00650,CASE0188,2025-10-18,Park Street Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00651,CASE0135,2024-09-27,Malviya Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00652,CASE0230,2024-11-12,Andheri Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00653,CASE0204,2023-06-18,Colaba Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00654,CASE0126,2025-10-11,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00655,CASE0212,2022-08-06,Colaba Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00656,CASE0100,2024-11-20,T Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00657,CASE0178,2023-03-23,Gomti Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00658,CASE0045,2023-05-01,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00659,CASE0111,2022-05-08,Whitefield Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00660,CASE0087,2022-10-12,Koramangala Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00661,CASE0017,2025-09-21,Gomti Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel. Subject also referred to as Sneha Hussaii. Phone noted in station diary as 6986361526. Subject also referred to as Ramesh Anasri. Phone noted in station diary as 6966452919. Subject also referred to as Fatima Day. Phone noted in station diary as 8786800552. Subject also referred to as Lakshmi Iyeer. Phone noted in station diary as 9499799051.
+FIR00662,CASE0138,2022-09-14,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00663,CASE0120,2022-12-23,Koramangala Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00664,CASE0006,2023-11-24,Koramangala Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up. Subject also referred to as Nisha Kumay. Phone noted in station diary as 6319092489. Subject also referred to as Imran Anasri. Phone noted in station diary as 6342028171. Subject also referred to as Rahul Iyre. Phone noted in station diary as 6073095255. Subject also referred to as Ramesh Khaan. Phone noted in station diary as 8564343696.
+FIR00665,CASE0120,2022-11-28,Whitefield Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00666,CASE0128,2023-12-25,Whitefield Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00667,CASE0205,2023-04-07,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00668,CASE0039,2022-01-24,Secunderabad Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00669,CASE0212,2024-10-02,Whitefield Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00670,CASE0178,2022-07-18,Bandra Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00671,CASE0041,2022-08-14,Koregaon Park Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00672,CASE0231,2023-06-02,Sector 17 Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00673,CASE0164,2024-09-03,Whitefield Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00674,CASE0101,2022-04-03,Malviya Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00675,CASE0106,2025-10-31,Sector 17 Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00676,CASE0161,2025-10-21,Whitefield Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00677,CASE0013,2022-12-26,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel. Subject also referred to as Rizwan Mlhotra. Phone noted in station diary as 8885768947. Subject also referred to as Sanjay Nari. Phone noted in station diary as 9279957302. Subject also referred to as Prakash Mirza. Phone noted in station diary as 6474764815. Subject also referred to as Salman Iyee. Phone noted in station diary as 9567772566.
+FIR00678,CASE0127,2024-07-09,Gomti Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00679,CASE0029,2022-12-11,Secunderabad Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00680,CASE0173,2024-06-09,Bandra Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00681,CASE0206,2022-01-16,Malviya Nagar Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00682,CASE0049,2022-06-01,T Nagar Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00683,CASE0231,2025-01-09,Sector 17 Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00684,CASE0096,2022-01-14,T Nagar Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00685,CASE0046,2024-02-03,Hazratganj Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00686,CASE0003,2025-02-16,Koregaon Park Police Station,Money laundering indicators observed through layered transactions across multiple accounts. Subject also referred to as Swati Ansaari. Phone noted in station diary as 9003437482. Subject also referred to as Deepak Vema. Phone noted in station diary as 9019919248. Subject also referred to as Diya Redde. Phone noted in station diary as 7234149129. Subject also referred to as Rahul AAnsari. Phone noted in station diary as 6773454717.
+FIR00687,CASE0100,2025-06-01,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00688,CASE0148,2022-05-14,Whitefield Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00689,CASE0052,2023-09-17,Secunderabad Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00690,CASE0179,2023-07-16,Secunderabad Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00691,CASE0189,2025-06-30,Malviya Nagar Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00692,CASE0114,2023-04-19,Hazratganj Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00693,CASE0204,2024-05-23,Bandra Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00694,CASE0162,2022-03-07,Malviya Nagar Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00695,CASE0113,2024-02-02,Colaba Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00696,CASE0192,2023-07-05,T Nagar Police Station,Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00697,CASE0105,2024-07-03,Hazratganj Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00698,CASE0110,2023-12-09,Satellite Police Station,Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00699,CASE0234,2023-02-26,Malviya Nagar Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00700,CASE0160,2022-04-01,Whitefield Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00701,CASE0014,2025-02-24,Sector 17 Police Station,Extortion complaint regarding repeated threatening calls demanding payment. Subject also referred to as Kiran Sinhg. Phone noted in station diary as 6627963661. Subject also referred to as Zara Siingh. Phone noted in station diary as 6144130086. Subject also referred to as Sana Deesai. Phone noted in station diary as 7317087621. Subject also referred to as Suresh Menoi. Phone noted in station diary as 8455139116.
+FIR00702,CASE0074,2025-05-10,Park Street Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00703,CASE0020,2022-08-11,Park Street Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network. Subject also referred to as Gopal DDesai. Phone noted in station diary as 8857490106. Subject also referred to as Kiran Mirzza. Phone noted in station diary as 8519020611. Subject also referred to as Vikram Mukherjeee. Phone noted in station diary as 6503453388. Subject also referred to as Ishaan Ali. Phone noted in station diary as 7025999103.
+FIR00704,CASE0190,2023-02-23,Satellite Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00705,CASE0054,2023-08-17,MG Road Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00706,CASE0206,2022-06-08,Bandra Police Station,Cheating case registered involving forged property documents and misrepresentation.
+FIR00707,CASE0121,2024-10-08,Whitefield Police Station,Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00708,CASE0075,2023-03-12,Andheri Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00709,CASE0032,2023-08-14,Bandra Police Station,Missing person report filed after individual failed to return from scheduled business travel.
+FIR00710,CASE0106,2023-12-17,Secunderabad Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00711,CASE0145,2022-07-01,Bandra Police Station,Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00712,CASE0205,2025-07-03,Andheri Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00713,CASE0184,2022-04-13,Sector 17 Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00714,CASE0037,2022-11-30,Malviya Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00715,CASE0113,2022-08-22,Secunderabad Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00716,CASE0187,2022-09-29,Andheri Police Station,Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00717,CASE0037,2025-06-18,Koramangala Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00718,CASE0208,2023-09-21,Colaba Police Station,Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00719,CASE0163,2023-04-09,Koramangala Police Station,Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00720,CASE0182,2024-06-23,Malviya Nagar Police Station,Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00721,CASE0111,2022-03-24,Andheri Police Station,Supplementary statement added to case CASE0111. Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00722,CASE0089,2022-04-17,Koramangala Police Station,Supplementary statement added to case CASE0089. Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00723,CASE0045,2023-05-09,Koregaon Park Police Station,Supplementary statement added to case CASE0045. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00724,CASE0103,2022-08-24,Andheri Police Station,Supplementary statement added to case CASE0103. Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00725,CASE0134,2022-06-20,Colaba Police Station,Supplementary statement added to case CASE0134. Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00726,CASE0173,2022-11-14,Hazratganj Police Station,Supplementary statement added to case CASE0173. Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00727,CASE0187,2022-05-06,Gomti Nagar Police Station,Supplementary statement added to case CASE0187. Missing person report filed after individual failed to return from scheduled business travel.
+FIR00728,CASE0190,2022-02-05,Satellite Police Station,Supplementary statement added to case CASE0190. Complainant reports unauthorized withdrawal from business account linked to suspected fraud network.
+FIR00729,CASE0190,2025-06-24,T Nagar Police Station,Supplementary statement added to case CASE0190. Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00730,CASE0054,2025-10-10,Bandra Police Station,Supplementary statement added to case CASE0054. Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00731,CASE0132,2023-09-15,MG Road Police Station,Supplementary statement added to case CASE0132. Missing person report filed after individual failed to return from scheduled business travel.
+FIR00732,CASE0033,2025-08-13,Bandra Police Station,Supplementary statement added to case CASE0033. Assault complaint filed following dispute at commercial premises; medical report attached.
+FIR00733,CASE0228,2024-06-12,Hazratganj Police Station,Supplementary statement added to case CASE0228. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00734,CASE0085,2025-01-18,Hazratganj Police Station,Supplementary statement added to case CASE0085. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00735,CASE0037,2022-04-20,T Nagar Police Station,Supplementary statement added to case CASE0037. Cyber fraud complaint regarding impersonation and unauthorized fund transfer via mobile banking.
+FIR00736,CASE0233,2024-02-15,Hazratganj Police Station,Supplementary statement added to case CASE0233. Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00737,CASE0136,2025-11-09,Hazratganj Police Station,Supplementary statement added to case CASE0136. Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00738,CASE0223,2023-07-05,Malviya Nagar Police Station,Supplementary statement added to case CASE0223. Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00739,CASE0022,2025-02-16,Whitefield Police Station,Supplementary statement added to case CASE0022. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00740,CASE0015,2022-02-25,Colaba Police Station,Supplementary statement added to case CASE0015. Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00741,CASE0120,2024-10-21,Secunderabad Police Station,Supplementary statement added to case CASE0120. Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00742,CASE0233,2022-06-17,Koregaon Park Police Station,Supplementary statement added to case CASE0233. Extortion complaint regarding repeated threatening calls demanding payment.
+FIR00743,CASE0059,2025-02-19,MG Road Police Station,Supplementary statement added to case CASE0059. Missing person report filed after individual failed to return from scheduled business travel.
+FIR00744,CASE0132,2025-09-23,Park Street Police Station,Supplementary statement added to case CASE0132. Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00745,CASE0114,2023-09-17,Malviya Nagar Police Station,Supplementary statement added to case CASE0114. Theft of commercial goods reported from warehouse during overnight hours; suspects unknown.
+FIR00746,CASE0161,2022-10-30,MG Road Police Station,Supplementary statement added to case CASE0161. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00747,CASE0025,2024-04-30,MG Road Police Station,Supplementary statement added to case CASE0025. Vehicle theft reported from residential parking area; CCTV footage requested.
+FIR00748,CASE0226,2025-09-12,Sector 17 Police Station,Supplementary statement added to case CASE0226. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
+FIR00749,CASE0203,2025-10-09,Whitefield Police Station,Supplementary statement added to case CASE0203. Money laundering indicators observed through layered transactions across multiple accounts.
+FIR00750,CASE0229,2025-11-29,Satellite Police Station,Supplementary statement added to case CASE0229. Narcotics-related intelligence forwarded for verification and coordinated follow-up.
