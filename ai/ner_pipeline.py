@@ -4,11 +4,15 @@ import re
 from dataclasses import dataclass
 from typing import Literal
 
-EntityKind = Literal["person", "phone", "organization", "location", "account"]
+EntityKind = Literal["person", "phone", "organization", "location", "account", "alias"]
 
 PHONE_RE = re.compile(r"(?:\+91[\s-]?)?(?:91[\s-]?)?([6-9]\d{9})")
 ACCOUNT_RE = re.compile(r"\b(?:A/C|account|acct)[\s:#-]*(\d{8,18})\b", re.I)
-VEHICLE_RE = re.compile(r"\b[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}\b")
+VEHICLE_RE = re.compile(r"\b([A-Z]{2}\d{2}[A-Z]{1,2}\d{4})\b")
+ALIAS_RE = re.compile(
+    r"(?:aka|a\.k\.a\.|alias|also known as|identifies as)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,3})",
+    re.I,
+)
 
 _spacy_nlp = None
 
@@ -24,6 +28,14 @@ def _load_spacy():
     except Exception:
         _spacy_nlp = False
     return _spacy_nlp
+
+
+def spacy_available() -> bool:
+    return bool(_load_spacy())
+
+
+def nlp_engine_name() -> str:
+    return "spacy" if spacy_available() else "regex"
 
 
 @dataclass
@@ -73,6 +85,28 @@ def extract_entities(text: str) -> list[ExtractedEntity]:
                 start=match.start(1),
                 end=match.end(1),
                 confidence=0.9,
+            )
+        )
+
+    for match in VEHICLE_RE.finditer(text):
+        entities.append(
+            ExtractedEntity(
+                text=match.group(1),
+                entity_type="location",
+                start=match.start(1),
+                end=match.end(1),
+                confidence=0.78,
+            )
+        )
+
+    for match in ALIAS_RE.finditer(text):
+        entities.append(
+            ExtractedEntity(
+                text=match.group(1).strip(),
+                entity_type="alias",
+                start=match.start(1),
+                end=match.end(1),
+                confidence=0.88,
             )
         )
 

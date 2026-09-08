@@ -54,6 +54,7 @@ async def value_error_handler(_request: Request, exc: ValueError):
 
 @app.get("/health")
 def health_check(db=Depends(get_db)):
+    from ai.ner_pipeline import nlp_engine_name, spacy_available
     from app.services.neo4j_client import is_neo4j_available
 
     postgres_ok = True
@@ -70,6 +71,10 @@ def health_check(db=Depends(get_db)):
         "service": "backend",
         "postgres": postgres_ok,
         "neo4j": neo4j_ok,
+        "nlp": {
+            "engine": nlp_engine_name(),
+            "spacy_model": "en_core_web_sm" if spacy_available() else None,
+        },
     }
 
 

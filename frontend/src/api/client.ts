@@ -13,6 +13,10 @@ export interface HealthResponse {
   service: string
   postgres?: boolean
   neo4j?: boolean
+  nlp?: {
+    engine: string
+    spacy_model?: string | null
+  }
 }
 
 export async function fetchHealth(): Promise<HealthResponse | null> {

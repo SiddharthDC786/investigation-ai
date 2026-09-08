@@ -12,11 +12,12 @@ from ai.ner_pipeline import extract_entities
 from app.schemas.ingest import ExtractedMention, IngestResponse
 from app.services.entity_resolution import (
     merge_entity_in_neo4j,
+    merge_transfer_in_neo4j,
     new_source_id,
     resolve_entity,
 )
 from app.services.network_analysis import invalidate_case_analysis
-from app.services.neo4j_client import get_session, is_neo4j_available
+from app.services.neo4j_client import is_neo4j_available
 
 logger = logging.getLogger(__name__)
 
@@ -72,22 +73,31 @@ def ingest_text_document(
     mentions_raw = extract_entities(text_content)
     mentions: list[ExtractedMention] = []
     merged = 0
+    last_person_id: str | None = None
 
     for mention in mentions_raw:
+        alias_of = None
+        if mention.entity_type == "alias" and last_person_id:
+            alias_of = last_person_id
+
         resolution = resolve_entity(db, case_id=case_id, mention=mention)
         if resolution.action == "merged":
             merged += 1
 
+        if mention.entity_type == "person" or mention.entity_type == "alias":
+            last_person_id = resolution.entity_id
+
         excerpt = _excerpt(text_content, mention.start, mention.end)
         merge_entity_in_neo4j(
             entity_id=resolution.entity_id,
-            entity_type=mention.entity_type,
+            entity_type="person" if mention.entity_type == "alias" else mention.entity_type,
             label=mention.text,
             case_id=case_id,
             source_type=source_type,
             source_id=source_id,
             excerpt=excerpt,
             action=resolution.action,
+            alias_of=alias_of,
         )
 
         if mention.entity_type == "person":
@@ -198,6 +208,28 @@ def ingest_surveillance_file(
     return result
 
 
+def preview_ingest_text(text_content: str) -> dict:
+    from ai.ner_pipeline import extract_entities, nlp_engine_name, spacy_available
+
+    mentions_raw = extract_entities(text_content)
+    entities = []
+    for mention in mentions_raw:
+        entities.append(
+            {
+                "text": mention.text,
+                "entity_type": mention.entity_type,
+                "confidence": mention.confidence,
+                "source_excerpt": _excerpt(text_content, mention.start, mention.end),
+            }
+        )
+    return {
+        "engine": nlp_engine_name(),
+        "spacy_available": spacy_available(),
+        "entities_extracted": len(entities),
+        "entities": entities,
+    }
+
+
 def ingest_cdr_csv(db: Session, *, file_bytes: bytes, case_id: str | None) -> IngestResponse:
     reader = csv.DictReader(io.StringIO(file_bytes.decode("utf-8", errors="replace")))
     rows = list(reader)
@@ -293,6 +325,15 @@ def ingest_transactions_csv(
                 "cid": case_id or row.get("case_id"),
             },
         )
+        if is_neo4j_available():
+            merge_transfer_in_neo4j(
+                sender_account=sender,
+                receiver_account=receiver,
+                case_id=case_id or row.get("case_id"),
+                source_id=source_id,
+                transaction_id=txn_id,
+                amount=row.get("amount") or 0,
+            )
         count += 1
 
     db.commit()
@@ -305,5 +346,5 @@ def ingest_transactions_csv(
         case_id=case_id,
         records_received=count,
         entities_extracted=count * 2,
-        entities_merged=0,
+        entities_merged=count * 2 if is_neo4j_available() else 0,
     )

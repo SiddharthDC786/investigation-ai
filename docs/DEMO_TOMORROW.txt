@@ -10,10 +10,15 @@ cat <<'EOF'
 
 BEFORE JUDGES ARRIVE (once)
 ───────────────────────────
-1. Postgres.app running → database: crime_network
-2. Optional graph boost: cd backend-api && docker compose up -d neo4j
-3. Run: ./scripts/start-vigil.sh
-4. Open http://localhost:5173
+Option A — Local (fastest for laptop demo)
+  1. Postgres.app → database: crime_network (seeded)
+  2. ./scripts/start-vigil.sh  (auto-starts Neo4j + spaCy backend)
+  3. Open http://localhost:5173
+
+Option B — Docker full stack
+  cd backend-api && docker compose up -d --build
+  docker compose --profile seed up seed   # first time only
+  cd ../frontend && npm run dev
 
 LOGIN
 ─────
@@ -22,23 +27,28 @@ Supervisor:   SUP-1001 / admin2026  (audit export)
 
 5-MINUTE DEMO SCRIPT
 ────────────────────
-1. SEARCH — tap "Same name collision" chip → pick Mumbai Rahul Mukherjee
-2. NETWORK — show burner bridge (prepaid SIM linking suspects)
-3. TIMELINE — scroll CDR + transaction fusion events
-4. RISK — composite triage scores + community clusters
-5. OSINT — run "Registered business" lookup → show hash-chained audit
-6. INSPECTOR — select suspect → Explainability panel (court-defensible)
-7. AUDIT — supervisor exports disclosure JSON (hash chain verified)
+0. BADGE — show "Live backend · Neo4j fusion · NLP: spacy"
+1. AI INGEST — right panel → Load demo FIR → Preview → Ingest (spaCy + Neo4j)
+2. SEARCH — tap "Same name collision" → pick Mumbai Rahul Mukherjee
+3. NETWORK — burner bridge (prepaid SIM linking suspects)
+4. TIMELINE — CDR + transaction fusion events
+5. RISK — composite triage + community clusters
+6. OSINT — lookup → hash-chained audit
+7. INSPECTOR — Explainability (court-defensible narrative)
+8. AUDIT — supervisor exports disclosure JSON
 
 HEALTH CHECKS
 ─────────────
   curl http://localhost:8000/health
-  → postgres: true, neo4j: true|false (OK either way)
+  → postgres, neo4j, nlp.engine (spacy or regex)
+
+NEO4J BROWSER (optional wow factor)
+  http://localhost:7474  neo4j / vigilneo4j2026
 
 TROUBLESHOOTING
 ───────────────
-• Badge shows "Backend offline" → backend not on :8000 or missing frontend/.env
-• Empty search → ingest not run; demo DB should be pre-seeded
+• Backend offline → port 8000 or frontend/.env
+• NLP shows "regex" → run: python -m spacy download en_core_web_sm
 • Neo4j optional — PostgreSQL fallback keeps demo working
 
 STOP

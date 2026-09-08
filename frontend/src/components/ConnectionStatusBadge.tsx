@@ -9,6 +9,8 @@ export function ConnectionStatusBadge() {
   const [state, setState] = useState<HealthState>(() =>
     isApiConfigured() ? 'checking' : 'demo',
   )
+  const [neo4j, setNeo4j] = useState<boolean | null>(null)
+  const [nlpEngine, setNlpEngine] = useState<string | null>(null)
 
   useEffect(() => {
     if (!isApiConfigured()) {
@@ -22,8 +24,12 @@ export function ConnectionStatusBadge() {
       if (cancelled) return
       if (!health) {
         setState('down')
+        setNeo4j(null)
+        setNlpEngine(null)
         return
       }
+      setNeo4j(health.neo4j ?? false)
+      setNlpEngine(health.nlp?.engine ?? null)
       if (health.status === 'degraded' || health.postgres === false) {
         setState('degraded')
         return
@@ -63,23 +69,29 @@ export function ConnectionStatusBadge() {
     degraded: t.connection.degraded,
   }
 
-  const hints: Record<HealthState, string> = {
-    live: t.connection.liveHint,
-    demo: t.connection.demoHint,
-    checking: t.connection.checking,
-    down: t.connection.downHint,
-    degraded: t.connection.downHint,
-  }
+  const stackHint =
+    state === 'live' && (neo4j !== null || nlpEngine)
+      ? [
+          neo4j ? t.connection.neo4jOn : t.connection.neo4jOff,
+          nlpEngine ? `${t.connection.nlp}: ${nlpEngine}` : null,
+        ]
+          .filter(Boolean)
+          .join(' · ')
+      : state === 'demo'
+        ? t.connection.demoHint
+        : state === 'down' || state === 'degraded'
+          ? t.connection.downHint
+          : t.connection.checking
 
   return (
-    <div
-      className={`border px-2.5 py-1 text-center ${styles[state]}`}
-      title={hints[state]}
-    >
+    <div className={`border px-2.5 py-1 text-center ${styles[state]}`} title={stackHint}>
       <p className="flex items-center justify-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide">
         <span className={`inline-block h-1.5 w-1.5 rounded-full ${dotStyles[state]}`} aria-hidden />
         {labels[state]}
       </p>
+      {state === 'live' && stackHint && (
+        <p className="mt-0.5 text-[9px] normal-case tracking-normal text-text-muted">{stackHint}</p>
+      )}
     </div>
   )
 }

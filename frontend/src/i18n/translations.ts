@@ -48,6 +48,9 @@ export type TranslationTree = {
     liveHint: string
     demoHint: string
     downHint: string
+    neo4jOn: string
+    neo4jOff: string
+    nlp: string
   }
   presentation: {
     on: string
@@ -137,6 +140,21 @@ export type TranslationTree = {
     high: string
     medium: string
     low: string
+  }
+  ingest: {
+    title: string
+    subtitle: string
+    placeholder: string
+    preview: string
+    previewing: string
+    ingest: string
+    ingesting: string
+    loadSample: string
+    engine: string
+    entities: string
+    success: string
+    apiError: string
+    demoOnly: string
   }
   views: {
     search: ViewCopy
@@ -279,6 +297,9 @@ export const translations: Record<Language, TranslationTree> = {
       liveHint: 'Connected to investigation API',
       demoHint: 'Training mode — mock case data on this device',
       downHint: 'Start backend on port 8000 or check frontend/.env',
+      neo4jOn: 'Neo4j fusion',
+      neo4jOff: 'Neo4j offline (PG fallback)',
+      nlp: 'NLP',
     },
     presentation: {
       on: 'Presentation mode',
@@ -365,6 +386,21 @@ export const translations: Record<Language, TranslationTree> = {
       high: 'High priority',
       medium: 'Medium priority',
       low: 'Lower priority',
+    },
+    ingest: {
+      title: 'AI document ingest',
+      subtitle: 'Paste FIR text — spaCy NER extracts persons, phones, accounts, aliases; Neo4j stores provenance.',
+      placeholder: 'Paste FIR or surveillance report text…',
+      preview: 'Preview extraction',
+      previewing: 'Extracting…',
+      ingest: 'Ingest to case',
+      ingesting: 'Ingesting…',
+      loadSample: 'Load demo FIR',
+      engine: 'Engine',
+      entities: 'entities',
+      success: 'Ingested {extracted} entities ({merged} merged into existing records)',
+      apiError: 'Ingest failed — check backend and Neo4j.',
+      demoOnly: 'Connect backend to run live NLP ingest.',
     },
     views: {
       search: {
@@ -533,6 +569,9 @@ export const translations: Record<Language, TranslationTree> = {
       liveHint: 'जांच API से जुड़ा',
       demoHint: 'प्रशिक्षण — इस डिवाइस पर मॉक डेटा',
       downHint: 'पोर्ट 8000 पर बैकएंड चालू करें या frontend/.env जाँचें',
+      neo4jOn: 'Neo4j फ्यूजन',
+      neo4jOff: 'Neo4j ऑफलाइन (PG फॉलबैक)',
+      nlp: 'NLP',
     },
     presentation: {
       on: 'प्रस्तुति मोड',
@@ -622,6 +661,21 @@ export const translations: Record<Language, TranslationTree> = {
       high: 'उच्च प्राथमिकता',
       medium: 'मध्यम प्राथमिकता',
       low: 'कम प्राथमिकता',
+    },
+    ingest: {
+      title: 'AI दस्तावेज़ इंगेस्ट',
+      subtitle: 'FIR पेस्ट करें — spaCy NER व्यक्ति, फ़ोन, खाते, उपनाम निकालता है; Neo4j provenance संग्रहीत करता है।',
+      placeholder: 'FIR या निगरानी रिपोर्ट पेस्ट करें…',
+      preview: 'निष्कर्षण पूर्वावलोकन',
+      previewing: 'निकाल रहे हैं…',
+      ingest: 'केस में इंगेस्ट',
+      ingesting: 'इंगेस्ट हो रहा है…',
+      loadSample: 'डेमो FIR लोड करें',
+      engine: 'इंजन',
+      entities: 'इकाइयाँ',
+      success: '{extracted} इकाइयाँ इंगेस्ट ({merged} मौजूदा रिकॉर्ड में मर्ज)',
+      apiError: 'इंगेस्ट विफल — बैकएंड और Neo4j जाँचें।',
+      demoOnly: 'लाइव NLP इंगेस्ट के लिए बैकएंड कनेक्ट करें।',
     },
     views: {
       search: {

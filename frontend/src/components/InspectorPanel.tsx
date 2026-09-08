@@ -3,6 +3,7 @@ import { getEntityExplanation } from '../api/explain'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { ReviewDecision, Entity } from '../types'
 import { CollapsibleSection } from './CollapsibleSection'
+import { IngestPanel } from './IngestPanel'
 
 interface InspectorPanelProps {
   entity: Entity | null
@@ -63,12 +64,16 @@ export function InspectorPanel({ entity, entityLookup, caseId, reviewDecision, o
       </header>
 
       {!entity ? (
-        <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-          <p className="text-base text-text-secondary">{t.inspector.emptyTitle}</p>
-          <p className="mt-2 text-sm text-text-muted">{t.inspector.emptyHint}</p>
+        <div className="flex flex-1 flex-col overflow-y-auto">
+          <IngestPanel caseId={caseId} />
+          <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+            <p className="text-base text-text-secondary">{t.inspector.emptyTitle}</p>
+            <p className="mt-2 text-sm text-text-muted">{t.inspector.emptyHint}</p>
+          </div>
         </div>
       ) : (
         <div className="flex flex-1 flex-col overflow-y-auto">
+          <IngestPanel caseId={caseId} />
           <section className="border-b border-console-border px-4 py-4">
             <div className="flex items-start justify-between gap-2">
               <div>

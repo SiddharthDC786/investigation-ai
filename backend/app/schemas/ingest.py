@@ -18,3 +18,21 @@ class IngestResponse(BaseModel):
     entities_extracted: int = 0
     entities_merged: int = 0
     mentions: list[ExtractedMention] = Field(default_factory=list)
+
+
+class PreviewEntity(BaseModel):
+    text: str
+    entity_type: str
+    confidence: float
+    source_excerpt: str | None = None
+
+
+class IngestPreviewRequest(BaseModel):
+    text: str
+
+
+class IngestPreviewResponse(BaseModel):
+    engine: str
+    spacy_available: bool
+    entities_extracted: int
+    entities: list[PreviewEntity] = Field(default_factory=list)

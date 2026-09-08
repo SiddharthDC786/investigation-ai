@@ -4,9 +4,15 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import os
 import subprocess
 from pathlib import Path
+
+try:
+    import psycopg
+except ImportError:
+    psycopg = None
 
 PSQL = "/Applications/Postgres.app/Contents/Versions/latest/bin/psql"
 
@@ -75,6 +81,13 @@ def run_psql_file(database: str, host: str, port: int, user: str, password: str,
 
 def import_csv(database: str, host: str, port: int, user: str, password: str, data_dir: Path, csv_name: str, table: str, columns: str) -> None:
     csv_path = data_dir / csv_name
+    if psycopg and not Path(PSQL).exists():
+        col_names = columns.strip("()").replace(" ", "")
+        conninfo = f"host={host} port={port} dbname={database} user={user} password={password}"
+        with psycopg.connect(conninfo) as conn, conn.cursor() as cur, csv_path.open(newline="") as handle:
+            cur.copy(f"COPY {table} ({col_names}) FROM STDIN WITH (FORMAT csv, HEADER true, NULL '')", handle)
+        return
+
     sql = (
         f"\\copy {table}{columns} FROM '{csv_path.resolve()}' "
         "WITH (FORMAT csv, HEADER true, NULL '')"
@@ -91,6 +104,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--user", default="postgres")
     parser.add_argument("--password", default="2007")
     parser.add_argument("--schema-file", type=Path, default=Path("schema.sql"))
+    parser.add_argument("--skip-schema", action="store_true", help="Skip schema apply (e.g. Docker init already ran).")
     parser.add_argument("--reset", action="store_true", help="Drop and recreate all tables before import.")
     return parser.parse_args()
 
@@ -102,32 +116,45 @@ def main() -> None:
         drop_sql = "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
         run_psql(args.database, args.host, args.port, args.user, args.password, drop_sql)
 
-    run_psql_file(args.database, args.host, args.port, args.user, args.password, args.schema_file)
+    if not args.skip_schema:
+        run_psql_file(args.database, args.host, args.port, args.user, args.password, args.schema_file)
 
     for csv_name, table, columns in TABLES:
         print(f"Importing {csv_name} -> {table}...")
         import_csv(args.database, args.host, args.port, args.user, args.password, args.data_dir, csv_name, table, columns)
 
-    counts_sql = """
-    SELECT 'people' AS table_name, COUNT(*) AS row_count FROM people
-    UNION ALL SELECT 'phones', COUNT(*) FROM phones
-    UNION ALL SELECT 'bank_accounts', COUNT(*) FROM bank_accounts
-    UNION ALL SELECT 'vehicles', COUNT(*) FROM vehicles
-    UNION ALL SELECT 'locations', COUNT(*) FROM locations
-    UNION ALL SELECT 'organizations', COUNT(*) FROM organizations
-    UNION ALL SELECT 'cases', COUNT(*) FROM cases
-    UNION ALL SELECT 'cdr', COUNT(*) FROM cdr
-    UNION ALL SELECT 'transactions', COUNT(*) FROM transactions
-    UNION ALL SELECT 'fir', COUNT(*) FROM fir
-    UNION ALL SELECT 'surveillance', COUNT(*) FROM surveillance
-    UNION ALL SELECT 'case_references', COUNT(*) FROM case_references
-    UNION ALL SELECT 'chat_messages', COUNT(*) FROM chat_messages
-    UNION ALL SELECT 'private_events', COUNT(*) FROM private_events
-    UNION ALL SELECT 'recorded_names', COUNT(*) FROM recorded_names
-    UNION ALL SELECT 'recorded_phones', COUNT(*) FROM recorded_phones
-    ORDER BY table_name;
-    """
-    run_psql(args.database, args.host, args.port, args.user, args.password, counts_sql)
+    count_tables = [
+        "people", "phones", "bank_accounts", "vehicles", "locations", "organizations",
+        "cases", "cdr", "transactions", "fir", "surveillance", "case_references",
+        "chat_messages", "private_events", "recorded_names", "recorded_phones",
+    ]
+    if psycopg and not Path(PSQL).exists():
+        conninfo = f"host={args.host} port={args.port} dbname={args.database} user={args.user} password={args.password}"
+        with psycopg.connect(conninfo) as conn, conn.cursor() as cur:
+            for table in count_tables:
+                cur.execute(f"SELECT COUNT(*) FROM {table}")
+                print(f"{table}: {cur.fetchone()[0]}")
+    else:
+        counts_sql = """
+        SELECT 'people' AS table_name, COUNT(*) AS row_count FROM people
+        UNION ALL SELECT 'phones', COUNT(*) FROM phones
+        UNION ALL SELECT 'bank_accounts', COUNT(*) FROM bank_accounts
+        UNION ALL SELECT 'vehicles', COUNT(*) FROM vehicles
+        UNION ALL SELECT 'locations', COUNT(*) FROM locations
+        UNION ALL SELECT 'organizations', COUNT(*) FROM organizations
+        UNION ALL SELECT 'cases', COUNT(*) FROM cases
+        UNION ALL SELECT 'cdr', COUNT(*) FROM cdr
+        UNION ALL SELECT 'transactions', COUNT(*) FROM transactions
+        UNION ALL SELECT 'fir', COUNT(*) FROM fir
+        UNION ALL SELECT 'surveillance', COUNT(*) FROM surveillance
+        UNION ALL SELECT 'case_references', COUNT(*) FROM case_references
+        UNION ALL SELECT 'chat_messages', COUNT(*) FROM chat_messages
+        UNION ALL SELECT 'private_events', COUNT(*) FROM private_events
+        UNION ALL SELECT 'recorded_names', COUNT(*) FROM recorded_names
+        UNION ALL SELECT 'recorded_phones', COUNT(*) FROM recorded_phones
+        ORDER BY table_name;
+        """
+        run_psql(args.database, args.host, args.port, args.user, args.password, counts_sql)
     print("Import complete.")
 
 

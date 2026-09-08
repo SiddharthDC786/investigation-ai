@@ -104,7 +104,7 @@ def resolve_entity(
     mention: ExtractedEntity,
 ) -> ResolutionResult:
     label = mention.text.strip()
-    entity_type = mention.entity_type
+    entity_type = "person" if mention.entity_type == "alias" else mention.entity_type
     entity_id = _entity_id(entity_type, label)
 
     if entity_type == "person":
@@ -200,6 +200,59 @@ def merge_entity_in_neo4j(
                 """,
                 {"alias_id": entity_id, "canonical_id": alias_of},
             ).consume()
+
+
+def merge_transfer_in_neo4j(
+    *,
+    sender_account: str,
+    receiver_account: str,
+    case_id: str | None,
+    source_id: str,
+    transaction_id: str,
+    amount: str | float,
+) -> None:
+    if not is_neo4j_available():
+        return
+
+    sender_id = f"AC-{sender_account}"
+    receiver_id = f"AC-{receiver_account}"
+    excerpt = f"Transfer {amount} in {transaction_id}"
+
+    for entity_id, label, entity_type in (
+        (sender_id, sender_account, "account"),
+        (receiver_id, receiver_account, "account"),
+    ):
+        merge_entity_in_neo4j(
+            entity_id=entity_id,
+            entity_type=entity_type,
+            label=label,
+            case_id=case_id,
+            source_type="transactions",
+            source_id=source_id,
+            excerpt=excerpt,
+            action="merged",
+        )
+
+    with get_session() as session:
+        session.run(
+            """
+            MATCH (a:Account {id: $sender_id}), (b:Account {id: $receiver_id})
+            MERGE (a)-[t:TRANSFERRED_TO {transaction_id: $txn_id}]->(b)
+            ON CREATE SET
+                t.amount = $amount,
+                t.case_id = $case_id,
+                t.source_id = $source_id,
+                t.created_at = datetime()
+            """,
+            {
+                "sender_id": sender_id,
+                "receiver_id": receiver_id,
+                "txn_id": transaction_id,
+                "amount": str(amount),
+                "case_id": case_id,
+                "source_id": source_id,
+            },
+        ).consume()
 
 
 def get_entity_from_neo4j(entity_id: str) -> dict | None:
