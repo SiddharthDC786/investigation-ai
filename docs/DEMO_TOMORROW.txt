@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Vigil SIH PS 26189 — judge demo startup (5-minute checklist)
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
+cat <<'EOF'
+╔══════════════════════════════════════════════════════════════╗
+║  VIGIL DEMO — Smart India Hackathon PS 26189                 ║
+╚══════════════════════════════════════════════════════════════╝
+
+BEFORE JUDGES ARRIVE (once)
+───────────────────────────
+1. Postgres.app running → database: crime_network
+2. Optional graph boost: cd backend-api && docker compose up -d neo4j
+3. Run: ./scripts/start-vigil.sh
+4. Open http://localhost:5173
+
+LOGIN
+─────
+Investigator: INV-2847 / vigil2026
+Supervisor:   SUP-1001 / admin2026  (audit export)
+
+5-MINUTE DEMO SCRIPT
+────────────────────
+1. SEARCH — tap "Same name collision" chip → pick Mumbai Rahul Mukherjee
+2. NETWORK — show burner bridge (prepaid SIM linking suspects)
+3. TIMELINE — scroll CDR + transaction fusion events
+4. RISK — composite triage scores + community clusters
+5. OSINT — run "Registered business" lookup → show hash-chained audit
+6. INSPECTOR — select suspect → Explainability panel (court-defensible)
+7. AUDIT — supervisor exports disclosure JSON (hash chain verified)
+
+HEALTH CHECKS
+─────────────
+  curl http://localhost:8000/health
+  → postgres: true, neo4j: true|false (OK either way)
+
+TROUBLESHOOTING
+───────────────
+• Badge shows "Backend offline" → backend not on :8000 or missing frontend/.env
+• Empty search → ingest not run; demo DB should be pre-seeded
+• Neo4j optional — PostgreSQL fallback keeps demo working
+
+STOP
+────
+Ctrl+C in start-vigil.sh terminal
+EOF
