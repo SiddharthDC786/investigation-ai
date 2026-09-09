@@ -1,7 +1,12 @@
-import { useCallback, useState } from 'react'
-import { formatApiError } from '../api/client'
-import { ingestFirText, previewIngest, type IngestPreviewResponse, type IngestResponse } from '../api/ingest'
-import { isApiConfigured } from '../api/client'
+import { useCallback, useRef, useState } from 'react'
+import { formatApiError, isApiConfigured } from '../api/client'
+import {
+  ingestFirImage,
+  ingestFirText,
+  previewIngest,
+  type IngestPreviewResponse,
+  type IngestResponse,
+} from '../api/ingest'
 import { useLanguage } from '../i18n/LanguageContext'
 
 const SAMPLE_FIR = `FIR — suspect Rahul Mukherjee (aka Meera Chopra) called +91 8871205599 from Mumbai.
@@ -14,10 +19,11 @@ interface IngestPanelProps {
 
 export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
   const { t } = useLanguage()
+  const fileRef = useRef<HTMLInputElement>(null)
   const [text, setText] = useState('')
   const [preview, setPreview] = useState<IngestPreviewResponse | null>(null)
   const [result, setResult] = useState<IngestResponse | null>(null)
-  const [loading, setLoading] = useState<'preview' | 'ingest' | null>(null)
+  const [loading, setLoading] = useState<'preview' | 'ingest' | 'image' | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const runPreview = useCallback(async () => {
@@ -52,6 +58,27 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
     }
   }, [caseId, text, onIngested, t.ingest.apiError])
 
+  const handleImageFile = useCallback(
+    async (file: File | null) => {
+      if (!file) return
+      setLoading('image')
+      setError(null)
+      setResult(null)
+      setPreview(null)
+      try {
+        const data = await ingestFirImage(caseId, file)
+        setResult(data)
+        onIngested?.(data)
+      } catch (err) {
+        setError(formatApiError(err, t.ingest.apiError))
+      } finally {
+        setLoading(null)
+        if (fileRef.current) fileRef.current.value = ''
+      }
+    },
+    [caseId, onIngested, t.ingest.apiError],
+  )
+
   if (!isApiConfigured()) {
     return (
       <section className="border-b border-console-border px-4 py-4">
@@ -63,19 +90,30 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
 
   return (
     <section className="border-b border-console-border px-4 py-4">
-      <div className="flex flex-wrap items-center gap-2">
-        <h3 className="text-sm font-semibold text-text-primary">{t.ingest.title}</h3>
-        <span className="border border-accent-steel/40 bg-accent-steel/10 px-2 py-0.5 text-[10px] text-accent-steel">
-          spaCy + Neo4j
-        </span>
-      </div>
+      <h3 className="text-sm font-semibold text-text-primary">{t.ingest.title}</h3>
       <p className="mt-1 text-xs leading-relaxed text-text-muted">{t.ingest.subtitle}</p>
+
+      <label className="mt-3 block">
+        <span className="text-xs font-medium text-text-primary">{t.ingest.imageLabel}</span>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/jpg"
+          disabled={loading !== null}
+          onChange={(e) => void handleImageFile(e.target.files?.[0] ?? null)}
+          className="mt-1.5 block w-full text-xs text-text-secondary file:mr-2 file:border file:border-console-border-strong file:bg-console-raised file:px-2 file:py-1 file:text-xs"
+        />
+        <span className="mt-1 block text-[11px] text-text-muted">{t.ingest.imageHint}</span>
+        {loading === 'image' && (
+          <span className="mt-1 block text-[11px] text-accent-steel">{t.ingest.scanningImage}</span>
+        )}
+      </label>
 
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder={t.ingest.placeholder}
-        rows={5}
+        rows={4}
         className="mt-3 w-full border border-console-border-strong bg-console-bg px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-amber"
       />
 

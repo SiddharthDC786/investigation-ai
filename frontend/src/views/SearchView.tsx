@@ -1,8 +1,7 @@
 import { useCallback, useMemo, useState, type FormEvent } from 'react'
 import { searchByFace, searchInvestigation } from '../api/search'
 import { formatApiError } from '../api/client'
-import { DemoScenarioChips } from '../components/DemoScenarioChips'
-import { CASE_ID, narrativeTags } from '../data/mockCase'
+import { CASE_ID } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getPersonPhoneDisplay, listSearchAreas, matchTypeLabel } from '../lib/investigationSearch'
 import type { Entity, NameMatchHit, RoleFilter, SearchFilters } from '../types'
@@ -74,11 +73,6 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
     void runSearch({ ...draft, faceMatchPersonId: filters.faceMatchPersonId, selectedPersonId: null })
   }
 
-  function handleDemoRun(next: SearchFilters) {
-    setDraft(next)
-    void runSearch(next)
-  }
-
   function confirmPerson(personId: string) {
     const next = { ...filters, ...draft, selectedPersonId: personId }
     onSelect(personId)
@@ -132,9 +126,6 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
       <header className="border-b border-console-border px-5 py-3">
         <div className="flex items-center gap-3">
           <h1 className="text-base font-semibold text-text-primary">{t.views.search.header}</h1>
-          <span className="border border-accent-amber/40 bg-accent-amber/10 px-2 py-0.5 text-[10px] text-accent-amber">
-            {narrativeTags.search}
-          </span>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.search.description}</p>
         {error && (
@@ -146,8 +137,6 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
 
       <div className="grid flex-1 grid-cols-1 gap-0 overflow-hidden xl:grid-cols-[340px_1fr]">
         <aside className="overflow-y-auto border-b border-console-border p-4 xl:border-b-0 xl:border-r">
-          <DemoScenarioChips onRun={handleDemoRun} disabled={loading} />
-          <p className="mb-3 text-xs leading-relaxed text-text-muted">{t.search.typoHint}</p>
           <form onSubmit={handleSubmit} className="space-y-4">
             <label className="block">
               <span className="text-sm font-medium text-text-primary">{t.search.nameLabel}</span>
@@ -246,7 +235,6 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
             <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
               <p className="text-base text-text-secondary">{t.search.emptyTitle}</p>
               <p className="mt-2 max-w-md text-sm text-text-muted">{t.search.emptyHint}</p>
-              <p className="mt-4 text-xs text-accent-steel">{t.search.tryExample}</p>
             </div>
           ) : (
             <div className="flex-1 overflow-y-auto p-4">

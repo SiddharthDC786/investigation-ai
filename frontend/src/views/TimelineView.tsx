@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getCaseTimeline } from '../api/timeline'
 import { formatApiError } from '../api/client'
-import { CASE_ID, narrativeTags } from '../data/mockCase'
+import { CASE_ID } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity, TimelineEvent } from '../types'
 
@@ -64,9 +64,6 @@ export function TimelineView({
       <header className="border-b border-console-border px-5 py-3">
         <div className="flex items-center gap-3">
           <h1 className="text-base font-semibold text-text-primary">{t.views.timeline.header}</h1>
-          <span className="border border-accent-steel/30 bg-accent-steel/10 px-2 py-0.5 text-[10px] text-accent-steel">
-            {narrativeTags.timeline}
-          </span>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.timeline.description}</p>
       </header>
@@ -99,9 +96,6 @@ export function TimelineView({
                 <p className="text-xs text-accent-amber">{event.timestamp}</p>
                 <h2 className="mt-1 text-base font-semibold text-text-primary">{event.title}</h2>
                 <p className="mt-1 text-sm leading-relaxed text-text-secondary">{event.description}</p>
-                <p className="mt-2 text-xs text-text-muted">
-                  {t.timeline.source}: {event.source}
-                </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {event.entityIds.map((id) => {
                     const linked = entityLookup[id]

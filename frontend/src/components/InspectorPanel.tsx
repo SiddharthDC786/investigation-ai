@@ -114,20 +114,6 @@ export function InspectorPanel({ entity, entityLookup, caseId, reviewDecision, o
             </ul>
           </section>
 
-          <section className="border-b border-console-border px-4 py-4">
-            <h3 className="text-sm font-semibold text-text-primary">{t.inspector.proofRecords}</h3>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {entity.sources.map((src) => (
-                <span
-                  key={src}
-                  className="border border-console-border-strong bg-console-raised px-2.5 py-1 text-xs text-accent-steel"
-                >
-                  {src}
-                </span>
-              ))}
-            </div>
-          </section>
-
           {entity.aliases && entity.aliases.length > 0 && (
             <section className="border-b border-console-border px-4 py-4">
               <h3 className="text-sm font-semibold text-text-primary">{t.inspector.alsoKnownAsTitle}</h3>

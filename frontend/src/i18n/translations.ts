@@ -155,6 +155,9 @@ export type TranslationTree = {
     success: string
     apiError: string
     demoOnly: string
+    imageLabel: string
+    imageHint: string
+    scanningImage: string
   }
   views: {
     search: ViewCopy
@@ -171,6 +174,14 @@ export type TranslationTree = {
     legendRing: string
     bridgeCallout: string
     bridgeTap: string
+    simpleHint: string
+    loading: string
+    empty: string
+    primarySuspect: string
+    directLinks: string
+    lineThickness: string
+    tapForProfile: string
+    calls: string
   }
   timeline: {
     source: string
@@ -389,7 +400,7 @@ export const translations: Record<Language, TranslationTree> = {
     },
     ingest: {
       title: 'AI document ingest',
-      subtitle: 'Paste FIR text — spaCy NER extracts persons, phones, accounts, aliases; Neo4j stores provenance.',
+      subtitle: 'Paste FIR text or upload a photo — AI reads and extracts people, phones, and accounts.',
       placeholder: 'Paste FIR or surveillance report text…',
       preview: 'Preview extraction',
       previewing: 'Extracting…',
@@ -401,6 +412,9 @@ export const translations: Record<Language, TranslationTree> = {
       success: 'Ingested {extracted} entities ({merged} merged into existing records)',
       apiError: 'Ingest failed — check backend and Neo4j.',
       demoOnly: 'Connect backend to run live NLP ingest.',
+      imageLabel: 'Upload FIR photo or scan',
+      imageHint: 'JPEG/PNG — text is read automatically, then entities are extracted',
+      scanningImage: 'Reading image…',
     },
     views: {
       search: {
@@ -412,10 +426,9 @@ export const translations: Record<Language, TranslationTree> = {
       },
       network: {
         title: 'Connection Map',
-        hint: 'See links between people & accounts',
+        hint: 'See who knows whom',
         header: 'Connection Map',
-        description:
-          'Tap any circle or box to see who is linked — person, phone, bank account, or address.',
+        description: 'Key people in this case and how they are linked. Tap a name to see details.',
       },
       timeline: {
         title: 'Event Timeline',
@@ -451,9 +464,16 @@ export const translations: Record<Language, TranslationTree> = {
       legendPhone: 'Phone',
       legendBank: 'Bank',
       legendRing: 'Coloured ring = role',
-      bridgeCallout:
-        'Hidden bridge: prepaid 8871205599 links Mumbai suspect, Pune facilitator & Delhi handler — zero direct calls between them.',
-      bridgeTap: 'Tap the highlighted burner SIM to see fusion explainability.',
+      bridgeCallout: '',
+      bridgeTap: '',
+      simpleHint: 'Suspect at centre · thicker lines = more calls · tap a name for details',
+      loading: 'Loading map…',
+      empty: 'No people linked in this case yet.',
+      primarySuspect: 'Primary suspect',
+      directLinks: 'Direct links',
+      lineThickness: 'Line thickness = call frequency',
+      tapForProfile: 'Tap a node to open their file',
+      calls: 'calls',
     },
     timeline: { source: 'Source', empty: 'No timeline events for this case yet.', apiError: 'Could not load timeline — check backend connection.' },
     risk: {
@@ -510,8 +530,8 @@ export const translations: Record<Language, TranslationTree> = {
       searching: 'Searching…',
       clear: 'Clear',
       emptyTitle: 'Search for a person to begin',
-      emptyHint: 'Enter a name, phone, or area. Related people and linked phones or accounts appear here.',
-      tryExample: 'Try: Rahul · then pick Mumbai · or phone 6749921640 · typo: Mukkherjee',
+      emptyHint: 'Enter a name, phone number, or city. If several people share the same name, you will be asked to pick the right one.',
+      tryExample: '',
       noResults: 'No matches — try a different spelling or remove filters',
       primaryMatches: 'Direct matches',
       relatedPeople: 'Related people in network',
@@ -520,11 +540,9 @@ export const translations: Record<Language, TranslationTree> = {
       hopsAway: '{n} link(s) away',
       bridgeLink: 'Hidden bridge',
       bridgeHint: 'Non-obvious link — no direct contact between persons in raw records',
-      typoHint:
-        'Typos & FIR spelling mistakes are matched automatically (e.g. Mukkherjee → Mukherjee). If many people share a name, use area or phone to pick the right one.',
-      multipleTitle: 'Multiple people with this name',
-      multipleHint:
-        'Compare city, phone, and date of birth below — then tap “This is the person”. Or add area/phone on the left and search again.',
+      typoHint: 'Spelling variations in FIR and records are matched automatically. Use city or phone if the name is common.',
+      multipleTitle: 'Several people match this name',
+      multipleHint: 'Review city, phone, and role — then confirm the correct person to continue the investigation.',
       confirmPerson: 'This is the person — show network',
       alsoKnownAs: 'Also recorded as',
       narrowedToOne: 'Filters narrowed to one person — network shown below.',
@@ -676,6 +694,9 @@ export const translations: Record<Language, TranslationTree> = {
       success: '{extracted} इकाइयाँ इंगेस्ट ({merged} मौजूदा रिकॉर्ड में मर्ज)',
       apiError: 'इंगेस्ट विफल — बैकएंड और Neo4j जाँचें।',
       demoOnly: 'लाइव NLP इंगेस्ट के लिए बैकएंड कनेक्ट करें।',
+      imageLabel: 'FIR फोटो या स्कैन अपलोड करें',
+      imageHint: 'JPEG/PNG — पाठ स्वतः पढ़ा जाता है, फिर इकाइयाँ निकाली जाती हैं',
+      scanningImage: 'छवि पढ़ी जा रही है…',
     },
     views: {
       search: {
@@ -687,10 +708,9 @@ export const translations: Record<Language, TranslationTree> = {
       },
       network: {
         title: 'कनेक्शन मैप',
-        hint: 'लोगों और खातों के बीच संबंध देखें',
+        hint: 'कौन किससे जुड़ा है',
         header: 'कनेक्शन मैप',
-        description:
-          'किसी भी गोले या बॉक्स पर टैप करें — व्यक्ति, फ़ोन, बैंक खाता या पता किससे जुड़ा है।',
+        description: 'इस मामले के मुख्य लोग और उनके संबंध। विवरण के लिए नाम टैप करें।',
       },
       timeline: {
         title: 'घटना समयरेखा',
@@ -726,9 +746,16 @@ export const translations: Record<Language, TranslationTree> = {
       legendPhone: 'फ़ोन',
       legendBank: 'बैंक',
       legendRing: 'रंगीन घेरा = भूमिका',
-      bridgeCallout:
-        'छिपा पुल: prepaid 8871205599 — Mumbai संदिग्ध, Pune सहायक और Delhi हैंडलर (आपस में कोई सीधा कॉल नहीं)।',
-      bridgeTap: 'फ्यूजन विवरण के लिए हाइलाइट burner SIM पर टैप करें।',
+      bridgeCallout: '',
+      bridgeTap: '',
+      simpleHint: 'संदिग्ध केंद्र में · मोटी रेखा = अधिक कॉल · विवरण के लिए नाम टैप करें',
+      loading: 'मैप लोड हो रहा है…',
+      empty: 'इस मामले में अभी कोई व्यक्ति लिंक नहीं।',
+      primarySuspect: 'मुख्य संदिग्ध',
+      directLinks: 'प्रत्यक्ष संबंध',
+      lineThickness: 'रेखा की मोटाई = कॉल की संख्या',
+      tapForProfile: 'फ़ाइल खोलने के लिए नोड टैप करें',
+      calls: 'कॉल',
     },
     timeline: {
       source: 'स्रोत',
@@ -789,8 +816,8 @@ export const translations: Record<Language, TranslationTree> = {
       searching: 'खोज रहे हैं…',
       clear: 'साफ़ करें',
       emptyTitle: 'शुरू करने के लिए व्यक्ति खोजें',
-      emptyHint: 'नाम, फ़ोन या क्षेत्र दर्ज करें। संबंधित लोग और लिंक्ड रिकॉर्ड यहाँ दिखेंगे।',
-      tryExample: 'आज़माएँ: Rahul · 6749921640 · Mumbai',
+      emptyHint: 'नाम, फ़ोन या शहर दर्ज करें। एक ही नाम के कई लोग हों तो सही व्यक्ति चुनने को कहा जाएगा।',
+      tryExample: '',
       noResults: 'कोई परिणाम नहीं — अलग वर्तनी या फ़िल्टर हटाएँ',
       primaryMatches: 'प्रत्यक्ष मिलान',
       relatedPeople: 'नेटवर्क में संबंधित लोग',
@@ -802,8 +829,7 @@ export const translations: Record<Language, TranslationTree> = {
       typoHint:
         'टाइपो और FIR की गलत वर्तनी automatic match होती है (जैसे Mukkherjee → Mukherjee)। एक नाम पर कई लोग हों तो क्षेत्र या फ़ोन से सही व्यक्ति चुनें।',
       multipleTitle: 'इस नाम के कई लोग मिले',
-      multipleHint:
-        'नीचे शहर, फ़ोन और जन्मतिथि से compare करें — फिर “यही व्यक्ति है” दबाएँ। या बाएँ से क्षेत्र/फ़ोन जोड़कर फिर खोजें।',
+      multipleHint: 'शहर, फ़ोन और भूमिका देखें — फिर सही व्यक्ति की पुष्टि करें।',
       confirmPerson: 'यही व्यक्ति है — नेटवर्क दिखाएँ',
       alsoKnownAs: 'रिकॉर्ड में ये नाम भी',
       narrowedToOne: 'फ़िल्टर से एक व्यक्ति बचा — नेटवर्क नीचे है।',

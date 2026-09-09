@@ -5,7 +5,7 @@ import {
   type OsintEnrichResponse,
   verifyAuditChain,
 } from '../api/osint'
-import { CASE_ID, narrativeTags, osintLookups } from '../data/mockCase'
+import { CASE_DISPLAY_REF, CASE_ID, osintLookups } from '../data/mockCase'
 import { useAuth } from '../auth/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { AuditEntry, Entity } from '../types'
@@ -90,9 +90,6 @@ export function OsintView({
       <header className="border-b border-console-border px-5 py-3">
         <div className="flex items-center gap-3">
           <h1 className="text-base font-semibold text-text-primary">{t.views.osint.header}</h1>
-          <span className="border border-accent-steel/30 bg-accent-steel/10 px-2 py-0.5 text-[10px] text-accent-steel">
-            {narrativeTags.osint}
-          </span>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.osint.description}</p>
       </header>
@@ -168,7 +165,7 @@ export function OsintView({
             )}
           </div>
           <p className="mt-3 text-xs text-text-muted">
-            {t.osint.caseLabel}: {CASE_ID}
+            {t.osint.caseLabel}: {CASE_DISPLAY_REF}
           </p>
         </section>
       </div>

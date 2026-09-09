@@ -4,7 +4,8 @@ import type { AuditEntry, Entity, GraphLink, OsintLookup, TimelineEvent } from '
 export const HIDDEN_BRIDGE_PHONE_ID = 'PH-8871205599'
 
 export const CASE_ID = 'CASE0001'
-export const CASE_TITLE = 'Synthetic Fraud Ring 1 — Mumbai corridor'
+export const CASE_TITLE = 'Financial fraud investigation — Mumbai corridor'
+export const CASE_DISPLAY_REF = 'FIR-042/2026'
 
 export const entities: Entity[] = [
   {
@@ -437,10 +438,10 @@ export const osintLookups: OsintLookup[] = [
 export const entityMap = Object.fromEntries(entities.map((e) => [e.id, e])) as Record<string, Entity>
 
 export const narrativeTags: Record<string, string> = {
-  search: 'Identity search + filters — name, phone, area, face',
-  network: 'Hidden-bridge fusion — 3 persons via 1 prepaid SIM (non-obvious)',
-  timeline: 'i2 chronology — bridge surfaced only after multi-source merge',
-  risk: 'Composite scoring — handler rank rises after bridge resolution',
-  osint: 'Social Links-style enrichment — audit trail enforced',
-  audit: 'Legal-grade traceability — fusion + officer decisions logged',
+  search: 'Search by name, phone, or area',
+  network: 'People and how they connect',
+  timeline: 'Events in time order',
+  risk: 'Priority ranking for triage',
+  osint: 'Public-record enrichment',
+  audit: 'Officer action log',
 }

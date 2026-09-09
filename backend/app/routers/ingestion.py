@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Form, UploadFile
+from fastapi import APIRouter, Depends, Form, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -15,6 +15,7 @@ from app.services.ingest_service import (
     ingest_transactions_csv,
     preview_ingest_text,
 )
+from app.services.ocr_service import extract_text_from_image
 
 router = APIRouter(prefix="/ingest", tags=["ingestion"])
 
@@ -36,6 +37,20 @@ async def ingest_fir_text(
     case_id: str | None = Form(None),
     db: Session = Depends(get_db),
 ):
+    return ingest_fir_file(db, file_bytes=text.encode("utf-8"), case_id=case_id)
+
+
+@router.post("/fir/image", response_model=IngestResponse)
+async def ingest_fir_image(
+    file: UploadFile,
+    case_id: str | None = Form(None),
+    db: Session = Depends(get_db),
+):
+    contents = await file.read()
+    try:
+        text = extract_text_from_image(contents)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
     return ingest_fir_file(db, file_bytes=text.encode("utf-8"), case_id=case_id)
 
 

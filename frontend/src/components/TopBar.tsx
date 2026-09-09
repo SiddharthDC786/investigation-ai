@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { getCase } from '../api/case'
 import { getCaseSummary } from '../api/summary'
-import { CASE_ID } from '../data/mockCase'
+import { CASE_DISPLAY_REF, CASE_ID } from '../data/mockCase'
+import { displayCaseTitle } from '../lib/displayCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import { usePresentationMode } from '../i18n/PresentationModeContext'
 import { ConnectionStatusBadge } from './ConnectionStatusBadge'
@@ -18,11 +19,14 @@ export function TopBar() {
 
   useEffect(() => {
     void getCase(CASE_ID)
-      .then((c) => setCaseTitle(c.title))
-      .catch(() => setCaseTitle('Case unavailable'))
+      .then((c) => setCaseTitle(displayCaseTitle(c.title)))
+      .catch(() => setCaseTitle('Active investigation'))
     void getCaseSummary(CASE_ID)
-      .then((s) => s && setBriefing(s.narrative))
-      .catch(() => setBriefing(null))
+      .then((s) => {
+        if (!s?.narrative) return
+        const line = displayCaseTitle(s.narrative)
+        if (!/synthetic|CASE0001/i.test(line)) setBriefing(line)
+      })
   }, [])
 
   return (
@@ -35,11 +39,11 @@ export function TopBar() {
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-base font-semibold text-text-primary">Vigil</span>
             <SihBadge compact />
-            <span className="text-xs text-accent-steel">{CASE_ID}</span>
+            <span className="text-xs text-accent-steel">{CASE_DISPLAY_REF}</span>
           </div>
           <p className="truncate text-sm text-text-secondary">{caseTitle}</p>
           {briefing && (
-            <p className="mt-1 line-clamp-2 max-w-xl text-xs leading-relaxed text-text-muted">{briefing}</p>
+            <p className="mt-1 line-clamp-1 max-w-xl text-xs leading-relaxed text-text-muted">{briefing}</p>
           )}
         </div>
       </div>

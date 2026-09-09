@@ -61,6 +61,7 @@ export interface GraphLink {
   source: string
   target: string
   label: string
+  weight?: number
 }
 
 export interface TimelineEvent {

@@ -10,7 +10,7 @@ import {
 } from 'recharts'
 import { getCommunities, getRiskScores, riskScoresToEntities } from '../api/analyze'
 import { formatApiError } from '../api/client'
-import { CASE_ID, narrativeTags } from '../data/mockCase'
+import { CASE_ID } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity } from '../types'
 
@@ -73,9 +73,6 @@ export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) 
       <header className="border-b border-console-border px-5 py-3">
         <div className="flex items-center gap-3">
           <h1 className="text-base font-semibold text-text-primary">{t.views.risk.header}</h1>
-          <span className="border border-accent-amber/40 bg-accent-amber/10 px-2 py-0.5 text-[10px] text-accent-amber">
-            {narrativeTags.risk}
-          </span>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.risk.description}</p>
         {loading && <p className="mt-2 text-sm text-text-muted">{t.risk.loading}</p>}

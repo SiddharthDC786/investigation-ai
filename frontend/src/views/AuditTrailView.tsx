@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CASE_ID, narrativeTags } from '../data/mockCase'
+import { CASE_DISPLAY_REF } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { AuditEntry } from '../types'
 
@@ -38,7 +38,7 @@ export function AuditTrailView({
 
     const bundle = {
       watermark: t.audit.exportWatermark,
-      caseId: CASE_ID,
+      caseId: CASE_DISPLAY_REF,
       exportedAt: new Date().toISOString(),
       exportedBy,
       chainStatus,
@@ -50,7 +50,7 @@ export function AuditTrailView({
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement('a')
     anchor.href = url
-    anchor.download = `vigil-disclosure-${CASE_ID}-${Date.now()}.json`
+    anchor.download = `vigil-disclosure-${CASE_DISPLAY_REF.replace(/\//g, '-')}-${Date.now()}.json`
     anchor.click()
     URL.revokeObjectURL(url)
 
@@ -66,9 +66,6 @@ export function AuditTrailView({
           <div>
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-base font-semibold text-text-primary">{t.views.audit.header}</h1>
-              <span className="border border-accent-steel/30 bg-accent-steel/10 px-2 py-0.5 text-[10px] text-accent-steel">
-                {narrativeTags.audit}
-              </span>
               <span className={`border px-2 py-0.5 text-[10px] ${chainClass(chainStatus)}`}>
                 {chainLabel(chainStatus, t)}
               </span>

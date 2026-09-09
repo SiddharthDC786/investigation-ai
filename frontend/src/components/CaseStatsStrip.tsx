@@ -17,7 +17,7 @@ export function CaseStatsStrip() {
       .then((stats) => {
         if (cancelled || !stats) return
         setLiveLine(
-          `${stats.persons} linked · ${stats.cdr_records} CDR · ${stats.transactions} TXN · ${stats.timeline_events} events`,
+          `${stats.persons} people linked · ${stats.cdr_records} calls · ${stats.transactions} transfers · ${stats.timeline_events} events`,
         )
       })
       .catch(() => {
@@ -32,7 +32,7 @@ export function CaseStatsStrip() {
     return (
       <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-console-border bg-console-bg px-4 py-2">
         <span className="border border-risk-low/40 bg-risk-low/10 px-2.5 py-1 text-[11px] text-risk-low">
-          {CASE_ID} — {liveLine}
+          {liveLine}
         </span>
       </div>
     )

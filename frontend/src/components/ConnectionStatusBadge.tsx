@@ -70,13 +70,13 @@ export function ConnectionStatusBadge() {
   }
 
   const stackHint =
-    state === 'live' && (neo4j !== null || nlpEngine)
+    state === 'live'
       ? [
-          neo4j ? t.connection.neo4jOn : t.connection.neo4jOff,
+          neo4j ? t.connection.neo4jOn : null,
           nlpEngine ? `${t.connection.nlp}: ${nlpEngine}` : null,
         ]
           .filter(Boolean)
-          .join(' · ')
+          .join(' · ') || t.connection.liveHint
       : state === 'demo'
         ? t.connection.demoHint
         : state === 'down' || state === 'degraded'

@@ -53,6 +53,22 @@ export async function ingestFirText(caseId: string, text: string): Promise<Inges
   return res.json() as Promise<IngestResponse>
 }
 
+export async function ingestFirImage(caseId: string, file: File): Promise<IngestResponse> {
+  const body = new FormData()
+  body.append('file', file)
+  body.append('case_id', caseId)
+
+  const res = await fetch(`${getApiBase()}/ingest/fir/image`, {
+    method: 'POST',
+    body,
+  })
+  if (!res.ok) {
+    const msg = await res.text().catch(() => res.statusText)
+    throw new Error(`Image ingest failed: ${msg}`)
+  }
+  return res.json() as Promise<IngestResponse>
+}
+
 export function isIngestLive(): boolean {
   return isApiConfigured()
 }

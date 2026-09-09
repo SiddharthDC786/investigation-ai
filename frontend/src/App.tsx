@@ -29,9 +29,9 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   const { logout } = useAuth()
   const { t } = useLanguage()
   const [view, setView] = useState<ViewId>('search')
-  const [selectedId, setSelectedId] = useState<string | null>('P00014')
+  const [guideOpen, setGuideOpen] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
   const [highlightedIds, setHighlightedIds] = useState<Set<string>>(new Set())
-  const [guideOpen, setGuideOpen] = useState(true)
   const [auditLog, setAuditLog] = useState<AuditEntry[]>(() =>
     isApiConfigured() ? [] : [...seedAuditLog],
   )
