@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { getEntityExplanation } from '../api/explain'
 import {
   enrichEntity,
   getOsintAuditLog,
@@ -8,6 +9,7 @@ import {
 import { CASE_DISPLAY_REF, CASE_ID, osintLookups } from '../data/mockCase'
 import { useAuth } from '../auth/AuthContext'
 import { useLanguage } from '../i18n/LanguageContext'
+import { getPersonPhoneDisplay } from '../lib/investigationSearch'
 import type { AuditEntry, Entity } from '../types'
 
 interface OsintViewProps {
@@ -28,10 +30,16 @@ export function OsintView({
   const { t } = useLanguage()
   const { user } = useAuth()
   const entity = selectedId ? entityLookup[selectedId] : null
+  const personEntity = entity?.type === 'person' ? entity : entity?.metadata?.person_id
+    ? entityLookup[entity.metadata.person_id]
+    : null
+  const dossier = personEntity ?? (entity?.type === 'person' ? entity : null)
+
   const [loading, setLoading] = useState<string | null>(null)
   const [lastResult, setLastResult] = useState<OsintEnrichResponse | null>(null)
   const [chainStatus, setChainStatus] = useState<string>('unknown')
   const [error, setError] = useState<string | null>(null)
+  const [explain, setExplain] = useState<Awaited<ReturnType<typeof getEntityExplanation>>>(null)
 
   const refreshAudit = useCallback(async () => {
     try {
@@ -50,30 +58,53 @@ export function OsintView({
     refreshAudit()
   }, [refreshAudit])
 
+  useEffect(() => {
+    if (!dossier?.id) {
+      setExplain(null)
+      return
+    }
+    let cancelled = false
+    getEntityExplanation(dossier.id, CASE_ID)
+      .then((res) => {
+        if (!cancelled) setExplain(res)
+      })
+      .catch(() => {
+        if (!cancelled) setExplain(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [dossier?.id])
+
   const runLookup = async (lookupId: string) => {
-    if (!entity) return
+    const target = dossier ?? entity
+    if (!target) return
     setError(null)
     setLoading(lookupId)
     try {
       const result = await enrichEntity({
         case_id: CASE_ID,
-        entity_id: entity.id,
+        entity_id: target.id,
         lookup_id: lookupId,
         operator: user?.badgeId ?? 'INV-2847',
         operator_name: user?.name ?? 'Investigator',
       })
       setLastResult(result)
-      onRunLookup(lookupId, entity.id, result)
+      onRunLookup(lookupId, target.id, result)
       await refreshAudit()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Lookup failed')
-      onRunLookup(lookupId, entity.id)
+      onRunLookup(lookupId, target.id)
     } finally {
       setLoading(null)
     }
   }
 
-  const osintLogs = recentLogs.filter((l) => l.action.includes('OSINT'))
+  const osintLogs = recentLogs.filter(
+    (l) => l.action.includes('OSINT') && (!dossier || l.entityId === dossier.id),
+  )
+
+  const phone = dossier ? getPersonPhoneDisplay(dossier.id) : null
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -95,15 +126,75 @@ export function OsintView({
       </header>
 
       <div className="grid flex-1 grid-cols-1 gap-0 overflow-hidden lg:grid-cols-2">
-        <section className="border-b border-console-border p-5 lg:border-b-0 lg:border-r">
-          <h2 className="text-sm font-semibold text-text-primary">{t.osint.selectedTarget}</h2>
-          {entity ? (
-            <div className="mt-3 border border-console-border bg-console-raised p-4">
-              <p className="text-lg font-semibold text-text-primary">{entity.label}</p>
-              <p className="mt-1 text-sm text-text-secondary">
-                {t.entityType[entity.type]}
-                {entity.role ? ` · ${t.role[entity.role]}` : ''}
-              </p>
+        <section className="overflow-y-auto border-b border-console-border p-5 lg:border-b-0 lg:border-r">
+          <h2 className="text-sm font-semibold text-text-primary">{t.osint.dossierTitle}</h2>
+          {dossier ? (
+            <div className="mt-3 space-y-4">
+              <div className="border border-accent-amber/40 bg-accent-amber/5 p-4">
+                <p className="text-lg font-semibold text-text-primary">{dossier.label}</p>
+                <p className="mt-1 text-sm text-text-secondary">
+                  {dossier.role ? t.role[dossier.role] : t.entityType.person}
+                  {dossier.metadata.city ? ` · ${dossier.metadata.city}` : ''}
+                </p>
+                <dl className="mt-3 grid gap-1 text-sm text-text-primary">
+                  {dossier.metadata.dob && (
+                    <div>
+                      <dt className="inline text-text-muted">DOB: </dt>
+                      <dd className="inline">{dossier.metadata.dob}</dd>
+                    </div>
+                  )}
+                  {dossier.metadata.age && (
+                    <div>
+                      <dt className="inline text-text-muted">Age: </dt>
+                      <dd className="inline">{dossier.metadata.age}</dd>
+                    </div>
+                  )}
+                  {dossier.metadata.gender && (
+                    <div>
+                      <dt className="inline text-text-muted">Gender: </dt>
+                      <dd className="inline">{dossier.metadata.gender}</dd>
+                    </div>
+                  )}
+                  {phone && (
+                    <div>
+                      <dt className="inline text-text-muted">Phone: </dt>
+                      <dd className="inline">{phone}</dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+
+              {explain && explain.relationships.length > 0 && (
+                <div className="border border-console-border bg-console-raised p-4">
+                  <h3 className="text-xs font-semibold text-text-primary">{t.osint.relationships}</h3>
+                  <ul className="mt-2 space-y-2 text-sm">
+                    {explain.relationships.slice(0, 8).map((rel) => (
+                      <li key={rel.related_entity_id} className="text-text-secondary">
+                        <span className="font-medium text-text-primary">{rel.related_label}</span>
+                        {' — '}
+                        {rel.relationship.replace(/_/g, ' ')}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {explain && explain.source_citations.length > 0 && (
+                <div className="border border-console-border bg-console-bg p-4">
+                  <h3 className="text-xs font-semibold text-text-primary">{t.osint.sourcesCited}</h3>
+                  <ul className="mt-2 space-y-1 text-xs text-text-muted">
+                    {explain.source_citations.slice(0, 6).map((c, i) => (
+                      <li key={`${c.source_id}-${i}`}>
+                        {c.source_type}: {c.excerpt ?? c.source_id}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {explain?.narrative && (
+                <p className="text-sm leading-relaxed text-text-secondary">{explain.narrative}</p>
+              )}
             </div>
           ) : (
             <p className="mt-3 text-sm text-text-muted">{t.osint.selectFirst}</p>
@@ -112,6 +203,7 @@ export function OsintView({
           {error && <p className="mt-3 text-sm text-risk-high">{error}</p>}
 
           <h2 className="mt-6 text-sm font-semibold text-text-primary">{t.osint.availableSearches}</h2>
+          <p className="mt-1 text-xs text-text-muted">{t.osint.runLookupHint}</p>
           <ul className="mt-3 space-y-3">
             {osintLookups.map((lookup) => (
               <li key={lookup.id} className="border border-console-border bg-console-bg p-4">
@@ -119,7 +211,7 @@ export function OsintView({
                 <p className="mt-1 text-sm text-text-secondary">{lookup.description}</p>
                 <button
                   type="button"
-                  disabled={!entity || loading === lookup.id}
+                  disabled={!dossier || loading === lookup.id}
                   onClick={() => runLookup(lookup.id)}
                   className="mt-3 min-h-[44px] border border-accent-amber/50 px-4 py-2 text-sm font-medium text-accent-amber transition-colors hover:bg-accent-amber/10 disabled:cursor-not-allowed disabled:opacity-40"
                 >
@@ -131,7 +223,7 @@ export function OsintView({
 
           {lastResult && (
             <div className="mt-6 border border-accent-steel/30 bg-accent-steel/5 p-4">
-              <p className="text-xs font-semibold text-accent-steel">Latest enrichment</p>
+              <p className="text-xs font-semibold text-accent-steel">Latest lookup result</p>
               <ul className="mt-2 space-y-2">
                 {lastResult.results.map((hit) => (
                   <li key={hit.title} className="text-sm text-text-secondary">
@@ -141,9 +233,6 @@ export function OsintView({
                   </li>
                 ))}
               </ul>
-              <p className="mt-2 font-mono text-[10px] text-text-muted">
-                audit {lastResult.audit_entry_id} · {lastResult.audit_hash.slice(0, 16)}…
-              </p>
             </div>
           )}
         </section>
@@ -159,7 +248,6 @@ export function OsintView({
                   <p className="text-xs text-accent-amber">{log.timestamp}</p>
                   <p className="mt-1 text-text-primary">{log.action}</p>
                   <p className="mt-1 text-xs text-text-muted">{log.source}</p>
-                  <p className="mt-1 text-xs text-text-muted">{log.operator}</p>
                 </div>
               ))
             )}

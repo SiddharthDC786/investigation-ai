@@ -17,6 +17,7 @@ export interface IngestResponse {
   entities_extracted: number
   entities_merged: number
   mentions: IngestMention[]
+  extracted_text?: string | null
 }
 
 export interface PreviewEntity {

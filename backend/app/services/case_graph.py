@@ -5,7 +5,7 @@ from collections import defaultdict
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
-from app.schemas.graph import GraphLink, GraphResponse
+from app.schemas.graph import GraphLink, GraphResponse, GraphStats
 from app.schemas.investigation import InvestigationEntity
 from app.services.investigation_search import (
     _account_entity_id,
@@ -89,31 +89,118 @@ def _cdr_person_edges(db: Session, case_id: str) -> list[tuple[str, str, int]]:
     return [(r["a"], r["b"], int(r["cnt"])) for r in rows]
 
 
-def _shared_phones(db: Session, case_id: str, person_ids: set[str]) -> list[tuple[str, str, list[str]]]:
-    """Return (phone_number, phone_entity_id, [person_ids]) for phones linking 2+ people."""
+def _shared_contact_bridges(
+    db: Session,
+    case_id: str,
+    person_ids: set[str],
+) -> list[tuple[str, str, dict[str, int], str | None]]:
+    """
+    Numbers that 2+ people in the map called (outbound CDR).
+    Returns (phone_number, phone_entity_id, {person_id: call_count}, owner_person_id).
+    """
+    if len(person_ids) < 2:
+        return []
+
     rows = db.execute(
         text(
             """
-            SELECT ph.phone_number, ph.person_id
+            SELECT p1.person_id AS caller, c.receiver_phone AS target, COUNT(*) AS cnt
             FROM cdr c
-            JOIN phones ph ON ph.phone_number IN (c.caller_phone, c.receiver_phone)
-            WHERE c.case_id = :cid
+            JOIN phones p1 ON p1.phone_number = c.caller_phone
+            WHERE c.case_id = :cid AND p1.person_id = ANY(:pids)
+            GROUP BY p1.person_id, c.receiver_phone
+            HAVING COUNT(*) >= 1
             """
         ),
-        {"cid": case_id},
+        {"cid": case_id, "pids": list(person_ids)},
     ).mappings().all()
 
-    phone_to_people: dict[str, set[str]] = defaultdict(set)
+    by_target: dict[str, dict[str, int]] = defaultdict(dict)
     for row in rows:
-        if row["person_id"] in person_ids:
-            phone_to_people[row["phone_number"]].add(row["person_id"])
+        by_target[row["target"]][row["caller"]] = int(row["cnt"])
 
-    out: list[tuple[str, str, list[str]]] = []
-    for number, people in phone_to_people.items():
-        if len(people) >= 2:
-            out.append((number, _phone_entity_id(number), sorted(people)))
-    out.sort(key=lambda x: -len(x[2]))
-    return out[:3]
+    owners = {
+        r["phone_number"]: r["person_id"]
+        for r in db.execute(text("SELECT phone_number, person_id FROM phones")).mappings().all()
+    }
+
+    bridges: list[tuple[str, str, dict[str, int], str | None]] = []
+    for number, callers in by_target.items():
+        if len(callers) < 2:
+            continue
+        bridges.append((number, _phone_entity_id(number), callers, owners.get(number)))
+
+    bridges.sort(key=lambda x: (-len(x[2]), -sum(x[2].values())))
+    return bridges[:2]
+
+
+def _role_label(role: str | None) -> str:
+    return {
+        "suspect": "primary suspect",
+        "associate": "associate",
+        "facilitator": "facilitator",
+        "witness": "witness",
+        "handler": "financial handler",
+        "complainant": "complainant",
+    }.get(role or "", "contact")
+
+
+def _build_connection_story(
+    focus: str,
+    nodes: dict[str, InvestigationEntity],
+    links: list[GraphLink],
+) -> list[str]:
+    focus_node = nodes.get(focus)
+    if not focus_node:
+        return []
+
+    focus_name = focus_node.label
+    stories: list[str] = [
+        f"{focus_name} is the investigation focus. Every connection below is supported by call records — not guesswork.",
+    ]
+
+    direct = [
+        l
+        for l in links
+        if l.link_type == "phone_call" and focus in (l.source, l.target)
+    ]
+    for link in sorted(direct, key=lambda l: -l.weight):
+        other_id = link.target if link.source == focus else link.source
+        other = nodes.get(other_id)
+        if not other or other.type != "person":
+            continue
+        role = _role_label(other.role)
+        stories.append(
+            f"{other.label} ({role}) — {link.label} with {focus_name}. {link.evidence or 'CDR records'}."
+        )
+
+    inner = [
+        l
+        for l in links
+        if l.link_type == "phone_call"
+        and focus not in (l.source, l.target)
+        and (nodes.get(l.source) and nodes.get(l.source).type == "person")
+        and (nodes.get(l.target) and nodes.get(l.target).type == "person")
+    ]
+    for link in sorted(inner, key=lambda l: -l.weight):
+        a = nodes.get(link.source)
+        b = nodes.get(link.target)
+        if not a or not b:
+            continue
+        stories.append(
+            f"{a.label} and {b.label} also spoke directly ({link.label}) — inner ring link. {link.evidence or 'CDR records'}."
+        )
+
+    bridges = [l for l in links if l.link_type == "shared_contact"]
+    if bridges:
+        stories.append(
+            "Shared contact numbers (diamond nodes) were called by multiple people — a hidden link when they never called each other directly."
+        )
+
+    if len(stories) == 1:
+        stories.append("No strong phone links found yet — ingest CDR or expand the search focus.")
+
+    return stories
 
 
 def _apply_narrative_role(case_id: str, person_id: str, roles: dict[str, str]) -> str | None:
@@ -181,17 +268,34 @@ def build_investigation_map(
         keep = {focus, *list(sorted(contact_weights, key=contact_weights.get, reverse=True)[:10])}
         included = keep
 
-    shared = _shared_phones(db, case_id, included)
+    bridges = _shared_contact_bridges(db, case_id, included)
     nodes: dict[str, InvestigationEntity] = {}
     links: list[GraphLink] = []
     seen_links: set[tuple[str, str]] = set()
 
-    def add_link(source: str, target: str, label: str, weight: float = 1.0) -> None:
+    def add_link(
+        source: str,
+        target: str,
+        label: str,
+        weight: float = 1.0,
+        *,
+        link_type: str = "phone_call",
+        evidence: str | None = None,
+    ) -> None:
         key = (source, target) if source < target else (target, source)
         if key in seen_links:
             return
         seen_links.add(key)
-        links.append(GraphLink(source=source, target=target, label=label, weight=weight))
+        links.append(
+            GraphLink(
+                source=source,
+                target=target,
+                label=label,
+                weight=weight,
+                link_type=link_type,
+                evidence=evidence,
+            )
+        )
 
     for pid in included:
         node = _build_person_node(db, case_id, pid, roles, is_focus=(pid == focus))
@@ -200,7 +304,14 @@ def build_investigation_map(
 
     for a, b, cnt in cdr_edges:
         if a in included and b in included:
-            add_link(a, b, f"{cnt} calls", float(cnt))
+            add_link(
+                a,
+                b,
+                f"{cnt} calls",
+                float(cnt),
+                link_type="phone_call",
+                evidence=f"CDR: {cnt} recorded calls between registered handsets in case {case_id}.",
+            )
 
     rels = db.execute(
         text(
@@ -214,46 +325,78 @@ def build_investigation_map(
     for rel in rels:
         a, b = rel["person_id_a"], rel["person_id_b"]
         if a in included and b in included:
-            add_link(a, b, rel["relationship_type"], 2.0)
+            add_link(
+                a,
+                b,
+                rel["relationship_type"],
+                2.0,
+                link_type="relationship",
+                evidence=f"Case relationship file: {rel['relationship_type']}.",
+            )
 
-    for number, ph_id, people in shared:
+    for number, ph_id, callers, owner_pid in bridges:
         if ph_id in nodes:
             continue
+        owner_name = nodes[owner_pid].label if owner_pid and owner_pid in nodes else "unknown party"
         nodes[ph_id] = InvestigationEntity(
             id=ph_id,
             label=f"…{number[-4:]}",
             type="phone",
-            subtitle="Shared contact number — links multiple suspects",
+            subtitle=f"Shared contact · {len(callers)} people called this number",
             score=88,
             severity="high",
-            sources=["cdr fusion"],
-            explainability=["Multiple persons in this case called the same number — hidden link."],
+            sources=["cdr"],
+            explainability=[
+                f"Multiple case subjects called {number[-4:]} — registered to {owner_name}.",
+                "This reveals a link even when those people never called each other directly.",
+            ],
             connections=[],
-            metadata={"phone_number": number, "bridge": "true"},
+            metadata={"phone_number": number, "bridge": "true", "owner_id": owner_pid or ""},
         )
-        for pid in people:
+        for pid, call_cnt in callers.items():
             if pid in included:
-                add_link(pid, ph_id, "called", 3.0)
+                add_link(
+                    pid,
+                    ph_id,
+                    f"{call_cnt} calls",
+                    float(call_cnt),
+                    link_type="shared_contact",
+                    evidence=f"CDR: {nodes[pid].label} called …{number[-4:]} {call_cnt} time(s).",
+                )
 
     focus_name = nodes[focus].label if focus in nodes else focus
-    direct_links = [l for l in links if l.source == focus or l.target == focus]
-    direct = len(direct_links)
+    person_count = sum(1 for n in nodes.values() if n.type == "person")
+    direct_links = [
+        l for l in links if l.source == focus or l.target == focus
+    ]
+    direct = len([l for l in direct_links if l.link_type == "phone_call"])
     top_contact = ""
-    if direct_links:
-        best = max(direct_links, key=lambda l: l.weight)
+    phone_direct = [l for l in direct_links if l.link_type == "phone_call"]
+    if phone_direct:
+        best = max(phone_direct, key=lambda l: l.weight)
         other_id = best.target if best.source == focus else best.source
-        if other_id in nodes:
-            top_contact = f" Strongest contact: {nodes[other_id].label} ({best.label})."
+        if other_id in nodes and nodes[other_id].type == "person":
+            top_contact = f" Strongest phone contact: {nodes[other_id].label} ({best.label})."
+    bridge_count = sum(1 for n in nodes.values() if n.type == "phone")
     summary = (
-        f"{focus_name} sits at the centre of this investigation map with {direct} direct phone links."
-        f"{top_contact} Thicker lines mean more calls between those two people."
+        f"{focus_name} is the hub of this network — {direct} direct phone link(s), "
+        f"{person_count} people on map."
+        f"{top_contact} Red lines = calls to/from suspect; gold diamonds = shared numbers."
     )
+
+    story = _build_connection_story(focus, nodes, links)
 
     return GraphResponse(
         nodes=list(nodes.values()),
         links=links,
         focus_person_id=focus,
         summary=summary,
+        connection_story=story,
+        stats=GraphStats(
+            person_count=person_count,
+            link_count=len(links),
+            shared_contact_count=bridge_count,
+        ),
     )
 
 

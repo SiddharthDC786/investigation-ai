@@ -7,6 +7,9 @@ export interface SearchFilters {
   phoneQuery: string
   areaQuery: string
   roleFilter: RoleFilter
+  genderQuery: string
+  ageQuery: string
+  fatherNameQuery: string
   faceMatchPersonId: string | null
   /** Set when officer picks one person from multiple same-name matches */
   selectedPersonId: string | null
@@ -24,6 +27,7 @@ export interface InvestigationSearchResult {
   primaryMatches: Entity[]
   relatedPeople: RelatedPersonHit[]
   linkedRecords: Entity[]
+  message?: string | null
 }
 
 export type EntityType = 'person' | 'phone' | 'account' | 'address'
@@ -62,6 +66,14 @@ export interface GraphLink {
   target: string
   label: string
   weight?: number
+  link_type?: 'phone_call' | 'relationship' | 'shared_contact' | string
+  evidence?: string | null
+}
+
+export interface GraphStats {
+  person_count: number
+  link_count: number
+  shared_contact_count: number
 }
 
 export interface TimelineEvent {

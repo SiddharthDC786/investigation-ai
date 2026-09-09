@@ -49,3 +49,4 @@ class InvestigationSearchResult(BaseModel):
     primaryMatches: list[InvestigationEntity]
     relatedPeople: list[RelatedPersonHit]
     linkedRecords: list[InvestigationEntity]
+    message: str | None = None

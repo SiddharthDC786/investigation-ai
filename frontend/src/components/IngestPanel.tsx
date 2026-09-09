@@ -165,10 +165,21 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
       )}
 
       {result && (
-        <div className="mt-3 border border-risk-low/40 bg-risk-low/10 p-3 text-xs text-risk-low">
-          {t.ingest.success
-            .replace('{extracted}', String(result.entities_extracted))
-            .replace('{merged}', String(result.entities_merged))}
+        <div className="mt-3 space-y-3">
+          <div className="border border-risk-low/40 bg-risk-low/10 p-3 text-xs text-risk-low">
+            {t.ingest.success
+              .replace('{extracted}', String(result.entities_extracted))
+              .replace('{merged}', String(result.entities_merged))}
+            <p className="mt-1 text-text-muted">{t.ingest.savedToDatabase}</p>
+          </div>
+          {result.extracted_text && (
+            <div className="border border-console-border bg-console-raised p-3">
+              <p className="text-xs font-semibold text-text-primary">{t.ingest.extractedText}</p>
+              <pre className="mt-2 max-h-48 overflow-y-auto whitespace-pre-wrap text-xs text-text-secondary">
+                {result.extracted_text}
+              </pre>
+            </div>
+          )}
         </div>
       )}
     </section>

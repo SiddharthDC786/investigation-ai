@@ -38,6 +38,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   const [chainStatus, setChainStatus] = useState<string>('unknown')
   const [reviews, setReviews] = useState<Record<string, ReviewDecision>>({})
   const [liveEntities, setLiveEntities] = useState<Record<string, Entity>>({})
+  const [timelineRefreshKey, setTimelineRefreshKey] = useState(0)
 
   const mergeLiveEntities = useCallback((items: Entity[]) => {
     if (items.length === 0) return
@@ -158,6 +159,19 @@ function VigilDashboard({ user }: { user: AuthUser }) {
     })
   }, [appendAudit])
 
+  const handleIngested = useCallback(
+    (summary: string) => {
+      setTimelineRefreshKey((k) => k + 1)
+      appendAudit({
+        action: summary,
+        entityId: selectedId ?? CASE_ID,
+        source: 'Vigil FIR ingest',
+        lawfulBasis: 'Officer-uploaded FIR document — NLP extraction logged',
+      })
+    },
+    [appendAudit, selectedId],
+  )
+
   const handleSearchPerformed = useCallback(
     (summary: string, entityId: string) => {
       appendAudit({
@@ -196,6 +210,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
             selectedId={selectedId}
             highlightedIds={highlightedIds}
             entityLookup={{ ...entityMap, ...liveEntities }}
+            timelineRefreshKey={timelineRefreshKey}
             onSelectEntity={setSelectedId}
             onHoverEntities={(ids) => setHighlightedIds(new Set(ids))}
           />
@@ -222,6 +237,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
         return (
           <AuditTrailView
             logs={auditLog}
+            entityLookup={{ ...entityMap, ...liveEntities }}
             chainStatus={chainStatus}
             canExport={user.role === 'supervisor'}
             exportedBy={`${user.badgeId} · ${user.name}`}
@@ -231,7 +247,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
       default:
         return null
     }
-  }, [view, selectedId, highlightedIds, auditLog, chainStatus, handleOsintLookup, handleSearchPerformed, handleExportAudit, mergeLiveEntities, user.role, user.badgeId, user.name])
+  }, [view, selectedId, highlightedIds, auditLog, chainStatus, timelineRefreshKey, handleOsintLookup, handleSearchPerformed, handleExportAudit, mergeLiveEntities, user.role, user.badgeId, user.name])
 
   return (
     <div className="flex h-full flex-col bg-console-bg">
@@ -255,6 +271,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
           caseId={CASE_ID}
           reviewDecision={reviewDecision}
           onReview={handleReview}
+          onIngested={handleIngested}
         />
       </div>
       <footer className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-console-border bg-console-surface px-4 py-2 text-xs text-text-muted">

@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { CASE_DISPLAY_REF } from '../data/mockCase'
 import { useLanguage } from '../i18n/LanguageContext'
-import type { AuditEntry } from '../types'
+import type { AuditEntry, Entity } from '../types'
 
 interface AuditTrailViewProps {
   logs: AuditEntry[]
+  entityLookup?: Record<string, Entity>
   chainStatus?: string
   canExport?: boolean
   exportedBy?: string
@@ -23,8 +24,35 @@ function chainClass(status: string) {
   return 'border-console-border-strong text-text-muted bg-console-raised'
 }
 
+function actionCategory(action: string, t: ReturnType<typeof useLanguage>['t']) {
+  const lower = action.toLowerCase()
+  if (lower.includes('osint') || lower.includes('lookup')) return t.audit.categoryOsint
+  if (lower.includes('search') || lower.includes('person confirmed')) return t.audit.categorySearch
+  if (lower.includes('review')) return t.audit.categoryReview
+  if (lower.includes('login') || lower.includes('logout')) return t.audit.categoryAuth
+  if (lower.includes('ingest') || lower.includes('fir')) return t.audit.categoryIngest
+  return t.audit.categoryOther
+}
+
+function categoryClass(action: string) {
+  const lower = action.toLowerCase()
+  if (lower.includes('osint')) return 'border-accent-steel/40 text-accent-steel bg-accent-steel/10'
+  if (lower.includes('search') || lower.includes('person confirmed')) return 'border-accent-amber/40 text-accent-amber bg-accent-amber/10'
+  if (lower.includes('review')) return 'border-risk-medium/40 text-risk-medium bg-risk-medium/10'
+  if (lower.includes('login') || lower.includes('logout')) return 'border-console-border-strong text-text-muted bg-console-raised'
+  if (lower.includes('ingest') || lower.includes('fir')) return 'border-risk-low/40 text-risk-low bg-risk-low/10'
+  return 'border-console-border text-text-secondary bg-console-bg'
+}
+
+function recordLabel(entityId: string, lookup: Record<string, Entity>) {
+  const entity = lookup[entityId]
+  if (entity) return `${entity.label} (${entityId})`
+  return entityId
+}
+
 export function AuditTrailView({
   logs,
+  entityLookup = {},
   chainStatus = 'unknown',
   canExport = false,
   exportedBy = 'Unknown',
@@ -32,6 +60,11 @@ export function AuditTrailView({
 }: AuditTrailViewProps) {
   const { t } = useLanguage()
   const [exportNotice, setExportNotice] = useState<string | null>(null)
+
+  const sortedLogs = useMemo(
+    () => [...logs].sort((a, b) => b.timestamp.localeCompare(a.timestamp)),
+    [logs],
+  )
 
   function handleExport() {
     if (!canExport) return
@@ -88,24 +121,32 @@ export function AuditTrailView({
       </header>
 
       <div className="flex-1 overflow-auto">
-        {logs.length === 0 ? (
+        {sortedLogs.length === 0 ? (
           <p className="px-5 py-8 text-sm text-text-muted">{t.audit.empty}</p>
         ) : (
-          <table className="w-full min-w-[640px] text-left text-sm">
+          <table className="w-full min-w-[720px] text-left text-sm">
             <thead className="sticky top-0 bg-console-surface text-xs text-text-muted">
               <tr className="border-b border-console-border">
                 <th className="px-4 py-3 font-semibold">{t.audit.colWhen}</th>
+                <th className="px-3 py-3 font-semibold">Type</th>
                 <th className="px-3 py-3 font-semibold">{t.audit.colAction}</th>
                 <th className="px-3 py-3 font-semibold">{t.audit.colRecord}</th>
                 <th className="px-3 py-3 font-semibold">{t.audit.colOfficer}</th>
               </tr>
             </thead>
             <tbody>
-              {logs.map((log) => (
+              {sortedLogs.map((log) => (
                 <tr key={log.id} className="border-b border-console-border/50 hover:bg-console-raised/50">
                   <td className="px-4 py-3 text-xs text-accent-amber whitespace-nowrap">{log.timestamp}</td>
+                  <td className="px-3 py-3">
+                    <span className={`inline-block border px-2 py-0.5 text-[10px] ${categoryClass(log.action)}`}>
+                      {actionCategory(log.action, t)}
+                    </span>
+                  </td>
                   <td className="px-3 py-3 text-text-primary">{log.action}</td>
-                  <td className="px-3 py-3 text-xs text-accent-steel">{log.entityId}</td>
+                  <td className="px-3 py-3 text-xs text-accent-steel">
+                    {recordLabel(log.entityId, entityLookup)}
+                  </td>
                   <td className="px-3 py-3 text-text-secondary">{log.operator}</td>
                 </tr>
               ))}

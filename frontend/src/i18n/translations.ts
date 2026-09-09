@@ -158,6 +158,8 @@ export type TranslationTree = {
     imageLabel: string
     imageHint: string
     scanningImage: string
+    extractedText: string
+    savedToDatabase: string
   }
   views: {
     search: ViewCopy
@@ -187,6 +189,9 @@ export type TranslationTree = {
     source: string
     empty: string
     apiError: string
+    selectPersonFirst: string
+    filteredFor: string
+    noEventsForPerson: string
   }
   risk: {
     scoreChart: string
@@ -202,6 +207,11 @@ export type TranslationTree = {
     policy: string
     selectedTarget: string
     selectFirst: string
+    dossierTitle: string
+    quickFacts: string
+    relationships: string
+    sourcesCited: string
+    runLookupHint: string
     availableSearches: string
     runSearch: string
     recentSearches: string
@@ -222,6 +232,12 @@ export type TranslationTree = {
     chainVerified: string
     chainBroken: string
     chainUnknown: string
+    categorySearch: string
+    categoryOsint: string
+    categoryReview: string
+    categoryAuth: string
+    categoryIngest: string
+    categoryOther: string
   }
   search: {
     nameLabel: string
@@ -230,6 +246,12 @@ export type TranslationTree = {
     phonePlaceholder: string
     areaLabel: string
     areaPlaceholder: string
+    genderLabel: string
+    genderPlaceholder: string
+    ageLabel: string
+    agePlaceholder: string
+    fatherNameLabel: string
+    fatherNamePlaceholder: string
     roleLabel: string
     roleAll: string
     faceLabel: string
@@ -245,7 +267,14 @@ export type TranslationTree = {
     emptyHint: string
     tryExample: string
     noResults: string
+    noDatabaseData: string
+    noDataAvailable: string
+    autoSearchHint: string
+    connectedTo: string
+    roleInCase: string
     primaryMatches: string
+    matchedPersonHint: string
+    viewInNetwork: string
     relatedPeople: string
     relatedHint: string
     linkedRecords: string
@@ -415,6 +444,8 @@ export const translations: Record<Language, TranslationTree> = {
       imageLabel: 'Upload FIR photo or scan',
       imageHint: 'JPEG/PNG — text is read automatically, then entities are extracted',
       scanningImage: 'Reading image…',
+      extractedText: 'Extracted FIR text (saved to database)',
+      savedToDatabase: 'Saved to case database — timeline will update for linked persons.',
     },
     views: {
       search: {
@@ -475,7 +506,14 @@ export const translations: Record<Language, TranslationTree> = {
       tapForProfile: 'Tap a node to open their file',
       calls: 'calls',
     },
-    timeline: { source: 'Source', empty: 'No timeline events for this case yet.', apiError: 'Could not load timeline — check backend connection.' },
+    timeline: {
+      source: 'Source',
+      empty: 'No timeline events for this case yet.',
+      apiError: 'Could not load timeline — check backend connection.',
+      selectPersonFirst: 'Select a person from Person Search to view their timeline.',
+      filteredFor: 'Showing events for',
+      noEventsForPerson: 'No timeline events linked to this person yet.',
+    },
     risk: {
       scoreChart: 'Score chart',
       colName: 'Name',
@@ -488,9 +526,14 @@ export const translations: Record<Language, TranslationTree> = {
     },
     osint: {
       policy: 'Only lawful public records. Every search is saved with your name and time.',
-      selectedTarget: 'Selected person / record',
-      selectFirst: 'First select someone from the map, timeline, or priority list.',
-      availableSearches: 'Available searches',
+      selectedTarget: 'Investigation subject',
+      selectFirst: 'Select a person from Person Search first — this view shows their record dossier.',
+      dossierTitle: 'Person dossier',
+      quickFacts: 'Quick facts',
+      relationships: 'Known associations',
+      sourcesCited: 'Sources on file',
+      runLookupHint: 'Run an approved lookup below — results attach to this person only.',
+      availableSearches: 'Approved record lookups',
       runSearch: 'Run search (saved to log)',
       recentSearches: 'Recent searches this session',
       noSearches: 'No searches yet. Results appear here instantly.',
@@ -510,6 +553,12 @@ export const translations: Record<Language, TranslationTree> = {
       chainVerified: 'Hash chain verified',
       chainBroken: 'Hash chain broken — investigate tampering',
       chainUnknown: 'Chain status unknown',
+      categorySearch: 'Search',
+      categoryOsint: 'Record lookup',
+      categoryReview: 'Review',
+      categoryAuth: 'Session',
+      categoryIngest: 'FIR ingest',
+      categoryOther: 'Other',
     },
     search: {
       nameLabel: 'Name',
@@ -518,6 +567,12 @@ export const translations: Record<Language, TranslationTree> = {
       phonePlaceholder: 'e.g. 6749921640',
       areaLabel: 'Area / city',
       areaPlaceholder: 'e.g. Mumbai, Indore',
+      genderLabel: 'Gender',
+      genderPlaceholder: 'e.g. Male, Female',
+      ageLabel: 'Age',
+      agePlaceholder: 'e.g. 34',
+      fatherNameLabel: "Father's name",
+      fatherNamePlaceholder: 'From FIR records (if available)',
       roleLabel: 'Role filter',
       roleAll: 'All roles',
       faceLabel: 'Face photo (optional)',
@@ -532,8 +587,15 @@ export const translations: Record<Language, TranslationTree> = {
       emptyTitle: 'Search for a person to begin',
       emptyHint: 'Enter a name, phone number, or city. If several people share the same name, you will be asked to pick the right one.',
       tryExample: '',
-      noResults: 'No matches — try a different spelling or remove filters',
-      primaryMatches: 'Direct matches',
+      noResults: 'No person matches all filters — try different spelling or remove a filter',
+      noDatabaseData: 'No data for this field in the FIR database',
+      noDataAvailable: 'No data available — no matching person in the database',
+      autoSearchHint: 'Results update as you type — no refresh needed',
+      connectedTo: 'Connected to {name}',
+      roleInCase: 'Role in this case',
+      primaryMatches: 'Matched person',
+      matchedPersonHint: 'Person record matching your search filters',
+      viewInNetwork: 'View in network map',
       relatedPeople: 'Related people in network',
       relatedHint: 'Connected through calls, accounts, or case links',
       linkedRecords: 'Linked phones, accounts & locations',
@@ -697,6 +759,8 @@ export const translations: Record<Language, TranslationTree> = {
       imageLabel: 'FIR फोटो या स्कैन अपलोड करें',
       imageHint: 'JPEG/PNG — पाठ स्वतः पढ़ा जाता है, फिर इकाइयाँ निकाली जाती हैं',
       scanningImage: 'छवि पढ़ी जा रही है…',
+      extractedText: 'निकाला गया FIR पाठ (डेटाबेस में सहेजा)',
+      savedToDatabase: 'केस डेटाबेस में सहेजा — लिंक व्यक्तियों की समयरेखा अपडेट होगी।',
     },
     views: {
       search: {
@@ -761,6 +825,9 @@ export const translations: Record<Language, TranslationTree> = {
       source: 'स्रोत',
       empty: 'इस मामले के लिए अभी कोई टाइमलाइन घटना नहीं।',
       apiError: 'टाइमलाइन लोड नहीं हुई — बैकएंड कनेक्शन जाँचें।',
+      selectPersonFirst: 'समयरेखा देखने के लिए पहले Person Search से व्यक्ति चुनें।',
+      filteredFor: 'इनके लिए घटनाएँ',
+      noEventsForPerson: 'इस व्यक्ति से जुड़ी कोई समयरेखा घटना नहीं।',
     },
     risk: {
       scoreChart: 'स्कोर चार्ट',
@@ -774,9 +841,14 @@ export const translations: Record<Language, TranslationTree> = {
     },
     osint: {
       policy: 'केवल कानूनी सार्वजनिक रिकॉर्ड। हर खोज आपके नाम और समय के साथ सहेजी जाती है।',
-      selectedTarget: 'चयनित व्यक्ति / रिकॉर्ड',
-      selectFirst: 'पहले मैप, समयरेखा या प्राथमिकता सूची से किसी को चुनें।',
-      availableSearches: 'उपलब्ध खोज',
+      selectedTarget: 'जांच विषय',
+      selectFirst: 'पहले Person Search से व्यक्ति चुनें — यहाँ उनका रिकॉर्ड दिखेगा।',
+      dossierTitle: 'व्यक्ति डोज़ियर',
+      quickFacts: 'मुख्य तथ्य',
+      relationships: 'ज्ञात संबंध',
+      sourcesCited: 'फ़ाइल में स्रोत',
+      runLookupHint: 'नीचे अनुमोदित खोज चलाएँ — परिणाम केवल इस व्यक्ति से जुड़ेंगे।',
+      availableSearches: 'अनुमोदित रिकॉर्ड खोज',
       runSearch: 'खोज चलाएँ (लॉग में सहेजा जाएगा)',
       recentSearches: 'इस सत्र की हाल की खोज',
       noSearches: 'अभी कोई खोज नहीं। परिणाम तुरंत यहाँ दिखेंगे।',
@@ -796,6 +868,12 @@ export const translations: Record<Language, TranslationTree> = {
       chainVerified: 'हैश चेन सत्यापित',
       chainBroken: 'हैश चेन टूटी — छेड़छाड़ की जाँच करें',
       chainUnknown: 'चेन स्थिति अज्ञात',
+      categorySearch: 'खोज',
+      categoryOsint: 'रिकॉर्ड खोज',
+      categoryReview: 'समीक्षा',
+      categoryAuth: 'सत्र',
+      categoryIngest: 'FIR अपलोड',
+      categoryOther: 'अन्य',
     },
     search: {
       nameLabel: 'नाम',
@@ -804,6 +882,12 @@ export const translations: Record<Language, TranslationTree> = {
       phonePlaceholder: 'जैसे 6749921640',
       areaLabel: 'क्षेत्र / शहर',
       areaPlaceholder: 'जैसे Mumbai, Indore',
+      genderLabel: 'लिंग',
+      genderPlaceholder: 'जैसे Male, Female',
+      ageLabel: 'आयु',
+      agePlaceholder: 'जैसे 34',
+      fatherNameLabel: 'पिता का नाम',
+      fatherNamePlaceholder: 'FIR रिकॉर्ड से (यदि उपलब्ध)',
       roleLabel: 'भूमिका फ़िल्टर',
       roleAll: 'सभी भूमिकाएँ',
       faceLabel: 'चेहरे की फोटो (वैकल्पिक)',
@@ -818,8 +902,15 @@ export const translations: Record<Language, TranslationTree> = {
       emptyTitle: 'शुरू करने के लिए व्यक्ति खोजें',
       emptyHint: 'नाम, फ़ोन या शहर दर्ज करें। एक ही नाम के कई लोग हों तो सही व्यक्ति चुनने को कहा जाएगा।',
       tryExample: '',
-      noResults: 'कोई परिणाम नहीं — अलग वर्तनी या फ़िल्टर हटाएँ',
-      primaryMatches: 'प्रत्यक्ष मिलान',
+      noResults: 'कोई व्यक्ति सभी फ़िल्टर से मेल नहीं खाता — वर्तनी बदलें या फ़िल्टर हटाएँ',
+      noDatabaseData: 'FIR डेटाबेस में इस फ़ील्ड का कोई डेटा नहीं',
+      noDataAvailable: 'कोई डेटा उपलब्ध नहीं — डेटाबेस में मेल खाता व्यक्ति नहीं',
+      autoSearchHint: 'टाइप करते ही परिणाम अपडेट — रिफ़्रेश की जरूरत नहीं',
+      connectedTo: '{name} से जुड़े',
+      roleInCase: 'इस मामले में भूमिका',
+      primaryMatches: 'मिला व्यक्ति',
+      matchedPersonHint: 'आपकी खोज फ़िल्टर से मेल खाता व्यक्ति रिकॉर्ड',
+      viewInNetwork: 'नेटवर्क मानचित्र में देखें',
       relatedPeople: 'नेटवर्क में संबंधित लोग',
       relatedHint: 'कॉल, खाते या मामले के लिंक से जुड़े',
       linkedRecords: 'लिंक्ड फ़ोन, खाते और स्थान',

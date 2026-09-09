@@ -18,6 +18,7 @@ class IngestResponse(BaseModel):
     entities_extracted: int = 0
     entities_merged: int = 0
     mentions: list[ExtractedMention] = Field(default_factory=list)
+    extracted_text: str | None = None
 
 
 class PreviewEntity(BaseModel):

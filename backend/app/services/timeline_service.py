@@ -7,6 +7,23 @@ from app.schemas.timeline import TimelineEvent
 from app.services.investigation_search import _account_entity_id, _phone_entity_id
 
 
+def _norm_text(s: str) -> str:
+    return " ".join(s.strip().lower().split())
+
+
+def _person_ids_mentioned_in_text(db: Session, text_blob: str) -> list[str]:
+    if not text_blob:
+        return []
+    blob = _norm_text(text_blob)
+    rows = db.execute(text("SELECT person_id, name FROM people")).mappings().all()
+    matched: list[str] = []
+    for row in rows:
+        name = _norm_text(row["name"])
+        if len(name) >= 4 and name in blob:
+            matched.append(row["person_id"])
+    return list(dict.fromkeys(matched))
+
+
 def build_case_timeline(db: Session, case_id: str) -> list[TimelineEvent]:
     events: list[TimelineEvent] = []
 
@@ -94,6 +111,7 @@ def build_case_timeline(db: Session, case_id: str) -> list[TimelineEvent]:
         {"cid": case_id},
     ).mappings().all()
     for fir in fir_rows:
+        person_ids = _person_ids_mentioned_in_text(db, fir["complaint_text"] or "")
         events.append(
             TimelineEvent(
                 id=f"TL-FIR-{fir['fir_id']}",
@@ -105,7 +123,7 @@ def build_case_timeline(db: Session, case_id: str) -> list[TimelineEvent]:
                     if len(fir["complaint_text"]) > 180
                     else f"FIR at {fir['police_station']}: {fir['complaint_text']}"
                 ),
-                entityIds=[],
+                entityIds=person_ids,
                 source=fir["fir_id"],
             )
         )
@@ -120,13 +138,14 @@ def build_case_timeline(db: Session, case_id: str) -> list[TimelineEvent]:
         {"cid": case_id},
     ).mappings().all()
     for surv in surv_rows:
+        person_ids = _person_ids_mentioned_in_text(db, surv["report_text"] or "")
         events.append(
             TimelineEvent(
                 id=f"TL-SUR-{surv['surveillance_id']}",
                 timestamp=str(surv["timestamp"]),
                 title="Surveillance report",
                 description=f"{surv['location']}: {surv['report_text'][:160]}",
-                entityIds=[],
+                entityIds=person_ids,
                 source=surv["surveillance_id"],
             )
         )

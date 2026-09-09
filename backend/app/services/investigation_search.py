@@ -29,6 +29,15 @@ RELATIONSHIP_ROLE_MAP: dict[str, str] = {
     "tenant": "witness",
 }
 
+ROLE_SORT_PRIORITY: dict[str, int] = {
+    "suspect": 0,
+    "handler": 1,
+    "associate": 2,
+    "facilitator": 3,
+    "witness": 4,
+    "complainant": 5,
+}
+
 
 @dataclass
 class PersonRow:
@@ -41,6 +50,14 @@ class PersonRow:
 
 def _norm(s: str) -> str:
     return " ".join(s.strip().lower().split())
+
+
+def _age_from_dob(dob: date, today: date | None = None) -> int:
+    ref = today or date.today()
+    years = ref.year - dob.year
+    if (ref.month, ref.day) < (dob.month, dob.day):
+        years -= 1
+    return years
 
 
 def _person_entity_id(person_id: str) -> str:
@@ -202,6 +219,7 @@ def _build_person_entity(
         metadata={
             "person_id": person.person_id,
             "dob": str(person.dob),
+            "age": str(_age_from_dob(person.dob)),
             "city": person.city,
             "gender": person.gender,
         },
@@ -336,6 +354,108 @@ def _find_name_candidates(db: Session, case_id: str, name_query: str) -> list[Na
 
     hits.sort(key=lambda h: (-h.confidence, -h.entity.score))
     return hits
+
+
+def _person_ids_from_area(db: Session, area_query: str) -> list[str]:
+    aq = _norm(area_query)
+    if not aq:
+        return []
+    rows = db.execute(
+        text(
+            """
+            SELECT person_id FROM people
+            WHERE LOWER(city) LIKE :pattern OR LOWER(name) LIKE :pattern
+            """
+        ),
+        {"pattern": f"%{aq}%"},
+    ).scalars().all()
+    return [r for r in rows if r]
+
+
+def _person_ids_from_gender(db: Session, gender_query: str) -> list[str]:
+    gq = _norm(gender_query)
+    if not gq:
+        return []
+    rows = db.execute(
+        text(
+            """
+            SELECT person_id FROM people
+            WHERE LOWER(gender) LIKE :pattern
+            """
+        ),
+        {"pattern": f"%{gq}%"},
+    ).scalars().all()
+    return [r for r in rows if r]
+
+
+def _person_ids_from_age(db: Session, age_query: str) -> list[str]:
+    raw = age_query.strip()
+    if not raw or not raw.isdigit():
+        return []
+    target = int(raw)
+    rows = db.execute(text("SELECT person_id, dob FROM people")).mappings().all()
+    return [r["person_id"] for r in rows if _age_from_dob(r["dob"]) == target]
+
+
+_FATHER_KEYWORDS = (
+    "s/o",
+    "son of",
+    "d/o",
+    "daughter of",
+    "w/o",
+    "wife of",
+    "father",
+    "father's name",
+    "fathers name",
+)
+
+
+def _fir_has_father_data(db: Session, case_id: str) -> bool:
+    rows = db.execute(
+        text("SELECT complaint_text FROM fir WHERE case_id = :cid"),
+        {"cid": case_id},
+    ).scalars().all()
+    for text_blob in rows:
+        if not text_blob:
+            continue
+        lower = text_blob.lower()
+        if any(kw in lower for kw in _FATHER_KEYWORDS):
+            return True
+    return False
+
+
+def _person_ids_from_father_name(db: Session, case_id: str, father_query: str) -> list[str]:
+    """Match father-name phrases in FIR text and link to persons mentioned in the same FIR."""
+    fq = _norm(father_query)
+    if not fq:
+        return []
+
+    fir_rows = db.execute(
+        text("SELECT fir_id, complaint_text FROM fir WHERE case_id = :cid"),
+        {"cid": case_id},
+    ).mappings().all()
+    people_rows = db.execute(text("SELECT person_id, name FROM people")).mappings().all()
+    name_by_id = {r["person_id"]: r["name"] for r in people_rows}
+
+    matched: set[str] = set()
+    for fir in fir_rows:
+        blob = fir.get("complaint_text") or ""
+        lower = blob.lower()
+        if fq not in lower:
+            continue
+        for pid, pname in name_by_id.items():
+            if _norm(pname) and _norm(pname) in _norm(blob):
+                matched.add(pid)
+    return list(matched)
+
+
+def _intersect_person_ids(id_sets: list[set[str]]) -> set[str]:
+    if not id_sets:
+        return set()
+    result = id_sets[0].copy()
+    for s in id_sets[1:]:
+        result &= s
+    return result
 
 
 def _person_ids_from_phone(db: Session, phone_query: str) -> list[str]:
@@ -516,7 +636,13 @@ def _find_related_people(
                     )
                 frontier.append((neighbor, next_hops, edge_reason))
 
-    results.sort(key=lambda r: (r.hops, -r.entity.score))
+    results.sort(
+        key=lambda r: (
+            r.hops,
+            ROLE_SORT_PRIORITY.get(r.entity.role or "", 9),
+            -r.entity.score,
+        )
+    )
     return results[:25]
 
 
@@ -524,8 +650,11 @@ def _linked_records(
     db: Session,
     person_ids: set[str],
     adj: dict[str, list[tuple[str, str]]],
+    *,
+    max_items: int = 8,
 ) -> list[InvestigationEntity]:
-    linked: list[InvestigationEntity] = []
+    phones: list[InvestigationEntity] = []
+    accounts: list[InvestigationEntity] = []
     seen: set[str] = set()
 
     for pid in person_ids:
@@ -542,7 +671,7 @@ def _linked_records(
                     {"d": f"%{digits}%"},
                 ).mappings().first()
                 if row:
-                    linked.append(
+                    phones.append(
                         InvestigationEntity(
                             id=neighbor,
                             label=row["phone_number"],
@@ -568,7 +697,7 @@ def _linked_records(
                     {"num": acct_num},
                 ).mappings().first()
                 if row:
-                    linked.append(
+                    accounts.append(
                         InvestigationEntity(
                             id=neighbor,
                             label=row["account_number"],
@@ -582,7 +711,9 @@ def _linked_records(
                             metadata={"person_id": row["person_id"], "bank": row["bank_name"]},
                         )
                     )
-    return linked
+
+    remaining = max(0, max_items - len(phones))
+    return phones + accounts[:remaining]
 
 
 def run_investigation_search(
@@ -593,6 +724,9 @@ def run_investigation_search(
     phone: str = "",
     area: str = "",
     role: str = "all",
+    gender: str = "",
+    age: str = "",
+    father_name: str = "",
     selected_person_id: str | None = None,
     face_person_id: str | None = None,
 ) -> InvestigationSearchResult:
@@ -601,6 +735,9 @@ def run_investigation_search(
             name.strip(),
             phone.strip(),
             area.strip(),
+            gender.strip(),
+            age.strip(),
+            father_name.strip(),
             selected_person_id,
             face_person_id,
         ]
@@ -615,41 +752,137 @@ def run_investigation_search(
         )
 
     roles = _case_roles(db, case_id)
-    name_candidates = _find_name_candidates(db, case_id, name) if name.strip() else []
+    message: str | None = None
+
+    if selected_person_id:
+        person = _fetch_person(db, selected_person_id)
+        primary_matches = (
+            [_build_person_entity(db, case_id, person, roles)] if person else []
+        )
+        name_candidates = _find_name_candidates(db, case_id, name) if name.strip() else []
+        if name.strip():
+            match_ids = {e.id for e in primary_matches}
+            name_candidates = [h for h in name_candidates if h.entity.id in match_ids]
+        return _finalize_search_result(
+            db,
+            case_id,
+            roles,
+            name_candidates,
+            primary_matches,
+            role,
+            message,
+        )
+
+    if father_name.strip() and not _fir_has_father_data(db, case_id):
+        return InvestigationSearchResult(
+            nameCandidates=[],
+            needsDisambiguation=False,
+            primaryMatches=[],
+            relatedPeople=[],
+            linkedRecords=[],
+            message="Father name is not available in the FIR database for this case.",
+        )
+
+    id_sets: list[set[str]] = []
+    name_candidates: list[NameMatchHit] = []
 
     if name.strip():
-        candidate_entities = [h.entity for h in name_candidates]
-    elif selected_person_id:
-        person = _fetch_person(db, selected_person_id)
-        candidate_entities = (
-            [_build_person_entity(db, case_id, person, roles)] if person else []
-        )
-    elif face_person_id:
-        person = _fetch_person(db, face_person_id)
-        candidate_entities = (
-            [_build_person_entity(db, case_id, person, roles)] if person else []
-        )
-    else:
-        candidate_entities = []
-        for pid in _person_ids_from_phone(db, phone):
-            person = _fetch_person(db, pid)
-            if person:
-                candidate_entities.append(
-                    _build_person_entity(db, case_id, person, roles)
-                )
+        name_candidates = _find_name_candidates(db, case_id, name)
+        name_ids = {h.entity.id for h in name_candidates}
+        if name_ids:
+            id_sets.append(name_ids)
 
-    primary_matches = _apply_filters(
+    if area.strip():
+        area_ids = set(_person_ids_from_area(db, area))
+        if area_ids:
+            id_sets.append(area_ids)
+
+    if phone.strip():
+        phone_ids = set(_person_ids_from_phone(db, phone))
+        if not phone_ids:
+            return InvestigationSearchResult(
+                nameCandidates=name_candidates,
+                needsDisambiguation=False,
+                primaryMatches=[],
+                relatedPeople=[],
+                linkedRecords=[],
+                message="No data available — no person is registered with this phone number.",
+            )
+        id_sets.append(phone_ids)
+
+    if gender.strip():
+        gender_ids = set(_person_ids_from_gender(db, gender))
+        if gender_ids:
+            id_sets.append(gender_ids)
+
+    if age.strip():
+        age_ids = set(_person_ids_from_age(db, age))
+        if age_ids:
+            id_sets.append(age_ids)
+
+    if father_name.strip():
+        father_ids = set(_person_ids_from_father_name(db, case_id, father_name))
+        if father_ids:
+            id_sets.append(father_ids)
+
+    if face_person_id:
+        id_sets.append({face_person_id})
+
+    if not id_sets:
+        return InvestigationSearchResult(
+            nameCandidates=name_candidates,
+            needsDisambiguation=False,
+            primaryMatches=[],
+            relatedPeople=[],
+            linkedRecords=[],
+            message=message,
+        )
+
+    final_ids = _intersect_person_ids(id_sets)
+    primary_matches: list[InvestigationEntity] = []
+    for pid in sorted(final_ids):
+        person = _fetch_person(db, pid)
+        if person:
+            primary_matches.append(_build_person_entity(db, case_id, person, roles))
+
+    if role and role != "all":
+        primary_matches = [e for e in primary_matches if e.role == role]
+
+    if name.strip():
+        primary_id_set = {e.id for e in primary_matches}
+        name_candidates = [h for h in name_candidates if h.entity.id in primary_id_set]
+        name_candidates.sort(
+            key=lambda h: (
+                ROLE_SORT_PRIORITY.get(h.entity.role or "", 9),
+                -h.confidence,
+                -h.entity.score,
+            )
+        )
+
+    if not primary_matches and not message:
+        message = "No data available — no person matches all search filters."
+
+    return _finalize_search_result(
         db,
         case_id,
-        candidate_entities,
-        area=area,
-        phone=phone,
-        role=role,
-        selected_person_id=selected_person_id,
-        face_person_id=face_person_id,
+        roles,
+        name_candidates,
+        primary_matches,
+        role,
+        message,
     )
 
-    needs_disambiguation = not selected_person_id and len(primary_matches) > 1
+
+def _finalize_search_result(
+    db: Session,
+    case_id: str,
+    roles: dict[str, str],
+    name_candidates: list[NameMatchHit],
+    primary_matches: list[InvestigationEntity],
+    role: str,
+    message: str | None,
+) -> InvestigationSearchResult:
+    needs_disambiguation = len(primary_matches) > 1
 
     related: list[RelatedPersonHit] = []
     linked: list[InvestigationEntity] = []
@@ -660,7 +893,7 @@ def run_investigation_search(
         if role and role != "all":
             related = [r for r in related if r.entity.role == role]
         adj = _build_adjacency(db, case_id)
-        person_ids = {primary_matches[0].id, *(r.entity.id for r in related)}
+        person_ids = {primary_matches[0].id}
         linked = _linked_records(db, person_ids, adj)
 
     return InvestigationSearchResult(
@@ -669,4 +902,5 @@ def run_investigation_search(
         primaryMatches=primary_matches,
         relatedPeople=related,
         linkedRecords=linked,
+        message=message,
     )

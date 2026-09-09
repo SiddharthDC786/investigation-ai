@@ -11,6 +11,7 @@ interface InspectorPanelProps {
   caseId: string
   reviewDecision: ReviewDecision
   onReview: (decision: ReviewDecision) => void
+  onIngested?: (summary: string) => void
 }
 
 function severityClass(severity: Entity['severity']) {
@@ -25,7 +26,7 @@ const reviewKeys: { value: Exclude<ReviewDecision, null>; labelKey: 'confirm' | 
   { value: 'dismiss', labelKey: 'dismiss', hintKey: 'dismissHint' },
 ]
 
-export function InspectorPanel({ entity, entityLookup, caseId, reviewDecision, onReview }: InspectorPanelProps) {
+export function InspectorPanel({ entity, entityLookup, caseId, reviewDecision, onReview, onIngested }: InspectorPanelProps) {
   const { t } = useLanguage()
   const [liveExplain, setLiveExplain] = useState<string[]>([])
   const [liveNarrative, setLiveNarrative] = useState<string | null>(null)
@@ -65,7 +66,14 @@ export function InspectorPanel({ entity, entityLookup, caseId, reviewDecision, o
 
       {!entity ? (
         <div className="flex flex-1 flex-col overflow-y-auto">
-          <IngestPanel caseId={caseId} />
+          <IngestPanel
+            caseId={caseId}
+            onIngested={(result) =>
+              onIngested?.(
+                `FIR ingested: ${result.entities_extracted} entities extracted, ${result.entities_merged} merged (${result.source_id})`,
+              )
+            }
+          />
           <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
             <p className="text-base text-text-secondary">{t.inspector.emptyTitle}</p>
             <p className="mt-2 text-sm text-text-muted">{t.inspector.emptyHint}</p>
@@ -73,7 +81,14 @@ export function InspectorPanel({ entity, entityLookup, caseId, reviewDecision, o
         </div>
       ) : (
         <div className="flex flex-1 flex-col overflow-y-auto">
-          <IngestPanel caseId={caseId} />
+          <IngestPanel
+            caseId={caseId}
+            onIngested={(result) =>
+              onIngested?.(
+                `FIR ingested: ${result.entities_extracted} entities extracted, ${result.entities_merged} merged (${result.source_id})`,
+              )
+            }
+          />
           <section className="border-b border-console-border px-4 py-4">
             <div className="flex items-start justify-between gap-2">
               <div>

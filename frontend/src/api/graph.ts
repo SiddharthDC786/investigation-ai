@@ -1,12 +1,14 @@
 import { isApiConfigured, apiGet } from './client'
 import { entities, graphLinks } from '../data/mockCase'
-import type { Entity, GraphLink } from '../types'
+import type { Entity, GraphLink, GraphStats } from '../types'
 
 export interface CaseGraphResponse {
   nodes: Entity[]
   links: GraphLink[]
   focus_person_id?: string | null
   summary?: string | null
+  connection_story?: string[]
+  stats?: GraphStats | null
 }
 
 export async function getCaseGraph(
@@ -28,7 +30,13 @@ export async function getCaseGraph(
       .map((l) => ({ ...l, weight: 2 })),
     focus_person_id: 'P00014',
     summary:
-      'Rahul Mukherjee is the primary suspect at the centre of this ring. Line thickness shows how often they spoke on the phone.',
+      'Rahul Mukherjee is the hub of this network. Red lines = phone calls; gold diamonds = shared contact numbers.',
+    connection_story: [
+      'Rahul Mukherjee is the investigation focus. Every connection is supported by call records.',
+      'Sunil Patel (facilitator) — 9 calls with Rahul. CDR records.',
+      'Gopal Nair (associate) — 7 calls with Rahul. CDR records.',
+    ],
+    stats: { person_count: 4, link_count: 4, shared_contact_count: 0 },
   }
 }
 

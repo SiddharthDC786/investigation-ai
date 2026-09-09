@@ -51,7 +51,9 @@ async def ingest_fir_image(
         text = extract_text_from_image(contents)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    return ingest_fir_file(db, file_bytes=text.encode("utf-8"), case_id=case_id)
+    result = ingest_fir_file(db, file_bytes=text.encode("utf-8"), case_id=case_id)
+    result.extracted_text = text
+    return result
 
 
 @router.post("/cdr", response_model=IngestResponse)

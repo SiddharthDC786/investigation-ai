@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { searchByFace, searchInvestigation } from '../api/search'
 import { formatApiError } from '../api/client'
 import { CASE_ID } from '../data/mockCase'
@@ -13,11 +13,36 @@ interface SearchViewProps {
   onEntitiesLoaded?: (entities: Entity[]) => void
 }
 
+const ROLE_SORT: Record<string, number> = {
+  suspect: 0,
+  handler: 1,
+  associate: 2,
+  facilitator: 3,
+  witness: 4,
+  complainant: 5,
+}
+
+function hasActiveQuery(f: SearchFilters) {
+  return Boolean(
+    f.nameQuery.trim() ||
+      f.phoneQuery.trim() ||
+      f.areaQuery.trim() ||
+      f.genderQuery.trim() ||
+      f.ageQuery.trim() ||
+      f.fatherNameQuery.trim() ||
+      f.faceMatchPersonId ||
+      f.selectedPersonId,
+  )
+}
+
 const emptyFilters: SearchFilters = {
   nameQuery: '',
   phoneQuery: '',
   areaQuery: '',
   roleFilter: 'all',
+  genderQuery: '',
+  ageQuery: '',
+  fatherNameQuery: '',
   faceMatchPersonId: null,
   selectedPersonId: null,
 }
@@ -48,6 +73,7 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
         ]
         onEntitiesLoaded?.(loaded)
         if (!data.needsDisambiguation && data.primaryMatches.length === 1) {
+          onSelect(data.primaryMatches[0].id)
           onSearchPerformed?.(
             `Person confirmed: ${data.primaryMatches[0].label}`,
             data.primaryMatches[0].id,
@@ -65,8 +91,23 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
         setLoading(false)
       }
     },
-    [onSearchPerformed, onEntitiesLoaded, t.search.apiError],
+    [onSearchPerformed, onEntitiesLoaded, onSelect, t.search.apiError],
   )
+
+  useEffect(() => {
+    if (!hasActiveQuery(draft)) {
+      setResults(null)
+      return
+    }
+    const timer = window.setTimeout(() => {
+      void runSearch({
+        ...draft,
+        faceMatchPersonId: filters.faceMatchPersonId,
+        selectedPersonId: null,
+      })
+    }, 550)
+    return () => window.clearTimeout(timer)
+  }, [draft, filters.faceMatchPersonId, runSearch])
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -111,15 +152,62 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
     return r.includes('prepaid') || r.includes('burner') || r.includes('shared') || r.includes('bridge')
   }
 
-  const candidateList: NameMatchHit[] = results
-    ? results.needsDisambiguation
+  const candidateList: NameMatchHit[] = useMemo(() => {
+    if (!results) return []
+    const list = results.needsDisambiguation
       ? results.nameCandidates.filter((h) =>
           results.primaryMatches.some((p) => p.id === h.entity.id),
         )
       : results.nameCandidates
-    : []
+    return [...list].sort(
+      (a, b) =>
+        (ROLE_SORT[a.entity.role ?? ''] ?? 9) - (ROLE_SORT[b.entity.role ?? ''] ?? 9) ||
+        b.confidence - a.confidence,
+    )
+  }, [results])
 
   const showPickList = results?.needsDisambiguation && candidateList.length > 0
+
+  function renderPersonCard(entity: Entity, actions?: ReactNode) {
+    const phone = getPersonPhoneDisplay(entity.id)
+    const age = entity.metadata.age
+    const gender = entity.metadata.gender
+    return (
+      <div
+        key={entity.id}
+        className={`mb-4 border px-4 py-3 ${
+          selectedId === entity.id
+            ? 'border-accent-amber bg-accent-amber/10'
+            : 'border-console-border bg-console-surface'
+        }`}
+      >
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div>
+            <p className="text-base font-semibold text-text-primary">{entity.label}</p>
+            {entity.subtitle && (
+              <p className="mt-0.5 text-xs text-text-secondary">{entity.subtitle}</p>
+            )}
+            <p className="mt-2 text-sm text-text-primary">
+              {entity.metadata.city ?? '—'}
+              {phone ? ` · ${phone}` : ''}
+              {entity.metadata.dob ? ` · DOB ${entity.metadata.dob}` : ''}
+              {age ? ` · Age ${age}` : ''}
+              {gender ? ` · ${gender}` : ''}
+            </p>
+            {entity.aliases && entity.aliases.length > 0 && (
+              <p className="mt-1 text-xs text-text-muted">
+                {t.search.alsoKnownAs}: {entity.aliases.join(', ')}
+              </p>
+            )}
+          </div>
+          <span className={`shrink-0 border px-2 py-0.5 text-[10px] ${severityClass(entity.severity)}`}>
+            {entity.role ? t.role[entity.role] : t.entityType.person}
+          </span>
+        </div>
+        {actions}
+      </div>
+    )
+  }
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -128,6 +216,7 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
           <h1 className="text-base font-semibold text-text-primary">{t.views.search.header}</h1>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.search.description}</p>
+        <p className="mt-1 text-xs text-text-muted">{t.search.autoSearchHint}</p>
         {error && (
           <p className="mt-2 border border-risk-high/40 bg-risk-high/10 px-3 py-2 text-sm text-risk-high">
             {error}
@@ -180,6 +269,41 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
             </label>
 
             <label className="block">
+              <span className="text-sm font-medium text-text-primary">{t.search.genderLabel}</span>
+              <input
+                type="text"
+                value={draft.genderQuery}
+                onChange={(e) => setDraft((d) => ({ ...d, genderQuery: e.target.value }))}
+                placeholder={t.search.genderPlaceholder}
+                className="mt-1.5 w-full border border-console-border-strong bg-console-bg px-3 py-3 text-base text-text-primary outline-none focus:border-accent-amber"
+              />
+            </label>
+
+            <label className="block">
+              <span className="text-sm font-medium text-text-primary">{t.search.ageLabel}</span>
+              <input
+                type="number"
+                min={1}
+                max={120}
+                value={draft.ageQuery}
+                onChange={(e) => setDraft((d) => ({ ...d, ageQuery: e.target.value }))}
+                placeholder={t.search.agePlaceholder}
+                className="mt-1.5 w-full border border-console-border-strong bg-console-bg px-3 py-3 text-base text-text-primary outline-none focus:border-accent-amber"
+              />
+            </label>
+
+            <label className="block">
+              <span className="text-sm font-medium text-text-primary">{t.search.fatherNameLabel}</span>
+              <input
+                type="search"
+                value={draft.fatherNameQuery}
+                onChange={(e) => setDraft((d) => ({ ...d, fatherNameQuery: e.target.value }))}
+                placeholder={t.search.fatherNamePlaceholder}
+                className="mt-1.5 w-full border border-console-border-strong bg-console-bg px-3 py-3 text-base text-text-primary outline-none focus:border-accent-amber"
+              />
+            </label>
+
+            <label className="block">
               <span className="text-sm font-medium text-text-primary">{t.search.roleLabel}</span>
               <select
                 value={draft.roleFilter}
@@ -191,6 +315,8 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
                 <option value="associate">{t.role.associate}</option>
                 <option value="facilitator">{t.role.facilitator}</option>
                 <option value="witness">{t.role.witness}</option>
+                <option value="handler">{t.role.handler}</option>
+                <option value="complainant">{t.role.complainant}</option>
               </select>
             </label>
 
@@ -221,6 +347,7 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
                   setFilters(emptyFilters)
                   setResults(null)
                   setFaceStatus(null)
+                  setError(null)
                 }}
                 className="min-h-[44px] border border-console-border-strong px-3 text-sm text-text-secondary hover:bg-console-raised"
               >
@@ -231,13 +358,22 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
         </aside>
 
         <section className="flex flex-col overflow-hidden">
-          {!results ? (
+          {!results && !loading && !hasActiveQuery(draft) ? (
             <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
               <p className="text-base text-text-secondary">{t.search.emptyTitle}</p>
               <p className="mt-2 max-w-md text-sm text-text-muted">{t.search.emptyHint}</p>
             </div>
           ) : (
             <div className="flex-1 overflow-y-auto p-4">
+              {loading && (
+                <p className="mb-3 text-sm text-accent-steel">{t.search.searching}</p>
+              )}
+              {results?.message && (
+                <p className="mb-4 border border-risk-medium/40 bg-risk-medium/10 px-3 py-2 text-sm text-risk-medium">
+                  {results.message}
+                </p>
+              )}
+
               {showPickList && (
                 <div className="mb-6 border border-accent-amber/40 bg-accent-amber/5 p-4">
                   <h2 className="text-sm font-semibold text-accent-amber">{t.search.multipleTitle}</h2>
@@ -296,19 +432,53 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
                 })}
 
               {!showPickList &&
+                results &&
+                results.primaryMatches.length >= 1 &&
+                !results.needsDisambiguation && (
+                  <div className="mb-6">
+                    <h2 className="text-sm font-semibold text-text-primary">{t.search.primaryMatches}</h2>
+                    <p className="mt-1 text-xs text-text-muted">{t.search.matchedPersonHint}</p>
+                    {results.primaryMatches.map((entity) =>
+                      renderPersonCard(
+                        entity,
+                        <button
+                          type="button"
+                          onClick={() => onSelect(entity.id)}
+                          className="mt-3 min-h-[40px] w-full border border-accent-amber/60 bg-accent-amber/15 text-sm font-medium text-accent-amber hover:bg-accent-amber/25"
+                        >
+                          {t.search.viewInNetwork}
+                        </button>,
+                      ),
+                    )}
+                  </div>
+                )}
+
+              {!showPickList &&
+                results &&
                 results.primaryMatches.length === 1 &&
                 !filters.selectedPersonId &&
                 results.nameCandidates.length > 1 && (
                   <p className="mb-4 text-sm text-accent-steel">{t.search.narrowedToOne}</p>
                 )}
 
-              {!showPickList && results.primaryMatches.length === 0 && results.nameCandidates.length === 0 && (
-                <p className="text-sm text-text-muted">{t.search.noResults}</p>
+              {!showPickList &&
+                results &&
+                results.primaryMatches.length === 0 &&
+                results.nameCandidates.length === 0 && (
+                <p className="text-sm text-text-muted">
+                  {results.message?.toLowerCase().includes('no data')
+                    ? t.search.noDataAvailable
+                    : results.message ?? t.search.noResults}
+                </p>
               )}
 
-              {!results.needsDisambiguation && results.relatedPeople.length > 0 && (
+              {!results?.needsDisambiguation && results && results.relatedPeople.length > 0 && (
                 <div className="mb-6">
-                  <h2 className="text-sm font-semibold text-text-primary">{t.search.relatedPeople}</h2>
+                  <h2 className="text-sm font-semibold text-text-primary">
+                    {results.primaryMatches[0]
+                      ? t.search.connectedTo.replace('{name}', results.primaryMatches[0].label)
+                      : t.search.relatedPeople}
+                  </h2>
                   <p className="mt-1 text-xs text-text-muted">{t.search.relatedHint}</p>
                   <ul className="mt-3 space-y-2">
                     {results.relatedPeople.map(({ entity, hops, connectionReason }) => (
@@ -345,7 +515,7 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
                 </div>
               )}
 
-              {!results.needsDisambiguation && results.linkedRecords.length > 0 && (
+              {!results?.needsDisambiguation && results && results.linkedRecords.length > 0 && (
                 <div>
                   <h2 className="text-sm font-semibold text-text-primary">{t.search.linkedRecords}</h2>
                   <div className="mt-3 flex flex-wrap gap-2">

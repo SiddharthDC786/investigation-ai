@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getCaseTimeline } from '../api/timeline'
 import { formatApiError } from '../api/client'
 import { CASE_ID } from '../data/mockCase'
@@ -9,6 +9,7 @@ interface TimelineViewProps {
   selectedId: string | null
   highlightedIds: Set<string>
   entityLookup: Record<string, Entity>
+  timelineRefreshKey?: number
   onSelectEntity: (id: string) => void
   onHoverEntities: (ids: string[]) => void
 }
@@ -25,10 +26,20 @@ const inferType = (id: string): Entity['type'] => {
   return 'person'
 }
 
+function eventMatchesPerson(
+  event: TimelineEvent,
+  personId: string,
+  lookup: Record<string, Entity>,
+): boolean {
+  if (event.entityIds.includes(personId)) return true
+  return event.entityIds.some((id) => lookup[id]?.metadata?.person_id === personId)
+}
+
 export function TimelineView({
   selectedId,
   highlightedIds,
   entityLookup,
+  timelineRefreshKey = 0,
   onSelectEntity,
   onHoverEntities,
 }: TimelineViewProps) {
@@ -57,7 +68,15 @@ export function TimelineView({
     return () => {
       cancelled = true
     }
-  }, [t.timeline.apiError])
+  }, [t.timeline.apiError, timelineRefreshKey])
+
+  const selectedPerson = selectedId?.startsWith('P') ? entityLookup[selectedId] : null
+  const personFilterId = selectedPerson ? selectedId : null
+
+  const visibleEvents = useMemo(() => {
+    if (!personFilterId) return []
+    return events.filter((event) => eventMatchesPerson(event, personFilterId, entityLookup))
+  }, [events, personFilterId, entityLookup])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -66,6 +85,11 @@ export function TimelineView({
           <h1 className="text-base font-semibold text-text-primary">{t.views.timeline.header}</h1>
         </div>
         <p className="mt-1 text-sm text-text-secondary">{t.views.timeline.description}</p>
+        {selectedPerson && (
+          <p className="mt-2 text-xs text-accent-amber">
+            {t.timeline.filteredFor}: <span className="font-medium">{selectedPerson.label}</span>
+          </p>
+        )}
       </header>
 
       <div className="flex-1 overflow-y-auto px-5 py-4">
@@ -75,11 +99,16 @@ export function TimelineView({
         {!loading && error && (
           <p className="border border-risk-high/40 bg-risk-high/10 px-3 py-2 text-sm text-risk-high">{error}</p>
         )}
-        {!loading && !error && events.length === 0 && (
-          <p className="text-sm text-text-muted">{t.timeline.empty}</p>
+        {!loading && !error && !personFilterId && (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <p className="max-w-md text-sm text-text-muted">{t.timeline.selectPersonFirst}</p>
+          </div>
+        )}
+        {!loading && !error && personFilterId && visibleEvents.length === 0 && (
+          <p className="text-sm text-text-muted">{t.timeline.noEventsForPerson}</p>
         )}
         <div className="relative ml-4 border-l border-console-border-strong pl-8">
-          {events.map((event, idx) => {
+          {visibleEvents.map((event, idx) => {
             const active = event.entityIds.some((id) => id === selectedId || highlightedIds.has(id))
             return (
               <article
@@ -96,6 +125,9 @@ export function TimelineView({
                 <p className="text-xs text-accent-amber">{event.timestamp}</p>
                 <h2 className="mt-1 text-base font-semibold text-text-primary">{event.title}</h2>
                 <p className="mt-1 text-sm leading-relaxed text-text-secondary">{event.description}</p>
+                <p className="mt-1 text-[10px] text-text-muted">
+                  {t.timeline.source}: {event.source}
+                </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {event.entityIds.map((id) => {
                     const linked = entityLookup[id]
@@ -115,7 +147,7 @@ export function TimelineView({
                     )
                   })}
                 </div>
-                {idx < events.length - 1 && (
+                {idx < visibleEvents.length - 1 && (
                   <div className="mt-4 flex gap-1">
                     {event.entityIds.slice(0, 3).map((id) => (
                       <span
