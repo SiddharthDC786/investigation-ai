@@ -7,8 +7,9 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { fetchCurrentUser, loginWithApi, logoutApi } from '../api/auth'
+import { isApiConfigured } from '../api/client'
 import {
-  authenticate,
   clearSession,
   extendSession,
   loadSession,
@@ -21,7 +22,7 @@ interface AuthContextValue {
   user: AuthUser | null
   session: SessionPayload | null
   minutesLeft: number
-  login: (badgeId: string, password: string) => boolean
+  login: (badgeId: string, password: string) => Promise<boolean>
   logout: () => void
   touchSession: () => void
 }
@@ -36,16 +37,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session ? sessionMinutesLeft(session) : 0,
   )
 
+  useEffect(() => {
+    if (!isApiConfigured() || !session?.accessToken) return
+    let cancelled = false
+    void fetchCurrentUser().then((user) => {
+      if (cancelled || !user) return
+      const next = saveSession(user, session.accessToken)
+      setSession(next)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   const logout = useCallback(() => {
+    logoutApi()
     clearSession()
     setSession(null)
     setMinutesLeft(0)
   }, [])
 
-  const login = useCallback((badgeId: string, password: string) => {
-    const user = authenticate(badgeId, password)
+  const login = useCallback(async (badgeId: string, password: string) => {
+    const user = await loginWithApi(badgeId, password)
     if (!user) return false
-    const next = saveSession(user)
+    const token = isApiConfigured() ? sessionStorage.getItem('vigil_access_token') : null
+    const next = saveSession(user, token)
     setSession(next)
     setMinutesLeft(sessionMinutesLeft(next))
     return true

@@ -1,0 +1,63 @@
+[
+  {
+    "id": "E01",
+    "scenario": "same_name_split",
+    "type": "resolution",
+    "case_id": "CASE0001",
+    "name": "Unique Eval Person ZZZ",
+    "context_phones": [],
+    "expect_action": "created",
+    "expect_requires_review": false
+  },
+  {
+    "id": "E01b",
+    "scenario": "same_name_split",
+    "type": "resolution",
+    "case_id": "CASE0001",
+    "name": "Rahul Mukherjee",
+    "context_phones": [],
+    "expect_not_auto_merge_without_phone": true
+  },
+  {
+    "id": "E02",
+    "scenario": "fir_typo",
+    "type": "ner",
+    "text": "Suspect Rahul Mukherjee called from Mumbai.",
+    "expected_spans": ["Rahul Mukherjee"]
+  },
+  {
+    "id": "E03",
+    "scenario": "hindi_name",
+    "type": "ner",
+    "text": "संदिग्ध राहुल शर्मा ने फोन किया।",
+    "expected_spans": ["राहुल शर्मा"],
+    "expected_types": ["person"]
+  },
+  {
+    "id": "E04",
+    "scenario": "name_only",
+    "type": "resolution",
+    "case_id": "CASE0001",
+    "name": "Rahul",
+    "context_phones": [],
+    "expect_action_in": ["suggested_match", "created"],
+    "expect_requires_review": false
+  },
+  {
+    "id": "E05",
+    "scenario": "unrelated_osint",
+    "type": "osint",
+    "case_id": "CASE0001",
+    "entity_id": "P00014",
+    "lookup_id": "OSINT-02",
+    "expect_no_unrelated_when": "ZZZNOTINANYFIRZZZ"
+  },
+  {
+    "id": "E06",
+    "scenario": "phone_extraction",
+    "type": "ner",
+    "text": "Contact +91 9876543210 for details.",
+    "expected_spans": ["9876543210"],
+    "expected_types": ["phone"]
+  }
+]

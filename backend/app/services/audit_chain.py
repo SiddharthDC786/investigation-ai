@@ -105,6 +105,11 @@ def append_audit_entry(
     payload: dict[str, Any] | None = None,
 ) -> dict[str, str]:
     ensure_audit_table(db)
+    lock_key = case_id or "__global__"
+    db.execute(
+        text("SELECT pg_advisory_xact_lock(hashtext(:key))"),
+        {"key": lock_key},
+    )
     entry_id = f"AUD-{uuid.uuid4().hex[:10].upper()}"
     prev_hash = _last_hash(db, case_id)
     ts = datetime.now(timezone.utc)
@@ -281,5 +286,9 @@ def verify_audit_chain(db: Session, *, case_id: str | None = None) -> dict[str, 
         "status": "verified",
         "entries_checked": len(rows),
         "broken_entry_id": None,
-        "message": f"Hash chain intact across {len(rows)} entries.",
+        "message": (
+            f"Hash chain intact across {len(rows)} entries for this scope. "
+            "Detects in-place edits to logged fields; does not prevent privileged "
+            "database administrators from inserting or deleting rows outside the chain."
+        ),
     }

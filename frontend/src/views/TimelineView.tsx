@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getCaseTimeline } from '../api/timeline'
 import { formatApiError } from '../api/client'
-import { CASE_ID } from '../data/mockCase'
+import { useCase } from '../context/CaseContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity, TimelineEvent } from '../types'
 
@@ -44,6 +44,7 @@ export function TimelineView({
   onHoverEntities,
 }: TimelineViewProps) {
   const { t } = useLanguage()
+  const { caseId } = useCase()
   const [events, setEvents] = useState<TimelineEvent[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -52,7 +53,7 @@ export function TimelineView({
     let cancelled = false
     setLoading(true)
     setError(null)
-    getCaseTimeline(CASE_ID)
+    getCaseTimeline(caseId)
       .then((res) => {
         if (!cancelled) setEvents(res.events)
       })
@@ -68,7 +69,7 @@ export function TimelineView({
     return () => {
       cancelled = true
     }
-  }, [t.timeline.apiError, timelineRefreshKey])
+  }, [caseId, t.timeline.apiError, timelineRefreshKey])
 
   const selectedPerson = selectedId?.startsWith('P') ? entityLookup[selectedId] : null
   const personFilterId = selectedPerson ? selectedId : null

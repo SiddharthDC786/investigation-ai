@@ -1,6 +1,17 @@
-import { isApiConfigured, apiGet } from './client'
+import { apiGet, apiPostForm, isApiConfigured } from './client'
 import { demoFaceMatch, runInvestigationSearch } from '../lib/investigationSearch'
 import type { InvestigationSearchResult, SearchFilters } from '../types'
+
+export interface FaceSearchResponse {
+  person_id: string | null
+  similarity_score: number
+  score_type: string
+  simulated: boolean
+  match_quality: string
+  requires_officer_review: boolean
+  disclaimer: string
+  message: string
+}
 
 export async function searchInvestigation(
   caseId: string,
@@ -22,16 +33,21 @@ export async function searchInvestigation(
   return runInvestigationSearch(filters)
 }
 
-export async function searchByFace(caseId: string, file: File) {
+export async function searchByFace(caseId: string, file: File): Promise<FaceSearchResponse> {
   if (isApiConfigured()) {
     const body = new FormData()
     body.append('photo', file)
-    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/cases/${caseId}/search/face`, {
-      method: 'POST',
-      body,
-    })
-    if (!res.ok) throw new Error('Face search failed')
-    return res.json() as Promise<{ personId: string; confidence: number }>
+    return apiPostForm<FaceSearchResponse>(`/cases/${caseId}/search/face`, body)
   }
-  return demoFaceMatch(file)
+  const demo = demoFaceMatch(file)
+  return {
+    person_id: demo.personId,
+    similarity_score: demo.similarityScore,
+    score_type: 'demo_similarity',
+    simulated: true,
+    match_quality: 'demo_stub',
+    requires_officer_review: true,
+    disclaimer: 'Mock mode — no biometric engine.',
+    message: 'Demo stub match for offline training.',
+  }
 }

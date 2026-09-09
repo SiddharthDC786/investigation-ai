@@ -71,6 +71,7 @@ def ingest_text_document(
 ) -> IngestResponse:
     source_id = source_id or new_source_id()
     mentions_raw = extract_entities(text_content)
+    context_phones = [m.text for m in mentions_raw if m.entity_type == "phone"]
     mentions: list[ExtractedMention] = []
     merged = 0
     last_person_id: str | None = None
@@ -80,14 +81,27 @@ def ingest_text_document(
         if mention.entity_type == "alias" and last_person_id:
             alias_of = last_person_id
 
-        resolution = resolve_entity(db, case_id=case_id, mention=mention)
+        resolution = resolve_entity(
+            db,
+            case_id=case_id,
+            mention=mention,
+            context_phones=context_phones,
+        )
         if resolution.action == "merged":
             merged += 1
 
-        if mention.entity_type == "person" or mention.entity_type == "alias":
+        effective_id = (
+            resolution.suggested_person_id
+            if resolution.action == "suggested_match" and resolution.suggested_person_id
+            else resolution.entity_id
+        )
+        if mention.entity_type == "person" and resolution.action == "merged":
             last_person_id = resolution.entity_id
+        elif mention.entity_type == "person":
+            last_person_id = effective_id
 
         excerpt = _excerpt(text_content, mention.start, mention.end)
+        rel_kind = "observed" if resolution.action == "merged" else "suggested"
         merge_entity_in_neo4j(
             entity_id=resolution.entity_id,
             entity_type="person" if mention.entity_type == "alias" else mention.entity_type,
@@ -97,7 +111,8 @@ def ingest_text_document(
             source_id=source_id,
             excerpt=excerpt,
             action=resolution.action,
-            alias_of=alias_of,
+            alias_of=alias_of if resolution.action == "merged" else None,
+            relationship_kind=rel_kind,
         )
 
         if mention.entity_type == "person":
@@ -118,6 +133,9 @@ def ingest_text_document(
                 resolved_entity_id=resolution.entity_id,
                 action=resolution.action,
                 source_excerpt=excerpt,
+                match_reason=resolution.match_reason,
+                requires_review=resolution.requires_review,
+                suggested_person_id=resolution.suggested_person_id,
             )
         )
 

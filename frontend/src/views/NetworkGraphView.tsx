@@ -11,6 +11,7 @@ interface NetworkGraphViewProps {
   highlightedIds: Set<string>
   onSelect: (id: string) => void
   onEntitiesLoaded?: (entities: Entity[]) => void
+  refreshKey?: number
 }
 
 type GraphNode = Entity & { x?: number; y?: number; fx?: number; fy?: number }
@@ -59,6 +60,7 @@ export function NetworkGraphView({
   highlightedIds,
   onSelect,
   onEntitiesLoaded,
+  refreshKey = 0,
 }: NetworkGraphViewProps) {
   const { t } = useLanguage()
   const fgRef = useRef<ForceGraphMethods<NodeObject<GraphNode>, LinkObject<GraphNode, GraphLinkObj>> | undefined>(
@@ -102,7 +104,7 @@ export function NetworkGraphView({
     return () => {
       cancelled = true
     }
-  }, [caseId, selectedId, onEntitiesLoaded])
+  }, [caseId, selectedId, onEntitiesLoaded, refreshKey])
 
   const graphData = useMemo(
     () => ({

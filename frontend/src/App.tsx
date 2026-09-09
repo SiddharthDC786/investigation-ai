@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAuth } from './auth/AuthContext'
 import type { AuthUser } from './auth/types'
+import { listReviews, saveReview } from './api/reviews'
 import { CaseStatsStrip } from './components/CaseStatsStrip'
 import { InvestigationGuide } from './components/InvestigationGuide'
 import { InspectorPanel } from './components/InspectorPanel'
@@ -8,9 +9,10 @@ import { LoginPage } from './components/LoginPage'
 import { NavRail } from './components/NavRail'
 import { SecurityBanner } from './components/SecurityBanner'
 import { TopBar } from './components/TopBar'
-import { CASE_ID, entityMap, osintLookups, seedAuditLog } from './data/mockCase'
+import { entityMap, seedAuditLog } from './data/mockCase'
 import { getOsintAuditLog } from './api/osint'
 import { isApiConfigured } from './api/client'
+import { CaseProvider, useCase } from './context/CaseContext'
 import { useLanguage } from './i18n/LanguageContext'
 import type { OsintEnrichResponse } from './api/osint'
 import type { AuditEntry, Entity, ReviewDecision, ViewId } from './types'
@@ -28,6 +30,7 @@ function nowStamp() {
 function VigilDashboard({ user }: { user: AuthUser }) {
   const { logout } = useAuth()
   const { t } = useLanguage()
+  const { caseId, refreshKey, bumpRefresh } = useCase()
   const [view, setView] = useState<ViewId>('search')
   const [guideOpen, setGuideOpen] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -52,9 +55,9 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   const operator = user.name
 
   useEffect(() => {
-    if (!isApiConfigured()) return
+    if (!isApiConfigured() || !caseId) return
     let cancelled = false
-    void getOsintAuditLog(CASE_ID)
+    void getOsintAuditLog(caseId)
       .then((res) => {
         if (cancelled) return
         setChainStatus(res.chain_status)
@@ -67,10 +70,18 @@ function VigilDashboard({ user }: { user: AuthUser }) {
       .catch(() => {
         if (!cancelled) setChainStatus('offline')
       })
+    void listReviews(caseId)
+      .then((rows) => {
+        if (cancelled) return
+        const map: Record<string, ReviewDecision> = {}
+        for (const r of rows) map[r.entity_id] = r.decision
+        setReviews(map)
+      })
+      .catch(() => {})
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [caseId])
 
   useEffect(() => {
     setAuditLog((prev) => [
@@ -78,14 +89,14 @@ function VigilDashboard({ user }: { user: AuthUser }) {
         id: `AUD-LOGIN-${Date.now()}`,
         timestamp: nowStamp(),
         action: `Secure login: ${user.badgeId}`,
-        entityId: CASE_ID,
+        entityId: caseId,
         source: 'Vigil auth',
         operator,
         lawfulBasis: 'Authorised session — investigation workstation',
       },
       ...prev,
     ])
-  }, [user.badgeId, operator])
+  }, [user.badgeId, operator, caseId])
 
   const appendAudit = useCallback(
     (entry: Omit<AuditEntry, 'id' | 'timestamp' | 'operator'>) => {
@@ -103,42 +114,38 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   )
 
   const handleOsintLookup = useCallback(
-    (lookupId: string, entityId: string, result?: OsintEnrichResponse) => {
-      const lookup = osintLookups.find((l) => l.id === lookupId)
-      if (!lookup) return
-      if (result) {
-        return
-      }
-      appendAudit({
-        action: `OSINT lookup: ${lookup.label}`,
-        entityId,
-        source: `lawful_api://${lookupId}`,
-        lawfulBasis: 'Public records / licensed directory — logged enrichment',
-      })
+    (_lookupId: string, _entityId: string, result?: OsintEnrichResponse) => {
+      if (result) bumpRefresh()
     },
-    [appendAudit],
+    [bumpRefresh],
   )
 
   const handleReview = useCallback(
     (decision: ReviewDecision) => {
-      if (!selectedId) return
+      if (!selectedId || !decision) return
       setReviews((prev) => ({ ...prev, [selectedId]: decision }))
-      if (decision) {
+      void saveReview(caseId, selectedId, decision).catch(() => {
         appendAudit({
-          action: `Officer review: ${decision.replace('_', ' ')} on AI suggestion`,
+          action: `Review save failed for ${selectedId}`,
           entityId: selectedId,
           source: 'Vigil review queue',
-          lawfulBasis: 'Human review of AI recommendation',
+          lawfulBasis: 'Retry required — server unavailable',
         })
-      }
+      })
+      appendAudit({
+        action: `Officer review: ${decision.replace('_', ' ')} on AI suggestion`,
+        entityId: selectedId,
+        source: 'Vigil review queue',
+        lawfulBasis: 'Human review persisted server-side when API available',
+      })
     },
-    [selectedId, appendAudit],
+    [selectedId, caseId, appendAudit],
   )
 
   const handleLogout = () => {
     appendAudit({
       action: 'Secure logout',
-      entityId: CASE_ID,
+      entityId: caseId,
       source: 'Vigil auth',
       lawfulBasis: 'Session terminated by user',
     })
@@ -153,23 +160,24 @@ function VigilDashboard({ user }: { user: AuthUser }) {
   const handleExportAudit = useCallback(() => {
     appendAudit({
       action: 'Supervisor exported disclosure bundle (JSON)',
-      entityId: CASE_ID,
+      entityId: caseId,
       source: 'Vigil audit export',
       lawfulBasis: 'Court disclosure / supervisory review',
     })
-  }, [appendAudit])
+  }, [appendAudit, caseId])
 
   const handleIngested = useCallback(
     (summary: string) => {
       setTimelineRefreshKey((k) => k + 1)
+      bumpRefresh()
       appendAudit({
         action: summary,
-        entityId: selectedId ?? CASE_ID,
+        entityId: selectedId ?? caseId,
         source: 'Vigil FIR ingest',
         lawfulBasis: 'Officer-uploaded FIR document — NLP extraction logged',
       })
     },
-    [appendAudit, selectedId],
+    [appendAudit, selectedId, caseId, bumpRefresh],
   )
 
   const handleSearchPerformed = useCallback(
@@ -183,6 +191,8 @@ function VigilDashboard({ user }: { user: AuthUser }) {
     },
     [appendAudit],
   )
+
+  const dataRefreshKey = timelineRefreshKey + refreshKey
 
   const mainContent = useMemo(() => {
     switch (view) {
@@ -198,10 +208,12 @@ function VigilDashboard({ user }: { user: AuthUser }) {
       case 'network':
         return (
           <NetworkGraphView
+            caseId={caseId}
             selectedId={selectedId}
             highlightedIds={highlightedIds}
             onSelect={setSelectedId}
             onEntitiesLoaded={mergeLiveEntities}
+            refreshKey={dataRefreshKey}
           />
         )
       case 'timeline':
@@ -210,13 +222,19 @@ function VigilDashboard({ user }: { user: AuthUser }) {
             selectedId={selectedId}
             highlightedIds={highlightedIds}
             entityLookup={{ ...entityMap, ...liveEntities }}
-            timelineRefreshKey={timelineRefreshKey}
+            timelineRefreshKey={dataRefreshKey}
             onSelectEntity={setSelectedId}
             onHoverEntities={(ids) => setHighlightedIds(new Set(ids))}
           />
         )
       case 'risk':
-        return <RiskScoringView selectedId={selectedId} onSelect={setSelectedId} />
+        return (
+          <RiskScoringView
+            selectedId={selectedId}
+            onSelect={setSelectedId}
+            refreshKey={dataRefreshKey}
+          />
+        )
       case 'osint':
         return (
           <OsintView
@@ -247,7 +265,22 @@ function VigilDashboard({ user }: { user: AuthUser }) {
       default:
         return null
     }
-  }, [view, selectedId, highlightedIds, auditLog, chainStatus, timelineRefreshKey, handleOsintLookup, handleSearchPerformed, handleExportAudit, mergeLiveEntities, user.role, user.badgeId, user.name])
+  }, [
+    view,
+    caseId,
+    selectedId,
+    highlightedIds,
+    auditLog,
+    chainStatus,
+    dataRefreshKey,
+    handleOsintLookup,
+    handleSearchPerformed,
+    handleExportAudit,
+    mergeLiveEntities,
+    user.role,
+    user.badgeId,
+    user.name,
+  ])
 
   return (
     <div className="flex h-full flex-col bg-console-bg">
@@ -268,7 +301,7 @@ function VigilDashboard({ user }: { user: AuthUser }) {
         <InspectorPanel
           entity={selectedEntity}
           entityLookup={{ ...entityMap, ...liveEntities }}
-          caseId={CASE_ID}
+          caseId={caseId}
           reviewDecision={reviewDecision}
           onReview={handleReview}
           onIngested={handleIngested}
@@ -293,5 +326,9 @@ export default function App() {
     return <LoginPage />
   }
 
-  return <VigilDashboard user={user} />
+  return (
+    <CaseProvider>
+      <VigilDashboard user={user} />
+    </CaseProvider>
+  )
 }

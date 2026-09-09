@@ -7,10 +7,13 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.services.audit_chain import LOOKUP_LABELS, append_audit_entry
-from app.services.entity_resolution import merge_entity_in_neo4j
 from app.services.investigation_search import _fetch_person
 
-# Synthetic public sanctions/watchlist (demo-safe — no real PII)
+SIMULATED_DISCLAIMER = (
+    "SIMULATED OSINT — demo enrichments from synthetic public-record tables. "
+    "Not verified government data. Suggestions are not added as confirmed graph links."
+)
+
 SANCTIONS_WATCHLIST = {
     "shell company",
     "offshore",
@@ -54,61 +57,105 @@ def _resolve_entity_label(db: Session, entity_id: str) -> tuple[str, str]:
     return entity_id, "unknown"
 
 
+def _hit(
+    *,
+    title: str,
+    detail: str,
+    source_registry: str,
+    relevance_score: int,
+    link_target: str | None = None,
+    match_quality: str = "none",
+) -> dict[str, Any]:
+    return {
+        "title": title,
+        "detail": detail,
+        "source_registry": source_registry,
+        "relevance_score": relevance_score,
+        "match_quality": match_quality,
+        "simulated": True,
+        "source_type": "suggested",
+        "link_target": link_target,
+    }
+
+
 def _enrich_business_registry(
     db: Session, case_id: str, entity_id: str, label: str
 ) -> list[dict[str, Any]]:
-    hits: list[dict[str, Any]] = []
     person = _fetch_person(db, entity_id) if entity_id.startswith("P") else None
-    city = person.city if person else None
-
-    if city:
-        rows = db.execute(
-            text(
-                """
-                SELECT org_id, name, org_type, city FROM organizations
-                WHERE city = :city
-                ORDER BY org_id
-                LIMIT 5
-                """
-            ),
-            {"city": city},
-        ).mappings().all()
-    else:
-        rows = db.execute(
-            text(
-                """
-                SELECT org_id, name, org_type, city FROM organizations
-                ORDER BY org_id
-                LIMIT 5
-                """
+    if not person:
+        return [
+            _hit(
+                title="No registry match",
+                detail=f"No corporate registry affiliation found for {label}.",
+                source_registry="public_corporate_registry",
+                relevance_score=0,
+                match_quality="no_match",
             )
-        ).mappings().all()
+        ]
+
+    tokens = [t.lower() for t in person.name.split() if len(t) > 2]
+    rows = db.execute(
+        text(
+            """
+            SELECT org_id, name, org_type, city FROM organizations
+            WHERE city = :city
+            ORDER BY org_id
+            LIMIT 50
+            """
+        ),
+        {"city": person.city},
+    ).mappings().all()
+
+    hits: list[dict[str, Any]] = []
     for org in rows:
+        name_lower = org["name"].lower()
+        matched_tokens = [t for t in tokens if t in name_lower]
+        if not matched_tokens:
+            continue
+        relevance = min(85, 45 + len(matched_tokens) * 15)
         hits.append(
-            {
-                "title": f"Registry match: {org['name']}",
-                "detail": f"{org['org_type']} registered in {org['city']} (org_id {org['org_id']})",
-                "source_registry": "public_corporate_registry",
-                "confidence": 0.78 if city and org["city"] == city else 0.55,
-                "link_target": org["org_id"],
-            }
+            _hit(
+                title=f"Possible registry match: {org['name']}",
+                detail=(
+                    f"Synthetic registry lists {org['org_type']} in {org['city']} — "
+                    f"name token overlap: {', '.join(matched_tokens)}"
+                ),
+                source_registry="public_corporate_registry",
+                relevance_score=relevance,
+                link_target=org["org_id"],
+                match_quality="partial_name_token",
+            )
         )
+
     if not hits:
-        hits.append(
-            {
-                "title": "No public registry affiliation",
-                "detail": f"No corporate registry link found for {label} in public index.",
-                "source_registry": "public_corporate_registry",
-                "confidence": 0.0,
-            }
-        )
-    return hits
+        return [
+            _hit(
+                title="No registry match",
+                detail=(
+                    f"No corporate registry entry in {person.city} shares name tokens with {person.name}."
+                ),
+                source_registry="public_corporate_registry",
+                relevance_score=0,
+                match_quality="no_match",
+            )
+        ]
+    return hits[:5]
 
 
 def _enrich_court_bulletin(
     db: Session, case_id: str, entity_id: str, label: str
 ) -> list[dict[str, Any]]:
-    pattern = f"%{label.split()[0]}%" if label else "%"
+    if not label.strip():
+        return [
+            _hit(
+                title="No bulletin matches",
+                detail="Entity label empty — cannot search court bulletin index.",
+                source_registry="published_court_bulletin",
+                relevance_score=0,
+                match_quality="no_match",
+            )
+        ]
+
     rows = db.execute(
         text(
             """
@@ -119,130 +166,108 @@ def _enrich_court_bulletin(
             LIMIT 5
             """
         ),
-        {"cid": case_id, "pat": pattern},
+        {"cid": case_id, "pat": f"%{label}%"},
     ).mappings().all()
 
     if not rows:
+        first_token = label.split()[0]
         rows = db.execute(
             text(
                 """
                 SELECT fir_id, police_station, complaint_text, date
-                FROM fir WHERE case_id = :cid ORDER BY date DESC LIMIT 3
+                FROM fir
+                WHERE case_id = :cid AND complaint_text ILIKE :pat
+                ORDER BY date DESC
+                LIMIT 5
                 """
             ),
-            {"cid": case_id},
+            {"cid": case_id, "pat": f"%{first_token}%"},
         ).mappings().all()
+
+    if not rows:
+        return [
+            _hit(
+                title="No bulletin matches",
+                detail=f"No FIR text in case {case_id} mentions {label}.",
+                source_registry="published_court_bulletin",
+                relevance_score=0,
+                match_quality="no_match",
+            )
+        ]
 
     hits = []
     for fir in rows:
+        full_match = label.lower() in fir["complaint_text"].lower()
+        relevance = 80 if full_match else 55
         hits.append(
-            {
-                "title": f"Court bulletin ref: {fir['fir_id']}",
-                "detail": (
+            _hit(
+                title=f"Case FIR reference: {fir['fir_id']}",
+                detail=(
                     f"{fir['police_station']} ({fir['date']}): "
                     f"{fir['complaint_text'][:120]}…"
                 ),
-                "source_registry": "published_court_bulletin",
-                "confidence": 0.82 if label.lower() in fir["complaint_text"].lower() else 0.45,
-                "link_target": fir["fir_id"],
-            }
+                source_registry="published_court_bulletin",
+                relevance_score=relevance,
+                link_target=fir["fir_id"],
+                match_quality="full_name" if full_match else "partial_token",
+            )
         )
-    return hits or [
-        {
-            "title": "No bulletin matches",
-            "detail": "No public court bulletin entries matched this entity.",
-            "source_registry": "published_court_bulletin",
-            "confidence": 0.0,
-        }
-    ]
+    return hits
 
 
 def _enrich_address_directory(
     db: Session, case_id: str, entity_id: str, label: str
 ) -> list[dict[str, Any]]:
-    hits: list[dict[str, Any]] = []
     person = _fetch_person(db, entity_id) if entity_id.startswith("P") else None
-    if person:
-        locs = db.execute(
-            text(
-                """
-                SELECT location_id, name, city FROM locations
-                WHERE city = :city ORDER BY location_id LIMIT 5
-                """
-            ),
-            {"city": person.city},
-        ).mappings().all()
-        for loc in locs:
-            hits.append(
-                {
-                    "title": f"Directory: {loc['name']}",
-                    "detail": f"Licensed directory lists {loc['name']} in {loc['city']}",
-                    "source_registry": "licensed_address_directory",
-                    "confidence": 0.74,
-                    "link_target": loc["location_id"],
-                }
+    if not person:
+        return [
+            _hit(
+                title="Address lookup inconclusive",
+                detail="Person record not found — cannot query licensed directory.",
+                source_registry="licensed_address_directory",
+                relevance_score=0,
+                match_quality="no_match",
             )
-        hits.insert(
-            0,
-            {
-                "title": f"Registered city: {person.city}",
-                "detail": f"Public index confirms residence cluster for {person.name}",
-                "source_registry": "licensed_address_directory",
-                "confidence": 0.88,
-            },
+        ]
+
+    return [
+        _hit(
+            title=f"Registered city index: {person.city}",
+            detail=(
+                f"Synthetic directory confirms {person.name} is indexed under city cluster "
+                f"{person.city} (person_id {person.person_id})."
+            ),
+            source_registry="licensed_address_directory",
+            relevance_score=70,
+            match_quality="city_cluster",
         )
-    return hits or [
-        {
-            "title": "Address lookup inconclusive",
-            "detail": "Entity not found in licensed public directory index.",
-            "source_registry": "licensed_address_directory",
-            "confidence": 0.0,
-        }
     ]
 
 
 def _enrich_sanctions(db: Session, case_id: str, entity_id: str, label: str) -> list[dict[str, Any]]:
-    hits: list[dict[str, Any]] = []
     label_lower = label.lower()
     flagged = [term for term in SANCTIONS_WATCHLIST if term in label_lower]
 
-    org_rows = db.execute(
-        text("SELECT org_id, name, org_type FROM organizations LIMIT 200")
-    ).mappings().all()
-    for org in org_rows:
-        name_lower = org["name"].lower()
-        if any(term in name_lower for term in SANCTIONS_WATCHLIST):
-            hits.append(
-                {
-                    "title": f"Watchlist proximity: {org['name']}",
-                    "detail": f"Public watchlist pattern match near entity network ({org['org_type']})",
-                    "source_registry": "public_sanctions_watchlist",
-                    "confidence": 0.61,
-                    "link_target": org["org_id"],
-                }
-            )
-
     if flagged:
-        hits.insert(
-            0,
-            {
-                "title": "Sanctions screening flag",
-                "detail": f"Entity label matched public watchlist token(s): {', '.join(flagged)}",
-                "source_registry": "public_sanctions_watchlist",
-                "confidence": 0.71,
-            },
-        )
+        return [
+            _hit(
+                title="Watchlist token match (review required)",
+                detail=f"Entity label matched demo watchlist token(s): {', '.join(flagged)}",
+                source_registry="public_sanctions_watchlist",
+                relevance_score=60,
+                match_quality="token_match",
+            )
+        ]
 
-    if not hits:
-        hits.append(
-            {
-                "title": "Clear — public watchlist",
-                "detail": f"No matches on public sanctions index for {label}",
-                "source_registry": "public_sanctions_watchlist",
-                "confidence": 0.95,
-            }
+    return [
+        _hit(
+            title="Clear — demo watchlist",
+            detail=f"No demo sanctions tokens matched for {label}.",
+            source_registry="public_sanctions_watchlist",
+            relevance_score=10,
+            match_quality="no_match",
         )
-    return hits
+    ]
 
 
 ENRICHERS = {
@@ -265,67 +290,16 @@ def run_osint_enrichment(
     if lookup_id not in ENRICHERS:
         raise ValueError(f"Unknown lookup_id: {lookup_id}")
 
-    label, entity_type = _resolve_entity_label(db, entity_id)
+    label, _entity_type = _resolve_entity_label(db, entity_id)
     enricher = ENRICHERS[lookup_id]
     raw_hits = enricher(db, case_id, entity_id, label)
 
     enrichment_id = f"ENR-{uuid.uuid4().hex[:8].upper()}"
-    graph_links: list[str] = []
-
-    merge_entity_in_neo4j(
-        entity_id=entity_id,
-        entity_type=entity_type if entity_type in {"person", "phone", "account"} else "person",
-        label=label,
-        case_id=case_id,
-        source_type="osint",
-        source_id=enrichment_id,
-        excerpt=f"OSINT {lookup_id} enrichment on {label}",
-        action="enriched",
-    )
-
-    for hit in raw_hits:
-        target = hit.get("link_target")
-        if not target:
-            continue
-        target_type = (
-            "organization"
-            if str(target).startswith("O")
-            else "location"
-            if str(target).startswith("L")
-            else "person"
-        )
-        graph_links.append(f"{entity_id}->{target}")
-        merge_entity_in_neo4j(
-            entity_id=str(target),
-            entity_type=target_type,
-            label=hit["title"].replace("Registry match: ", "").replace("Directory: ", "")[:128],
-            case_id=case_id,
-            source_type="osint",
-            source_id=enrichment_id,
-            excerpt=hit["detail"][:500],
-            action="linked",
-        )
-        from app.services.neo4j_client import get_session, is_neo4j_available
-
-        if is_neo4j_available():
-            with get_session() as session:
-                session.run(
-                    """
-                    MATCH (a {id: $from_id}), (b {id: $to_id})
-                    MERGE (a)-[:ENRICHED_WITH {lookup_id: $lookup}]->(b)
-                    """,
-                    {
-                        "from_id": entity_id,
-                        "to_id": str(target),
-                        "lookup": lookup_id,
-                    },
-                ).consume()
-
     lookup_label = LOOKUP_LABELS.get(lookup_id, lookup_id)
     audit = append_audit_entry(
         db,
         case_id=case_id,
-        action=f"OSINT lookup: {lookup_label}",
+        action=f"OSINT lookup (simulated): {lookup_label}",
         entity_id=entity_id,
         source=f"lawful_api://{lookup_id}",
         operator=f"{operator} ({operator_name})",
@@ -333,10 +307,17 @@ def run_osint_enrichment(
         payload={
             "enrichment_id": enrichment_id,
             "lookup_id": lookup_id,
+            "simulated": True,
             "results_count": len(raw_hits),
-            "graph_links": graph_links,
+            "disclaimer": SIMULATED_DISCLAIMER,
         },
     )
+
+    public_hits = []
+    for h in raw_hits:
+        item = {k: v for k, v in h.items() if k != "link_target"}
+        item["requires_officer_review"] = h.get("match_quality") != "no_match"
+        public_hits.append(item)
 
     return {
         "enrichment_id": enrichment_id,
@@ -344,10 +325,15 @@ def run_osint_enrichment(
         "lookup_id": lookup_id,
         "lookup_label": lookup_label,
         "case_id": case_id,
-        "results": [
-            {k: v for k, v in h.items() if k != "link_target"} for h in raw_hits
+        "simulated": True,
+        "disclaimer": SIMULATED_DISCLAIMER,
+        "results": public_hits,
+        "graph_links_added": [],
+        "suggested_links": [
+            h["link_target"]
+            for h in raw_hits
+            if h.get("link_target") and h.get("match_quality") != "no_match"
         ],
-        "graph_links_added": graph_links,
         "audit_entry_id": audit["entry_id"],
         "audit_hash": audit["entry_hash"],
     }

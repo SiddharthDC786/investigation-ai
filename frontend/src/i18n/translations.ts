@@ -260,6 +260,7 @@ export type TranslationTree = {
     roleAll: string
     faceLabel: string
     faceHint: string
+    faceDemoStub: string
     faceScanning: string
     faceMatchResult: string
     faceError: string
@@ -584,9 +585,10 @@ export const translations: Record<Language, TranslationTree> = {
       roleLabel: 'Role filter',
       roleAll: 'All roles',
       faceLabel: 'Face photo (optional)',
-      faceHint: 'Upload CCTV or suspect photo — demo match in training mode',
+      faceHint: 'Upload CCTV or suspect photo — training workflow only',
+      faceDemoStub: 'DEMO STUB — not real biometrics; officer must confirm identity.',
       faceScanning: 'Scanning photo…',
-      faceMatchResult: 'Possible match found ({confidence}% confidence)',
+      faceMatchResult: 'Demo similarity {score}/100 — confirm with other evidence',
       faceError: 'Face scan failed — try again',
       apiError: 'Search failed — check backend connection.',
       runSearch: 'Search',
@@ -903,9 +905,10 @@ export const translations: Record<Language, TranslationTree> = {
       roleLabel: 'भूमिका फ़िल्टर',
       roleAll: 'सभी भूमिकाएँ',
       faceLabel: 'चेहरे की फोटो (वैकल्पिक)',
-      faceHint: 'CCTV या संदिग्ध की फोटो अपलोड करें — प्रशिक्षण में डेमो मिलान',
+      faceHint: 'CCTV या संदिग्ध की फोटो — केवल प्रशिक्षण',
+      faceDemoStub: 'डेमो — वास्तविक बायोमेट्रिक्स नहीं; अधिकारी को पहचान पुष्टि करनी होगी।',
       faceScanning: 'फोटो स्कैन हो रही है…',
-      faceMatchResult: 'संभावित मिलान ({confidence}% विश्वास)',
+      faceMatchResult: 'डेमो समानता {score}/100 — अन्य साक्ष्य से पुष्टि करें',
       faceError: 'फेस स्कैन विफल — पुनः प्रयास करें',
       apiError: 'खोज विफल — बैकएंड कनेक्शन जाँचें।',
       runSearch: 'खोजें',

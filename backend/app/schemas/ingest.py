@@ -7,6 +7,9 @@ class ExtractedMention(BaseModel):
     resolved_entity_id: str | None = None
     action: str
     source_excerpt: str | None = None
+    match_reason: str | None = None
+    requires_review: bool = False
+    suggested_person_id: str | None = None
 
 
 class IngestResponse(BaseModel):

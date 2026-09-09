@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { searchByFace, searchInvestigation } from '../api/search'
 import { formatApiError } from '../api/client'
-import { CASE_ID } from '../data/mockCase'
+import { useCase } from '../context/CaseContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getPersonPhoneDisplay, listSearchAreas, matchTypeLabel } from '../lib/investigationSearch'
 import type { Entity, NameMatchHit, RoleFilter, SearchFilters } from '../types'
@@ -49,6 +49,7 @@ const emptyFilters: SearchFilters = {
 
 export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntitiesLoaded }: SearchViewProps) {
   const { t } = useLanguage()
+  const { caseId } = useCase()
   const areas = useMemo(() => listSearchAreas(), [])
   const [filters, setFilters] = useState<SearchFilters>(emptyFilters)
   const [draft, setDraft] = useState(emptyFilters)
@@ -63,7 +64,7 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
       setFilters(next)
       setError(null)
       try {
-        const data = await searchInvestigation(CASE_ID, next)
+        const data = await searchInvestigation(caseId, next)
         setResults(data)
         const loaded = [
           ...data.nameCandidates.map((h) => h.entity),
@@ -81,7 +82,7 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
         } else if (data.nameCandidates.length > 0) {
           onSearchPerformed?.(
             `Name search "${next.nameQuery}": ${data.nameCandidates.length} candidate(s)`,
-            data.nameCandidates[0]?.entity.id ?? CASE_ID,
+            data.nameCandidates[0]?.entity.id ?? caseId,
           )
         }
       } catch (err) {
@@ -124,11 +125,16 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
     if (!file) return
     setFaceStatus(t.search.faceScanning)
     try {
-      const match = await searchByFace(CASE_ID, file)
-      const next = { ...draft, faceMatchPersonId: match.personId, selectedPersonId: match.personId }
+      const match = await searchByFace(caseId, file)
+      const pid = match.person_id ?? 'P00014'
+      const next = { ...draft, faceMatchPersonId: pid, selectedPersonId: pid }
       setDraft(next)
-      setFaceStatus(t.search.faceMatchResult.replace('{confidence}', String(match.confidence)))
-      onSelect(match.personId)
+      setFaceStatus(
+        match.simulated
+          ? `${t.search.faceDemoStub} ${pid} · ${t.search.faceMatchResult.replace('{score}', String(match.similarity_score))}`
+          : t.search.faceMatchResult.replace('{score}', String(match.similarity_score)),
+      )
+      onSelect(pid)
       await runSearch(next)
     } catch {
       setFaceStatus(t.search.faceError)
@@ -320,9 +326,10 @@ export function SearchView({ selectedId, onSelect, onSearchPerformed, onEntities
               </select>
             </label>
 
-            <div className="border border-console-border bg-console-bg p-3">
+            <div className="border border-risk-medium/30 bg-risk-medium/5 p-3">
               <p className="text-sm font-medium text-text-primary">{t.search.faceLabel}</p>
               <p className="mt-1 text-xs text-text-muted">{t.search.faceHint}</p>
+              <p className="mt-1 text-xs font-semibold text-risk-medium">{t.search.faceDemoStub}</p>
               <input
                 type="file"
                 accept="image/*"

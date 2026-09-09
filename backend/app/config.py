@@ -24,6 +24,27 @@ class Settings(BaseSettings):
         default=True,
         validation_alias=AliasChoices("NEO4J_ENABLED", "neo4j_enabled"),
     )
+    jwt_secret: str = Field(
+        default="change-me-in-production-use-long-random-secret",
+        validation_alias=AliasChoices("JWT_SECRET", "jwt_secret"),
+    )
+    jwt_expire_minutes: int = Field(
+        default=480,
+        validation_alias=AliasChoices("JWT_EXPIRE_MINUTES", "jwt_expire_minutes"),
+    )
+    auth_enabled: bool = Field(
+        default=True,
+        validation_alias=AliasChoices("AUTH_ENABLED", "auth_enabled"),
+    )
+    auth_password_salt: str = Field(
+        default="vigil-demo-salt-change-in-production",
+        validation_alias=AliasChoices("AUTH_PASSWORD_SALT", "auth_password_salt"),
+    )
+    demo_investigator_badge: str = Field(default="INV-2847")
+    demo_supervisor_badge: str = Field(default="SUP-1001")
+    demo_investigator_cases: list[str] = Field(default=["CASE0001"])
+    demo_investigator_password_hash: str | None = Field(default=None)
+    demo_supervisor_password_hash: str | None = Field(default=None)
 
     model_config = SettingsConfigDict(
         env_file=".env",

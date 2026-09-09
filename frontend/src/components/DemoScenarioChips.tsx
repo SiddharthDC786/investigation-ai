@@ -15,6 +15,9 @@ export function DemoScenarioChips({ onRun, disabled }: DemoScenarioChipsProps) {
     if (!scenario) return
     onRun({
       ...scenario.filters,
+      genderQuery: '',
+      ageQuery: '',
+      fatherNameQuery: '',
       faceMatchPersonId: null,
       selectedPersonId: null,
     })

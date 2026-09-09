@@ -1,11 +1,5 @@
-from fastapi.testclient import TestClient
 
-from app.main import app
-
-client = TestClient(app)
-
-
-def test_get_entity_postgres_fallback():
+def test_get_entity_postgres_fallback(client):
     response = client.get("/entities/P00014")
     if response.status_code == 404:
         return
@@ -15,12 +9,12 @@ def test_get_entity_postgres_fallback():
     assert "sources" in body
 
 
-def test_get_unknown_entity():
+def test_get_unknown_entity(client):
     response = client.get("/entities/UNKNOWN999")
     assert response.status_code == 404
 
 
-def test_health_reports_neo4j_flag():
-    response = client.get("/health")
+def test_health_reports_neo4j_flag(raw_client):
+    response = raw_client.get("/health")
     assert response.status_code == 200
     assert "neo4j" in response.json()

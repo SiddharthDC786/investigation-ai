@@ -175,6 +175,9 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
             {t.ingest.engine}: <span className="text-accent-steel">{preview.engine}</span> ·{' '}
             {preview.entities_extracted} {t.ingest.entities}
           </p>
+          <p className="mt-1 text-[11px] text-text-muted">
+            English via spaCy; Hindi Devanagari names via regex supplement — verify all extracts manually.
+          </p>
           <ul className="mt-2 max-h-40 space-y-1 overflow-y-auto text-xs">
             {preview.entities.map((ent) => (
               <li key={`${ent.entity_type}-${ent.text}`} className="text-text-primary">

@@ -15,10 +15,9 @@ export function LoginPage() {
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError('')
-    if (!login(badgeId, password)) {
-      setError(t.login.error)
-      return
-    }
+    void login(badgeId, password).then((ok) => {
+      if (!ok) setError(t.login.error)
+    })
   }
 
   return (

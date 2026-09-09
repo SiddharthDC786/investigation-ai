@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { getCase } from '../api/case'
 import { getCaseSummary } from '../api/summary'
-import { CASE_DISPLAY_REF, CASE_ID } from '../data/mockCase'
+import { CASE_DISPLAY_REF } from '../data/mockCase'
 import { displayCaseTitle } from '../lib/displayCase'
+import { useCase } from '../context/CaseContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { usePresentationMode } from '../i18n/PresentationModeContext'
 import { ConnectionStatusBadge } from './ConnectionStatusBadge'
@@ -14,20 +15,22 @@ export function TopBar() {
   const { user, minutesLeft, logout } = useAuth()
   const { t } = useLanguage()
   const { enabled: presentationMode, toggle: togglePresentation } = usePresentationMode()
+  const { caseId, cases, setCaseId, loading: casesLoading } = useCase()
   const [caseTitle, setCaseTitle] = useState('Loading case…')
   const [briefing, setBriefing] = useState<string | null>(null)
 
   useEffect(() => {
-    void getCase(CASE_ID)
+    if (!caseId) return
+    void getCase(caseId)
       .then((c) => setCaseTitle(displayCaseTitle(c.title)))
       .catch(() => setCaseTitle('Active investigation'))
-    void getCaseSummary(CASE_ID)
+    void getCaseSummary(caseId)
       .then((s) => {
         if (!s?.narrative) return
         const line = displayCaseTitle(s.narrative)
         if (!/synthetic|CASE0001/i.test(line)) setBriefing(line)
       })
-  }, [])
+  }, [caseId])
 
   return (
     <header className="flex min-h-12 shrink-0 flex-wrap items-center justify-between gap-2 border-b border-console-border bg-console-surface px-4 py-2">
@@ -40,6 +43,21 @@ export function TopBar() {
             <span className="text-base font-semibold text-text-primary">Vigil</span>
             <SihBadge compact />
             <span className="text-xs text-accent-steel">{CASE_DISPLAY_REF}</span>
+            {cases.length > 1 && (
+              <select
+                value={caseId}
+                disabled={casesLoading}
+                onChange={(e) => setCaseId(e.target.value)}
+                className="border border-console-border-strong bg-console-bg px-2 py-1 text-xs text-text-primary"
+                aria-label="Select investigation case"
+              >
+                {cases.map((c) => (
+                  <option key={c.case_id} value={c.case_id}>
+                    {c.case_id} — {c.title}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
           <p className="truncate text-sm text-text-secondary">{caseTitle}</p>
           {briefing && (

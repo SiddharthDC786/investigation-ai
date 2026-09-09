@@ -54,6 +54,7 @@ neo4j==5.28.1
 spacy==3.8.4
 Pillow==11.1.0
 pytesseract==0.3.13
+PyJWT==2.10.1
 uvloop==0.22.1
 watchfiles==1.2.0
 websockets==17.1

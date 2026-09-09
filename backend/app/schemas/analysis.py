@@ -48,4 +48,9 @@ class RiskScoreEntry(BaseModel):
 
 class RiskScoreResponse(BaseModel):
     case_id: str
+    score_type: str = "investigation_priority"
+    score_disclaimer: str = (
+        "Scores rank investigation priority from network position and case evidence. "
+        "They are not probabilities of guilt or conviction."
+    )
     scores: list[RiskScoreEntry] = Field(default_factory=list)

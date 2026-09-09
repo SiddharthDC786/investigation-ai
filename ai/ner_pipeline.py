@@ -9,6 +9,12 @@ EntityKind = Literal["person", "phone", "organization", "location", "account", "
 PHONE_RE = re.compile(r"(?:\+91[\s-]?)?(?:91[\s-]?)?([6-9]\d{9})")
 ACCOUNT_RE = re.compile(r"\b(?:A/C|account|acct)[\s:#-]*(\d{8,18})\b", re.I)
 VEHICLE_RE = re.compile(r"\b([A-Z]{2}\d{2}[A-Z]{1,2}\d{4})\b")
+# Hindi/Devanagari person names (2–4 words) — regex supplement; English uses spaCy
+HINDI_NAME_RE = re.compile(
+    r"([\u0900-\u097F]{2,12})\s+([\u0900-\u097F]{2,12})(?=\s|[,.]|$)"
+)
+HINDI_NEXT_WORD = re.compile(r"^\s+([\u0900-\u097F]{2,12})(?=\s|[,.]|$)")
+HINDI_STOP = frozenset({"संदिग्ध", "फोन", "किया", "संदेश", "शिकायत"})
 ALIAS_RE = re.compile(
     r"(?:aka|a\.k\.a\.|alias|also known as|identifies as)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,3})",
     re.I,
@@ -110,6 +116,37 @@ def extract_entities(text: str) -> list[ExtractedEntity]:
             )
         )
 
+    for match in HINDI_NAME_RE.finditer(text):
+        w1, w2 = match.group(1), match.group(2)
+        if w1 in HINDI_STOP and w2 in HINDI_STOP:
+            continue
+        if w1 in HINDI_STOP:
+            next_match = HINDI_NEXT_WORD.match(text[match.end(2) :])
+            if next_match and next_match.group(1) not in HINDI_STOP:
+                name = f"{w2} {next_match.group(1)}"
+                end = match.end(2) + next_match.end(1)
+            else:
+                name = w2
+                end = match.end(2)
+            start = match.start(2)
+        elif w2 in HINDI_STOP:
+            name = w1
+            start = match.start(1)
+            end = match.end(1)
+        else:
+            name = f"{w1} {w2}"
+            start = match.start(1)
+            end = match.end(2)
+        entities.append(
+            ExtractedEntity(
+                text=name,
+                entity_type="person",
+                start=start,
+                end=end,
+                confidence=0.75,
+            )
+        )
+
     nlp = _load_spacy()
     if nlp:
         doc = nlp(text[:100000])
@@ -145,23 +182,21 @@ def extract_entities(text: str) -> list[ExtractedEntity]:
                     )
                 )
 
-    # Regex fallback for capitalized Indian-style names when spaCy unavailable
-    if not nlp:
-        name_pattern = re.compile(
-            r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\b"
-        )
-        for match in name_pattern.finditer(text):
-            candidate = match.group(1)
-            if candidate.lower() in {"police station", "first information"}:
-                continue
-            entities.append(
-                ExtractedEntity(
-                    text=candidate,
-                    entity_type="person",
-                    start=match.start(1),
-                    end=match.end(1),
-                    confidence=0.72,
-                )
+    # Capitalized name supplement (spaCy may miss Indian names in FIR prose)
+    name_pattern = re.compile(r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\b")
+    skip_names = {"police station", "first information", "information report"}
+    for match in name_pattern.finditer(text):
+        candidate = match.group(1)
+        if candidate.lower() in skip_names:
+            continue
+        entities.append(
+            ExtractedEntity(
+                text=candidate,
+                entity_type="person",
+                start=match.start(1),
+                end=match.end(1),
+                confidence=0.74 if nlp else 0.72,
             )
+        )
 
     return _dedupe(entities)

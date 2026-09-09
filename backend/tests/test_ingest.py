@@ -1,9 +1,3 @@
-from fastapi.testclient import TestClient
-
-from app.main import app
-
-client = TestClient(app)
-
 SAMPLE_FIR = """
 FIRST INFORMATION REPORT
 Complainant Rahul Sharma contacted police regarding fraud.
@@ -12,7 +6,7 @@ Organization Delhi Trading Co was mentioned near Mumbai.
 """
 
 
-def test_ingest_fir_extracts_entities():
+def test_ingest_fir_extracts_entities(client):
     response = client.post(
         "/ingest/fir",
         data={"case_id": "CASE0001"},
@@ -27,7 +21,7 @@ def test_ingest_fir_extracts_entities():
     assert "person" in types or "phone" in types
 
 
-def test_ingest_cdr_csv():
+def test_ingest_cdr_csv(client):
     csv_data = "cdr_id,caller_phone,receiver_phone,timestamp,duration_seconds,tower_location\nCDR1,9000000001,9000000002,2024-01-01 10:00:00,60,Tower A\n"
     response = client.post(
         "/ingest/cdr",

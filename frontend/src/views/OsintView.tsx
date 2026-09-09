@@ -6,8 +6,8 @@ import {
   type OsintEnrichResponse,
   verifyAuditChain,
 } from '../api/osint'
-import { CASE_DISPLAY_REF, CASE_ID, osintLookups } from '../data/mockCase'
-import { useAuth } from '../auth/AuthContext'
+import { CASE_DISPLAY_REF, osintLookups } from '../data/mockCase'
+import { useCase } from '../context/CaseContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getPersonPhoneDisplay } from '../lib/investigationSearch'
 import type { AuditEntry, Entity } from '../types'
@@ -28,7 +28,7 @@ export function OsintView({
   onAuditRefresh,
 }: OsintViewProps) {
   const { t } = useLanguage()
-  const { user } = useAuth()
+  const { caseId } = useCase()
   const entity = selectedId ? entityLookup[selectedId] : null
   const personEntity = entity?.type === 'person' ? entity : entity?.metadata?.person_id
     ? entityLookup[entity.metadata.person_id]
@@ -44,15 +44,15 @@ export function OsintView({
   const refreshAudit = useCallback(async () => {
     try {
       const [log, verify] = await Promise.all([
-        getOsintAuditLog(CASE_ID),
-        verifyAuditChain(CASE_ID),
+        getOsintAuditLog(caseId),
+        verifyAuditChain(caseId),
       ])
       setChainStatus(verify.status)
       onAuditRefresh?.(log.entries, verify.status)
     } catch {
       setChainStatus('offline')
     }
-  }, [onAuditRefresh])
+  }, [onAuditRefresh, caseId])
 
   useEffect(() => {
     refreshAudit()
@@ -64,7 +64,7 @@ export function OsintView({
       return
     }
     let cancelled = false
-    getEntityExplanation(dossier.id, CASE_ID)
+    getEntityExplanation(dossier.id, caseId)
       .then((res) => {
         if (!cancelled) setExplain(res)
       })
@@ -74,7 +74,7 @@ export function OsintView({
     return () => {
       cancelled = true
     }
-  }, [dossier?.id])
+  }, [dossier?.id, caseId])
 
   const runLookup = async (lookupId: string) => {
     const target = dossier ?? entity
@@ -83,11 +83,9 @@ export function OsintView({
     setLoading(lookupId)
     try {
       const result = await enrichEntity({
-        case_id: CASE_ID,
+        case_id: caseId,
         entity_id: target.id,
         lookup_id: lookupId,
-        operator: user?.badgeId ?? 'INV-2847',
-        operator_name: user?.name ?? 'Investigator',
       })
       setLastResult(result)
       onRunLookup(lookupId, target.id, result)
@@ -109,7 +107,8 @@ export function OsintView({
   return (
     <div className="flex h-full flex-col overflow-hidden">
       <div className="border-b border-risk-medium/30 bg-risk-medium/5 px-5 py-2.5">
-        <p className="text-sm text-risk-medium">{t.osint.policy}</p>
+        <p className="text-sm font-semibold text-risk-medium">SIMULATED OSINT — synthetic demo data only</p>
+        <p className="mt-1 text-xs text-text-secondary">{t.osint.policy}</p>
         {chainStatus === 'verified' && (
           <p className="mt-1 text-xs text-risk-low">Audit hash chain: verified</p>
         )}
@@ -223,11 +222,19 @@ export function OsintView({
 
           {lastResult && (
             <div className="mt-6 border border-accent-steel/30 bg-accent-steel/5 p-4">
-              <p className="text-xs font-semibold text-accent-steel">Latest lookup result</p>
+              <p className="text-xs font-semibold text-accent-steel">
+                Latest lookup result {lastResult.simulated ? '(simulated — review required)' : ''}
+              </p>
+              {lastResult.disclaimer && (
+                <p className="mt-1 text-xs text-text-muted">{lastResult.disclaimer}</p>
+              )}
               <ul className="mt-2 space-y-2">
                 {lastResult.results.map((hit) => (
                   <li key={hit.title} className="text-sm text-text-secondary">
                     <span className="font-medium text-text-primary">{hit.title}</span>
+                    <span className="ml-2 text-xs text-text-muted">
+                      relevance {hit.relevance_score}/100 · {hit.source_type}
+                    </span>
                     <br />
                     {hit.detail}
                   </li>

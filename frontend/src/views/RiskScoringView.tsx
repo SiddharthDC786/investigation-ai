@@ -11,13 +11,14 @@ import {
 } from 'recharts'
 import { getCommunities, getRiskScores, riskScoresToEntities } from '../api/analyze'
 import { formatApiError } from '../api/client'
-import { CASE_ID } from '../data/mockCase'
+import { useCase } from '../context/CaseContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import type { Entity } from '../types'
 
 interface RiskScoringViewProps {
   selectedId: string | null
   onSelect: (id: string) => void
+  refreshKey?: number
 }
 
 function severityBadge(severity: Entity['severity'], label: string) {
@@ -31,8 +32,9 @@ function severityBadge(severity: Entity['severity'], label: string) {
   )
 }
 
-export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) {
+export function RiskScoringView({ selectedId, onSelect, refreshKey = 0 }: RiskScoringViewProps) {
   const { t } = useLanguage()
+  const { caseId } = useCase()
   const [ranked, setRanked] = useState<Entity[]>([])
   const [communities, setCommunities] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
@@ -42,7 +44,7 @@ export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) 
     let cancelled = false
     setLoading(true)
     setError(null)
-    Promise.all([getRiskScores(CASE_ID), getCommunities(CASE_ID)])
+    Promise.all([getRiskScores(caseId), getCommunities(caseId)])
       .then(([risk, comm]) => {
         if (cancelled) return
         setRanked(riskScoresToEntities(risk.scores))
@@ -60,7 +62,7 @@ export function RiskScoringView({ selectedId, onSelect }: RiskScoringViewProps) 
     return () => {
       cancelled = true
     }
-  }, [t.risk.apiError])
+  }, [caseId, refreshKey, t.risk.apiError])
 
   const chartRows = useMemo(() => {
     const rahuls = ranked.filter((e) => e.label.toLowerCase().startsWith('rahul'))

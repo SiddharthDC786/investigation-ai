@@ -1,9 +1,5 @@
 import pytest
-from fastapi.testclient import TestClient
 
-from app.main import app
-
-client = TestClient(app)
 CASE_ID = "CASE0001"
 
 
@@ -20,7 +16,7 @@ def _require_db():
         db.close()
 
 
-def test_timeline_returns_events():
+def test_timeline_returns_events(client):
     response = client.get(f"/cases/{CASE_ID}/timeline")
     assert response.status_code == 200
     body = response.json()
@@ -32,7 +28,7 @@ def test_timeline_returns_events():
         assert "entityIds" in event
 
 
-def test_centrality_rankings():
+def test_centrality_rankings(client):
     response = client.get(f"/cases/{CASE_ID}/analyze/centrality")
     assert response.status_code == 200
     body = response.json()
@@ -45,7 +41,7 @@ def test_centrality_rankings():
         assert row["rank"] == 1
 
 
-def test_community_detection():
+def test_community_detection(client):
     response = client.get(f"/cases/{CASE_ID}/analyze/communities")
     assert response.status_code == 200
     body = response.json()

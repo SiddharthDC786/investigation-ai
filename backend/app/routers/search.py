@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.dependencies.auth import assert_case_access, get_current_user
+from app.schemas.face_search import FaceSearchResponse
 from app.schemas.investigation import InvestigationSearchResult
+from app.services.face_search_service import demo_face_search
 from app.services.investigation_search import run_investigation_search
 
 router = APIRouter(tags=["search"])
@@ -27,7 +30,9 @@ def search_case(
     selected_person_id: str | None = Query(None, alias="selected_person_id"),
     face_person_id: str | None = Query(None, alias="face_person_id"),
     db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
 ):
+    assert_case_access(user, case_id)
     case_exists = db.execute(
         text("SELECT 1 FROM cases WHERE case_id = :cid"),
         {"cid": case_id},
@@ -50,7 +55,19 @@ def search_case(
     )
 
 
-@router.post("/cases/{case_id}/search/face")
-def search_by_face(case_id: str):
-    """Demo face match — replace with ML pipeline later."""
-    return {"personId": "P00014", "confidence": 87}
+@router.post("/cases/{case_id}/search/face", response_model=FaceSearchResponse)
+async def search_by_face(
+    case_id: str,
+    photo: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
+):
+    assert_case_access(user, case_id)
+    case_exists = db.execute(
+        text("SELECT 1 FROM cases WHERE case_id = :cid"),
+        {"cid": case_id},
+    ).first()
+    if not case_exists:
+        raise HTTPException(status_code=404, detail="Case not found")
+    await photo.read()
+    return demo_face_search(db, case_id=case_id)

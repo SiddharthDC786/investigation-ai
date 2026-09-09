@@ -1,9 +1,5 @@
 import pytest
-from fastapi.testclient import TestClient
 
-from app.main import app
-
-client = TestClient(app)
 CASE_ID = "CASE0001"
 
 
@@ -20,7 +16,7 @@ def _require_db():
         db.close()
 
 
-def test_explain_entity():
+def test_explain_entity(client):
     response = client.get(f"/explain/P00014?case_id={CASE_ID}")
     assert response.status_code == 200
     body = response.json()
@@ -30,11 +26,12 @@ def test_explain_entity():
     assert body["source_citations"]
 
 
-def test_risk_scores():
+def test_risk_scores(client):
     response = client.get(f"/cases/{CASE_ID}/analyze/risk-score")
     assert response.status_code == 200
     body = response.json()
     assert body["case_id"] == CASE_ID
+    assert body.get("score_type") == "investigation_priority"
     assert len(body["scores"]) >= 1
     top = body["scores"][0]
     assert "composite_score" in top
@@ -42,7 +39,7 @@ def test_risk_scores():
     assert top["components"]["centrality"] >= 0
 
 
-def test_case_summary_under_3_seconds():
+def test_case_summary_under_3_seconds(client):
     response = client.get(f"/case-summary/{CASE_ID}")
     assert response.status_code == 200
     body = response.json()

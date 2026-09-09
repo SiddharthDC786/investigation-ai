@@ -1,12 +1,6 @@
-from fastapi.testclient import TestClient
 
-from app.main import app
-
-client = TestClient(app)
-
-
-def test_health_includes_postgres():
-    response = client.get("/health")
+def test_health_includes_postgres(raw_client):
+    response = raw_client.get("/health")
     assert response.status_code == 200
     body = response.json()
     assert body["status"] in ("ok", "degraded")
@@ -14,7 +8,7 @@ def test_health_includes_postgres():
     assert "neo4j" in body
 
 
-def test_case_stats():
+def test_case_stats(client):
     cases = client.get("/cases").json()
     if not cases:
         return

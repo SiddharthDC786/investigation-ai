@@ -1,9 +1,5 @@
 import pytest
-from fastapi.testclient import TestClient
 
-from app.main import app
-
-client = TestClient(app)
 CASE_ID = "CASE0001"
 
 
@@ -20,15 +16,13 @@ def _require_db():
         db.close()
 
 
-def test_osint_enrich_and_audit_chain():
+def test_osint_enrich_and_audit_chain(client):
     response = client.post(
         "/osint/enrich",
         json={
             "case_id": CASE_ID,
             "entity_id": "P00014",
             "lookup_id": "OSINT-01",
-            "operator": "INV-2847",
-            "operator_name": "Demo Officer",
         },
     )
     assert response.status_code == 200
@@ -36,6 +30,8 @@ def test_osint_enrich_and_audit_chain():
     assert body["audit_entry_id"].startswith("AUD-")
     assert len(body["audit_hash"]) == 64
     assert body["results"]
+    assert body.get("simulated") is True
+    assert body.get("graph_links_added") == []
 
     verify = client.get(f"/audit/verify?case_id={CASE_ID}")
     assert verify.status_code == 200
@@ -47,7 +43,7 @@ def test_osint_enrich_and_audit_chain():
     assert any("OSINT" in e["action"] for e in log.json()["entries"])
 
 
-def test_osint_unknown_lookup():
+def test_osint_unknown_lookup(client):
     response = client.post(
         "/osint/enrich",
         json={
@@ -59,7 +55,7 @@ def test_osint_unknown_lookup():
     assert response.status_code == 400
 
 
-def test_audit_verify_empty_case():
+def test_audit_verify_empty_case(client):
     response = client.get("/audit/verify?case_id=CASE9999")
     assert response.status_code == 200
     assert response.json()["status"] == "verified"

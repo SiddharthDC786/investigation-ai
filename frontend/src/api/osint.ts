@@ -5,15 +5,17 @@ export interface OsintEnrichRequest {
   case_id: string
   entity_id: string
   lookup_id: string
-  operator?: string
-  operator_name?: string
 }
 
 export interface OsintEnrichmentHit {
   title: string
   detail: string
   source_registry: string
-  confidence: number
+  relevance_score: number
+  match_quality: string
+  simulated: boolean
+  source_type: string
+  requires_officer_review: boolean
 }
 
 export interface OsintEnrichResponse {
@@ -22,8 +24,11 @@ export interface OsintEnrichResponse {
   lookup_id: string
   lookup_label: string
   case_id: string
+  simulated: boolean
+  disclaimer: string
   results: OsintEnrichmentHit[]
   graph_links_added: string[]
+  suggested_links: string[]
   audit_entry_id: string
   audit_hash: string
 }

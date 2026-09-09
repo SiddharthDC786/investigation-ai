@@ -27,6 +27,8 @@ TYPE_TO_RESPONSE = {
     "location": "LOCATION",
 }
 
+AUTO_MERGE_FUZZ_THRESHOLD = 96
+
 
 def normalize_label(value: str) -> str:
     return " ".join(value.strip().lower().split())
@@ -47,43 +49,71 @@ def _entity_id(entity_type: str, label: str) -> str:
 @dataclass
 class ResolutionResult:
     entity_id: str
-    action: str
+    action: str  # merged | created | suggested_match
     matched_on: str | None = None
+    match_reason: str | None = None
+    requires_review: bool = False
+    suggested_person_id: str | None = None
 
 
-def _pg_resolve_person(db: Session, case_id: str | None, name: str) -> str | None:
-    row = db.execute(
+def _person_ids_in_case(db: Session, case_id: str) -> set[str]:
+    """People linked to a case via relationships, CDR phones, transactions, or case FIR aliases."""
+    rows = db.execute(
         text(
             """
-            SELECT p.person_id FROM people p
-            LEFT JOIN recorded_names rn ON rn.person_id = p.person_id
-            WHERE p.name ILIKE :exact OR rn.recorded_name ILIKE :exact
-            LIMIT 1
+            SELECT DISTINCT person_id FROM (
+                SELECT person_id_a AS person_id FROM relationships WHERE case_id = :cid
+                UNION
+                SELECT person_id_b FROM relationships WHERE case_id = :cid
+                UNION
+                SELECT ph.person_id FROM cdr c
+                    JOIN phones ph ON ph.phone_number IN (c.caller_phone, c.receiver_phone)
+                    WHERE c.case_id = :cid
+                UNION
+                SELECT ba.person_id FROM transactions t
+                    JOIN bank_accounts ba ON ba.account_number IN (t.sender_account, t.receiver_account)
+                    WHERE t.case_id = :cid
+                UNION
+                SELECT rn.person_id FROM recorded_names rn
+                    WHERE rn.case_id = :cid AND rn.person_id IS NOT NULL
+            ) q
+            WHERE person_id IS NOT NULL
             """
         ),
-        {"exact": name.strip()},
-    ).scalar()
-    if row:
-        return row
-
-    candidates = db.execute(
-        text("SELECT person_id, name FROM people LIMIT 500")
-    ).mappings().all()
-    best_id = None
-    best_score = 0
-    q = normalize_label(name)
-    for cand in candidates:
-        score = fuzz.ratio(q, normalize_label(cand["name"]))
-        if score > best_score and score >= 88:
-            best_score = score
-            best_id = cand["person_id"]
-    return best_id
+        {"cid": case_id},
+    ).scalars().all()
+    return set(rows)
 
 
-def _pg_resolve_phone(db: Session, phone: str) -> str | None:
+def _fetch_person_row(db: Session, person_id: str) -> dict | None:
+    row = db.execute(
+        text("SELECT person_id, name, city FROM people WHERE person_id = :pid"),
+        {"pid": person_id},
+    ).mappings().first()
+    return dict(row) if row else None
+
+
+def _pg_resolve_phone(db: Session, phone: str, case_id: str | None = None) -> str | None:
     digits = "".join(c for c in phone if c.isdigit())
     if not digits:
         return None
+    if case_id:
+        row = db.execute(
+            text(
+                """
+                SELECT ph.phone_id FROM phones ph
+                JOIN (
+                    SELECT DISTINCT unnest(ARRAY[caller_phone, receiver_phone]) AS num
+                    FROM cdr WHERE case_id = :cid
+                ) c ON c.num = ph.phone_number
+                WHERE ph.phone_number LIKE :pattern
+                LIMIT 1
+                """
+            ),
+            {"cid": case_id, "pattern": f"%{digits[-10:]}"},
+        ).scalar()
+        if row:
+            return row
     row = db.execute(
         text(
             """
@@ -97,31 +127,202 @@ def _pg_resolve_phone(db: Session, phone: str) -> str | None:
     return row
 
 
+def _pg_resolve_person(
+    db: Session,
+    case_id: str | None,
+    name: str,
+    *,
+    context_phones: list[str] | None = None,
+    context_city: str | None = None,
+) -> ResolutionResult:
+    label = name.strip()
+    provisional_id = _entity_id("person", label)
+
+    if not case_id:
+        return ResolutionResult(
+            entity_id=provisional_id,
+            action="created",
+            matched_on=label,
+            match_reason="No case scope — new provisional entity",
+            requires_review=True,
+        )
+
+    case_people = _person_ids_in_case(db, case_id)
+    q_norm = normalize_label(label)
+
+    # Case-scoped alias table with confirmed person_id
+    alias_row = db.execute(
+        text(
+            """
+            SELECT rn.person_id, rn.recorded_name
+            FROM recorded_names rn
+            WHERE rn.case_id = :cid AND rn.person_id IS NOT NULL
+              AND lower(rn.recorded_name) = lower(:name)
+            LIMIT 1
+            """
+        ),
+        {"cid": case_id, "name": label},
+    ).mappings().first()
+    if alias_row and alias_row["person_id"] in case_people:
+        return ResolutionResult(
+            entity_id=alias_row["person_id"],
+            action="merged",
+            matched_on=alias_row["recorded_name"],
+            match_reason="Case alias linked to person with confirmed person_id",
+            requires_review=False,
+        )
+
+    exact_candidates: list[tuple[str, str]] = []
+    for pid in case_people:
+        person = _fetch_person_row(db, pid)
+        if not person:
+            continue
+        if normalize_label(person["name"]) == q_norm:
+            exact_candidates.append((pid, person["name"]))
+
+    corroborating_phone = False
+    if context_phones and exact_candidates:
+        digits_set = {"".join(c for c in p if c.isdigit())[-10:] for p in context_phones if p}
+        for pid, _ in exact_candidates:
+            owned = db.execute(
+                text(
+                    """
+                    SELECT phone_number FROM phones WHERE person_id = :pid
+                    """
+                ),
+                {"pid": pid},
+            ).scalars().all()
+            for num in owned:
+                d = "".join(c for c in num if c.isdigit())[-10:]
+                if d in digits_set:
+                    corroborating_phone = True
+                    break
+            if corroborating_phone:
+                break
+
+    corroborating_city = False
+    if context_city and exact_candidates:
+        city_norm = normalize_label(context_city)
+        for pid, _ in exact_candidates:
+            person = _fetch_person_row(db, pid)
+            if person and normalize_label(person["city"]) == city_norm:
+                corroborating_city = True
+                break
+
+    if len(exact_candidates) == 1 and (corroborating_phone or corroborating_city):
+        pid, pname = exact_candidates[0]
+        reason = "Exact name + corroborating phone in document" if corroborating_phone else "Exact name + matching city"
+        return ResolutionResult(
+            entity_id=pid,
+            action="merged",
+            matched_on=pname,
+            match_reason=reason,
+            requires_review=False,
+        )
+
+    if len(exact_candidates) > 1:
+        return ResolutionResult(
+            entity_id=provisional_id,
+            action="suggested_match",
+            matched_on=label,
+            match_reason=f"{len(exact_candidates)} case persons share exact name — requires officer review",
+            requires_review=True,
+            suggested_person_id=exact_candidates[0][0],
+        )
+
+    if len(exact_candidates) == 1:
+        pid, pname = exact_candidates[0]
+        return ResolutionResult(
+            entity_id=provisional_id,
+            action="suggested_match",
+            matched_on=pname,
+            match_reason="Exact name only — insufficient without phone or city corroboration",
+            requires_review=True,
+            suggested_person_id=pid,
+        )
+
+    # Fuzzy within case scope only — never auto-merge
+    best_id = None
+    best_name = None
+    best_score = 0
+    for pid in case_people:
+        person = _fetch_person_row(db, pid)
+        if not person:
+            continue
+        score = fuzz.ratio(q_norm, normalize_label(person["name"]))
+        alias_scores = db.execute(
+            text(
+                """
+                SELECT recorded_name FROM recorded_names
+                WHERE case_id = :cid AND person_id = :pid
+                """
+            ),
+            {"cid": case_id, "pid": pid},
+        ).scalars().all()
+        for alias in alias_scores:
+            score = max(score, fuzz.ratio(q_norm, normalize_label(alias)))
+        if score > best_score and score >= 88:
+            best_score = score
+            best_id = pid
+            best_name = person["name"]
+
+    if best_id:
+        return ResolutionResult(
+            entity_id=provisional_id,
+            action="suggested_match",
+            matched_on=best_name,
+            match_reason=f"Fuzzy name match ({best_score}%) — officer must confirm identity",
+            requires_review=True,
+            suggested_person_id=best_id,
+        )
+
+    return ResolutionResult(
+        entity_id=provisional_id,
+        action="created",
+        matched_on=label,
+        match_reason="No case-scoped match — new provisional entity",
+        requires_review=False,
+    )
+
+
 def resolve_entity(
     db: Session,
     *,
     case_id: str | None,
     mention: ExtractedEntity,
+    context_phones: list[str] | None = None,
+    context_city: str | None = None,
 ) -> ResolutionResult:
     label = mention.text.strip()
     entity_type = "person" if mention.entity_type == "alias" else mention.entity_type
-    entity_id = _entity_id(entity_type, label)
 
     if entity_type == "person":
-        existing = _pg_resolve_person(db, case_id, label)
-        if existing:
-            return ResolutionResult(entity_id=existing, action="merged", matched_on=label)
-    elif entity_type == "phone":
-        existing = _pg_resolve_phone(db, label)
+        return _pg_resolve_person(
+            db,
+            case_id,
+            label,
+            context_phones=context_phones,
+            context_city=context_city,
+        )
+    if entity_type == "phone":
+        existing = _pg_resolve_phone(db, label, case_id)
         if existing:
             digits = "".join(c for c in label if c.isdigit())
             return ResolutionResult(
                 entity_id=f"PH-{digits[-10:]}",
                 action="merged",
                 matched_on=label,
+                match_reason="Phone number matched case CDR or registry",
+                requires_review=False,
             )
 
-    return ResolutionResult(entity_id=entity_id, action="created", matched_on=label)
+    return ResolutionResult(
+        entity_id=_entity_id(entity_type, label),
+        action="created",
+        matched_on=label,
+        match_reason="New entity extracted from document",
+        requires_review=False,
+    )
 
 
 def merge_entity_in_neo4j(
@@ -135,6 +336,7 @@ def merge_entity_in_neo4j(
     excerpt: str,
     action: str,
     alias_of: str | None = None,
+    relationship_kind: str = "observed",
 ) -> None:
     if not is_neo4j_available():
         return
@@ -160,7 +362,7 @@ def merge_entity_in_neo4j(
         s.text = $excerpt,
         s.ingested_at = datetime()
     MERGE (e)-[m:MENTIONED_IN]->(s)
-    SET m.excerpt = $excerpt, m.action = $action
+    SET m.excerpt = $excerpt, m.action = $action, m.relationship_kind = $rel_kind
     """
     params = {
         "entity_id": entity_id,
@@ -171,6 +373,7 @@ def merge_entity_in_neo4j(
         "source_id": source_id,
         "excerpt": excerpt[:500],
         "action": action,
+        "rel_kind": relationship_kind,
     }
 
     if entity_type == "phone":
@@ -191,12 +394,13 @@ def merge_entity_in_neo4j(
     with get_session() as session:
         session.run(cypher, params).consume()
 
-    if alias_of and alias_of != entity_id:
+    if alias_of and alias_of != entity_id and action == "merged":
         with get_session() as session:
             session.run(
                 """
                 MATCH (a:Person {id: $alias_id}), (c:Person {id: $canonical_id})
-                MERGE (a)-[:ALIAS_OF]->(c)
+                MERGE (a)-[r:ALIAS_OF]->(c)
+                SET r.confirmed = true
                 """,
                 {"alias_id": entity_id, "canonical_id": alias_of},
             ).consume()
@@ -231,6 +435,7 @@ def merge_transfer_in_neo4j(
             source_id=source_id,
             excerpt=excerpt,
             action="merged",
+            relationship_kind="observed",
         )
 
     with get_session() as session:
@@ -242,7 +447,8 @@ def merge_transfer_in_neo4j(
                 t.amount = $amount,
                 t.case_id = $case_id,
                 t.source_id = $source_id,
-                t.created_at = datetime()
+                t.created_at = datetime(),
+                t.relationship_kind = 'observed'
             """,
             {
                 "sender_id": sender_id,
@@ -267,7 +473,8 @@ def get_entity_from_neo4j(entity_id: str) -> dict | None:
             RETURN e, collect({
                 source_type: s.source_type,
                 source_id: s.source_id,
-                excerpt: m.excerpt
+                excerpt: m.excerpt,
+                relationship_kind: coalesce(m.relationship_kind, 'observed')
             }) AS sources
             """,
             {"entity_id": entity_id},

@@ -8,10 +8,12 @@ from sqlalchemy import text
 
 from app.config import settings
 from app.database import SessionLocal, get_db
-from app.routers import analyze, audit, case_summary, cases, entities, explain, graph, ingestion, leads, osint, search, timeline
+from app.dependencies.auth import resolve_user
+from app.routers import analyze, audit, auth, case_summary, cases, entities, explain, graph, ingestion, leads, osint, reviews, search, timeline
 from app.services.audit_chain import ensure_audit_table
 from app.services.graph_sync import sync_postgres_to_neo4j
 from app.services.neo4j_schema import ensure_schema
+from app.services.review_service import ensure_reviews_table
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +24,7 @@ async def lifespan(app: FastAPI):
     try:
         ensure_schema()
         ensure_audit_table(db)
+        ensure_reviews_table(db)
         counts = sync_postgres_to_neo4j(db)
         logger.info("Startup graph sync: %s", counts)
     except Exception as exc:
@@ -33,7 +36,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Investigation AI API",
-    version="0.6.0",
+    version="0.7.0",
     description="Vigil SIH PS 26189 — fusion, analytics, OSINT audit, explainability & triage",
     lifespan=lifespan,
 )
@@ -71,6 +74,7 @@ def health_check(db=Depends(get_db)):
         "service": "backend",
         "postgres": postgres_ok,
         "neo4j": neo4j_ok,
+        "auth_enabled": settings.auth_enabled,
         "nlp": {
             "engine": nlp_engine_name(),
             "spacy_model": "en_core_web_sm" if spacy_available() else None,
@@ -78,15 +82,19 @@ def health_check(db=Depends(get_db)):
     }
 
 
-app.include_router(cases.router)
-app.include_router(search.router)
-app.include_router(ingestion.router)
-app.include_router(entities.router)
-app.include_router(graph.router)
-app.include_router(timeline.router)
-app.include_router(analyze.router)
-app.include_router(osint.router)
-app.include_router(audit.router)
-app.include_router(explain.router)
-app.include_router(case_summary.router)
-app.include_router(leads.router)
+_auth_dep = [Depends(resolve_user)] if settings.auth_enabled else []
+
+app.include_router(auth.router)
+app.include_router(cases.router, dependencies=_auth_dep)
+app.include_router(search.router, dependencies=_auth_dep)
+app.include_router(ingestion.router, dependencies=_auth_dep)
+app.include_router(entities.router, dependencies=_auth_dep)
+app.include_router(graph.router, dependencies=_auth_dep)
+app.include_router(timeline.router, dependencies=_auth_dep)
+app.include_router(analyze.router, dependencies=_auth_dep)
+app.include_router(osint.router, dependencies=_auth_dep)
+app.include_router(audit.router, dependencies=_auth_dep)
+app.include_router(explain.router, dependencies=_auth_dep)
+app.include_router(case_summary.router, dependencies=_auth_dep)
+app.include_router(leads.router, dependencies=_auth_dep)
+app.include_router(reviews.router, dependencies=_auth_dep)
