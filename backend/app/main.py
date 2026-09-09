@@ -27,8 +27,10 @@ async def lifespan(app: FastAPI):
         ensure_audit_table(db)
         ensure_provenance_tables(db)
         ensure_reviews_table(db)
+        db.commit()
         counts = sync_postgres_to_neo4j(db)
         reconcile = reconcile_graph_counts(db)
+        db.commit()
         logger.info("Startup graph sync: %s reconcile=%s", counts, reconcile.get("consistent"))
     except Exception as exc:
         logger.warning("Startup sync skipped: %s", exc)

@@ -2,6 +2,8 @@ import os
 
 os.environ.setdefault("AUTH_ENABLED", "true")
 
+pytest_plugins = ("conftest_isolated",)
+
 import pytest
 from fastapi.testclient import TestClient
 

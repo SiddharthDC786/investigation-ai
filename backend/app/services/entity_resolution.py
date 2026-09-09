@@ -13,7 +13,6 @@ from app.services.neo4j_client import get_session, is_neo4j_available
 from app.services.provenance_service import (
     is_identity_blocked,
     normalize_name,
-    officer_confirmed_link,
 )
 
 LABEL_TO_NEO4J = {
@@ -187,32 +186,6 @@ def _pg_resolve_person(
 
     case_people = _person_ids_in_case(db, case_id)
     q_norm = normalize_label(label)
-
-    # Case-scoped alias table with confirmed person_id
-    alias_row = db.execute(
-        text(
-            """
-            SELECT rn.person_id, rn.recorded_name
-            FROM recorded_names rn
-            WHERE rn.case_id = :cid AND rn.person_id IS NOT NULL
-              AND lower(rn.recorded_name) = lower(:name)
-            LIMIT 1
-            """
-        ),
-        {"cid": case_id, "name": label},
-    ).mappings().first()
-    if alias_row and alias_row["person_id"] in case_people:
-        pid = alias_row["person_id"]
-        if is_identity_blocked(db, case_id=case_id, name=label, candidate_person_id=pid):
-            pass
-        elif officer_confirmed_link(db, case_id=case_id, name=label, person_id=pid):
-            return ResolutionResult(
-                entity_id=pid,
-                action="merged",
-                matched_on=alias_row["recorded_name"],
-                match_reason="Officer-confirmed alias link",
-                requires_review=False,
-            )
 
     exact_candidates: list[tuple[str, str]] = []
     for pid in case_people:

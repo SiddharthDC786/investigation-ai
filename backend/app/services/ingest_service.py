@@ -23,6 +23,7 @@ from app.services.neo4j_client import is_neo4j_available
 from app.services.provenance_service import (
     content_hash,
     find_duplicate_source,
+    is_registered_person,
     record_provenance,
     register_ingest_source,
 )
@@ -70,7 +71,7 @@ def _persist_recorded_name(
             "sid": source_id,
             "name": name[:128],
             "vtype": variant_type,
-            "pid": person_id if person_id and person_id.startswith("P") else None,
+            "pid": person_id if person_id and is_registered_person(db, person_id) else None,
         },
     )
     return rid[:16]
@@ -123,7 +124,6 @@ def ingest_text_document(
         source_id=source_id,
     )
     if is_duplicate:
-        db.commit()
         return IngestResponse(
             status="duplicate",
             source_id=source_id,

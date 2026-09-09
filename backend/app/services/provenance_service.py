@@ -120,7 +120,22 @@ def ensure_provenance_tables(db: Session) -> None:
             "CREATE INDEX IF NOT EXISTS idx_entity_provenance_case ON entity_provenance(case_id)"
         )
     )
-    db.commit()
+
+
+def is_provisional_entity_id(entity_id: str) -> bool:
+    return entity_id.startswith("PU-")
+
+
+def is_registered_person(db: Session, person_id: str) -> bool:
+    if is_provisional_entity_id(person_id):
+        return False
+    return (
+        db.execute(
+            text("SELECT 1 FROM people WHERE person_id = :pid"),
+            {"pid": person_id},
+        ).first()
+        is not None
+    )
 
 
 def find_duplicate_source(
@@ -130,7 +145,6 @@ def find_duplicate_source(
     source_type: str,
     digest: str,
 ) -> dict[str, Any] | None:
-    ensure_provenance_tables(db)
     row = db.execute(
         text(
             """
@@ -153,7 +167,6 @@ def register_ingest_source(
     byte_size: int,
     source_id: str | None = None,
 ) -> str:
-    ensure_provenance_tables(db)
     sid = source_id or f"SRC{uuid.uuid4().hex[:8].upper()}"
     db.execute(
         text(
@@ -187,7 +200,6 @@ def record_provenance(
     relationship_kind: str = "observed",
     resolution_action: str = "created",
 ) -> None:
-    ensure_provenance_tables(db)
     pid = f"PV-{uuid.uuid4().hex[:10].upper()}"
     db.execute(
         text(
@@ -215,7 +227,6 @@ def record_provenance(
 
 
 def list_entity_provenance(db: Session, *, entity_id: str, case_id: str | None = None) -> list[dict[str, Any]]:
-    ensure_provenance_tables(db)
     q = """
         SELECT source_type, source_id, record_id, excerpt, extraction_method,
                relationship_kind, resolution_action, created_at
@@ -254,7 +265,6 @@ def officer_confirmed_link(
     name: str,
     person_id: str,
 ) -> bool:
-    ensure_provenance_tables(db)
     row = db.execute(
         text(
             """
@@ -277,7 +287,6 @@ def is_identity_blocked(
     name: str,
     candidate_person_id: str,
 ) -> bool:
-    ensure_provenance_tables(db)
     norm = normalize_name(name)
     block = db.execute(
         text(
@@ -314,10 +323,15 @@ def apply_confirmed_identity(
     mention_entity_id: str,
     canonical_person_id: str,
     recorded_name: str,
+    record_id: str,
     reviewer_badge: str,
     reviewer_name: str,
 ) -> None:
-    ensure_provenance_tables(db)
+    if is_provisional_entity_id(canonical_person_id) or not is_registered_person(db, canonical_person_id):
+        raise ValueError(f"Invalid canonical person target: {canonical_person_id}")
+    if not record_id:
+        raise ValueError("record_id is required to confirm a provisional mention")
+
     did = f"ID-{uuid.uuid4().hex[:10].upper()}"
     db.execute(
         text(
@@ -346,28 +360,33 @@ def apply_confirmed_identity(
             "rname": reviewer_name,
         },
     )
-    db.execute(
+    updated = db.execute(
         text(
             """
             UPDATE recorded_names
             SET person_id = :pid
-            WHERE case_id = :cid AND lower(recorded_name) = lower(:name)
+            WHERE case_id = :cid AND record_id = :rid
             """
         ),
-        {"pid": canonical_person_id, "cid": case_id, "name": recorded_name},
-    )
+        {"pid": canonical_person_id, "cid": case_id, "rid": record_id},
+    ).rowcount
+    if updated != 1:
+        raise ValueError(f"Provisional mention record not found: {record_id}")
 
 
 def block_identity(
     db: Session,
     *,
     case_id: str,
+    mention_entity_id: str,
     recorded_name: str,
     blocked_person_id: str,
     reviewer_badge: str,
     reviewer_name: str,
 ) -> None:
-    ensure_provenance_tables(db)
+    if is_provisional_entity_id(blocked_person_id) or not is_registered_person(db, blocked_person_id):
+        raise ValueError(f"Invalid blocked person target: {blocked_person_id}")
+
     bid = f"BL-{uuid.uuid4().hex[:10].upper()}"
     norm = normalize_name(recorded_name)
     db.execute(
@@ -406,7 +425,7 @@ def block_identity(
         {
             "did": did,
             "cid": case_id,
-            "mid": recorded_name[:32],
+            "mid": mention_entity_id,
             "pid": blocked_person_id,
             "name": recorded_name[:128],
             "badge": reviewer_badge,
@@ -425,7 +444,6 @@ def append_review_history(
     reviewer_badge: str,
     reviewer_name: str,
 ) -> None:
-    ensure_provenance_tables(db)
     hid = f"RH-{uuid.uuid4().hex[:10].upper()}"
     db.execute(
         text(
@@ -450,7 +468,6 @@ def append_review_history(
 
 
 def log_neo4j_sync(db: Session, *, operation: str, status: str, details: dict | None = None) -> None:
-    ensure_provenance_tables(db)
     lid = f"NS-{uuid.uuid4().hex[:10].upper()}"
     db.execute(
         text(
