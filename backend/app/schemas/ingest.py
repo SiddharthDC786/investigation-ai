@@ -37,3 +37,4 @@ class IngestPreviewResponse(BaseModel):
     spacy_available: bool
     entities_extracted: int
     entities: list[PreviewEntity] = Field(default_factory=list)
+    extracted_text: str | None = None

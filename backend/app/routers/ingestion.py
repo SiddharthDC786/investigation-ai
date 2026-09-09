@@ -31,6 +31,23 @@ def ingest_preview(body: IngestPreviewRequest):
     )
 
 
+@router.post("/preview/image", response_model=IngestPreviewResponse)
+async def ingest_preview_image(file: UploadFile):
+    contents = await file.read()
+    try:
+        text = extract_text_from_image(contents)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    result = preview_ingest_text(text)
+    return IngestPreviewResponse(
+        engine=result["engine"],
+        spacy_available=result["spacy_available"],
+        entities_extracted=result["entities_extracted"],
+        entities=[PreviewEntity(**e) for e in result["entities"]],
+        extracted_text=text,
+    )
+
+
 @router.post("/fir/text", response_model=IngestResponse)
 async def ingest_fir_text(
     text: str = Form(...),

@@ -160,6 +160,9 @@ export type TranslationTree = {
     scanningImage: string
     extractedText: string
     savedToDatabase: string
+    uploadedFile: string
+    reviewBeforeUpload: string
+    uploadToDatabase: string
   }
   views: {
     search: ViewCopy
@@ -202,6 +205,7 @@ export type TranslationTree = {
     empty: string
     apiError: string
     loading: string
+    chartHint: string
   }
   osint: {
     policy: string
@@ -446,6 +450,9 @@ export const translations: Record<Language, TranslationTree> = {
       scanningImage: 'Reading image…',
       extractedText: 'Extracted FIR text (saved to database)',
       savedToDatabase: 'Saved to case database — timeline will update for linked persons.',
+      uploadedFile: 'Uploaded file',
+      reviewBeforeUpload: 'Review and edit the extracted text, then upload to database.',
+      uploadToDatabase: 'Upload to database',
     },
     views: {
       search: {
@@ -523,6 +530,7 @@ export const translations: Record<Language, TranslationTree> = {
       empty: 'No risk scores yet — ingest case data first.',
       apiError: 'Could not load risk analysis — check backend connection.',
       loading: 'Computing risk scores…',
+      chartHint: 'Bar height = evidence-based priority (network + role + CDR/FIR). Rahul names listed first.',
     },
     osint: {
       policy: 'Only lawful public records. Every search is saved with your name and time.',
@@ -761,6 +769,9 @@ export const translations: Record<Language, TranslationTree> = {
       scanningImage: 'छवि पढ़ी जा रही है…',
       extractedText: 'निकाला गया FIR पाठ (डेटाबेस में सहेजा)',
       savedToDatabase: 'केस डेटाबेस में सहेजा — लिंक व्यक्तियों की समयरेखा अपडेट होगी।',
+      uploadedFile: 'अपलोड की फ़ाइल',
+      reviewBeforeUpload: 'निकाला पाठ जाँचें/संपादित करें, फिर डेटाबेस में अपलोड करें।',
+      uploadToDatabase: 'डेटाबेस में अपलोड करें',
     },
     views: {
       search: {
@@ -838,6 +849,7 @@ export const translations: Record<Language, TranslationTree> = {
       empty: 'अभी कोई जोखिम स्कोर नहीं — पहले केस डेटा इंगेस्ट करें।',
       apiError: 'जोखिम विश्लेषण लोड नहीं हुआ — बैकएंड कनेक्शन जाँचें।',
       loading: 'जोखिम स्कोर की गणना…',
+      chartHint: 'बार ऊँचाई = साक्ष्य आधारित प्राथमिकता (नेटवर्क + भूमिका + CDR/FIR)। Rahul नाम पहले।',
     },
     osint: {
       policy: 'केवल कानूनी सार्वजनिक रिकॉर्ड। हर खोज आपके नाम और समय के साथ सहेजी जाती है।',

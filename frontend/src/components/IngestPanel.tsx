@@ -1,8 +1,8 @@
 import { useCallback, useRef, useState } from 'react'
 import { formatApiError, isApiConfigured } from '../api/client'
 import {
-  ingestFirImage,
   ingestFirText,
+  previewFirImage,
   previewIngest,
   type IngestPreviewResponse,
   type IngestResponse,
@@ -21,6 +21,7 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
   const { t } = useLanguage()
   const fileRef = useRef<HTMLInputElement>(null)
   const [text, setText] = useState('')
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null)
   const [preview, setPreview] = useState<IngestPreviewResponse | null>(null)
   const [result, setResult] = useState<IngestResponse | null>(null)
   const [loading, setLoading] = useState<'preview' | 'ingest' | 'image' | null>(null)
@@ -64,19 +65,19 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
       setLoading('image')
       setError(null)
       setResult(null)
-      setPreview(null)
+      setUploadedFileName(file.name)
       try {
-        const data = await ingestFirImage(caseId, file)
-        setResult(data)
-        onIngested?.(data)
+        const data = await previewFirImage(file)
+        setPreview(data)
+        setText(data.extracted_text ?? '')
       } catch (err) {
+        setPreview(null)
         setError(formatApiError(err, t.ingest.apiError))
       } finally {
         setLoading(null)
-        if (fileRef.current) fileRef.current.value = ''
       }
     },
-    [caseId, onIngested, t.ingest.apiError],
+    [t.ingest.apiError],
   )
 
   if (!isApiConfigured()) {
@@ -104,18 +105,39 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
           className="mt-1.5 block w-full text-xs text-text-secondary file:mr-2 file:border file:border-console-border-strong file:bg-console-raised file:px-2 file:py-1 file:text-xs"
         />
         <span className="mt-1 block text-[11px] text-text-muted">{t.ingest.imageHint}</span>
+        {uploadedFileName && (
+          <span className="mt-1 block text-[11px] text-accent-steel">
+            {t.ingest.uploadedFile}: {uploadedFileName}
+          </span>
+        )}
         {loading === 'image' && (
           <span className="mt-1 block text-[11px] text-accent-steel">{t.ingest.scanningImage}</span>
         )}
       </label>
 
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder={t.ingest.placeholder}
-        rows={4}
-        className="mt-3 w-full border border-console-border-strong bg-console-bg px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-amber"
-      />
+      {text.trim() && (
+        <label className="mt-3 block">
+          <span className="text-xs font-medium text-text-primary">{t.ingest.extractedText}</span>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={t.ingest.placeholder}
+            rows={6}
+            className="mt-1.5 w-full border border-console-border-strong bg-console-bg px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-amber"
+          />
+          <span className="mt-1 block text-[11px] text-text-muted">{t.ingest.reviewBeforeUpload}</span>
+        </label>
+      )}
+
+      {!text.trim() && (
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder={t.ingest.placeholder}
+          rows={4}
+          className="mt-3 w-full border border-console-border-strong bg-console-bg px-3 py-2 text-sm text-text-primary outline-none focus:border-accent-amber"
+        />
+      )}
 
       <div className="mt-2 flex flex-wrap gap-2">
         <button
@@ -137,9 +159,9 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
           type="button"
           disabled={loading !== null || !text.trim()}
           onClick={() => void runIngest()}
-          className="min-h-[36px] border border-accent-amber/50 bg-accent-amber/10 px-3 py-1.5 text-xs text-accent-amber hover:bg-accent-amber/20 disabled:opacity-40"
+          className="min-h-[36px] border border-accent-amber/50 bg-accent-amber/10 px-3 py-1.5 text-xs font-semibold text-accent-amber hover:bg-accent-amber/20 disabled:opacity-40"
         >
-          {loading === 'ingest' ? t.ingest.ingesting : t.ingest.ingest}
+          {loading === 'ingest' ? t.ingest.ingesting : t.ingest.uploadToDatabase}
         </button>
       </div>
 
@@ -165,21 +187,11 @@ export function IngestPanel({ caseId, onIngested }: IngestPanelProps) {
       )}
 
       {result && (
-        <div className="mt-3 space-y-3">
-          <div className="border border-risk-low/40 bg-risk-low/10 p-3 text-xs text-risk-low">
-            {t.ingest.success
-              .replace('{extracted}', String(result.entities_extracted))
-              .replace('{merged}', String(result.entities_merged))}
-            <p className="mt-1 text-text-muted">{t.ingest.savedToDatabase}</p>
-          </div>
-          {result.extracted_text && (
-            <div className="border border-console-border bg-console-raised p-3">
-              <p className="text-xs font-semibold text-text-primary">{t.ingest.extractedText}</p>
-              <pre className="mt-2 max-h-48 overflow-y-auto whitespace-pre-wrap text-xs text-text-secondary">
-                {result.extracted_text}
-              </pre>
-            </div>
-          )}
+        <div className="mt-3 border border-risk-low/40 bg-risk-low/10 p-3 text-xs text-risk-low">
+          {t.ingest.success
+            .replace('{extracted}', String(result.entities_extracted))
+            .replace('{merged}', String(result.entities_merged))}
+          <p className="mt-1 text-text-muted">{t.ingest.savedToDatabase}</p>
         </div>
       )}
     </section>

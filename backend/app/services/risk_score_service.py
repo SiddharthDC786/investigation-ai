@@ -59,18 +59,33 @@ def _case_history_score(db: Session, case_id: str, person_id: str) -> tuple[floa
     fir = 0
     person = _fetch_person(db, person_id)
     if person:
-        fir = db.execute(
+        fir_full = db.execute(
             text(
                 """
                 SELECT COUNT(*) FROM fir
                 WHERE case_id = :cid AND complaint_text ILIKE :pat
                 """
             ),
-            {"cid": case_id, "pat": f"%{person.name.split()[0]}%"},
+            {"cid": case_id, "pat": f"%{person.name}%"},
         ).scalar() or 0
-    if fir:
-        score += 8.0
-        notes.append("named in FIR complaint text")
+        if fir_full:
+            fir = fir_full
+            score += 12.0
+            notes.append("full name in FIR complaint")
+        else:
+            fir_partial = db.execute(
+                text(
+                    """
+                    SELECT COUNT(*) FROM fir
+                    WHERE case_id = :cid AND complaint_text ILIKE :pat
+                    """
+                ),
+                {"cid": case_id, "pat": f"%{person.name.split()[0]}%"},
+            ).scalar() or 0
+            if fir_partial:
+                fir = fir_partial
+                score += 6.0
+                notes.append("first name mentioned in FIR")
 
     return score, notes
 
@@ -107,17 +122,22 @@ def compute_risk_scores(db: Session, case_id: str) -> list[dict]:
         history_component, history_notes = _case_history_score(db, case_id, pid)
 
         composite = int(min(99, centrality_component + role_component + history_component))
+        role_label = (role or "unknown").replace("_", " ")
         explain = [
-            f"Centrality component {centrality_component:.1f} (PageRank {pr:.4f}, betweenness {bt:.4f}).",
-            f"Role component {role_component:.1f} ({role or 'unknown'}).",
+            f"Evidence-based triage score {composite}/99 (rank assigned after sort).",
+            f"Centrality {centrality_component:.1f}/40 (network position: PageRank {pr:.4f}).",
+            f"Role weight {role_component:.1f}/25 ({role_label} in case).",
         ]
         if history_notes:
-            explain.append(f"Case history component {history_component:.1f}: {', '.join(history_notes)}.")
+            explain.append(f"Case evidence {history_component:.1f}/43: {', '.join(history_notes)}.")
+        else:
+            explain.append("Case evidence: no CDR, transactions, or FIR mention linked yet.")
 
         scores.append(
             {
                 "entity_id": pid,
                 "label": person.name,
+                "city": person.city,
                 "role": role,
                 "composite_score": composite,
                 "severity": _severity(composite),
@@ -134,4 +154,9 @@ def compute_risk_scores(db: Session, case_id: str) -> list[dict]:
     scores.sort(key=lambda s: -s["composite_score"])
     for i, row in enumerate(scores, start=1):
         row["triage_rank"] = i
+        row["explainability"][0] = (
+            f"Priority #{i} — evidence score {row['composite_score']}/99 "
+            f"(centrality {row['components']['centrality']}, role {row['components']['role']}, "
+            f"evidence {row['components']['case_history']})."
+        )
     return scores

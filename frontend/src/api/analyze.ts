@@ -38,6 +38,7 @@ export interface RiskScoreComponents {
 export interface RiskScoreEntry {
   entity_id: string
   label: string
+  city?: string | null
   role: Entity['role'] | null
   composite_score: number
   severity: SeverityBand
@@ -70,6 +71,7 @@ export function riskScoresToEntities(scores: RiskScoreEntry[]): Entity[] {
     connections: [],
     metadata: {
       triage_rank: String(r.triage_rank),
+      city: r.city ?? '',
       centrality: String(r.components.centrality),
       role_component: String(r.components.role),
       case_history: String(r.components.case_history),

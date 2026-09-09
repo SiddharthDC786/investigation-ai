@@ -37,6 +37,7 @@ class RiskScoreComponents(BaseModel):
 class RiskScoreEntry(BaseModel):
     entity_id: str
     label: str
+    city: str | None = None
     role: str | None = None
     composite_score: int
     severity: str

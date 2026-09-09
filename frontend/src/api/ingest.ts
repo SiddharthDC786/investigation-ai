@@ -32,10 +32,26 @@ export interface IngestPreviewResponse {
   spacy_available: boolean
   entities_extracted: number
   entities: PreviewEntity[]
+  extracted_text?: string | null
 }
 
 export async function previewIngest(text: string): Promise<IngestPreviewResponse> {
   return apiPost<IngestPreviewResponse>('/ingest/preview', { text })
+}
+
+export async function previewFirImage(file: File): Promise<IngestPreviewResponse> {
+  const body = new FormData()
+  body.append('file', file)
+
+  const res = await fetch(`${getApiBase()}/ingest/preview/image`, {
+    method: 'POST',
+    body,
+  })
+  if (!res.ok) {
+    const msg = await res.text().catch(() => res.statusText)
+    throw new Error(`Image scan failed: ${msg}`)
+  }
+  return res.json() as Promise<IngestPreviewResponse>
 }
 
 export async function ingestFirText(caseId: string, text: string): Promise<IngestResponse> {
