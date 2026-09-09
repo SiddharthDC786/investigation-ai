@@ -10,6 +10,7 @@ from app.services.investigation_search import (
 )
 from app.services.neo4j_client import is_neo4j_available
 from app.services.network_analysis import analyze_case
+from app.services.provenance_service import list_entity_provenance
 
 
 def build_entity_explanation(db: Session, case_id: str, entity_id: str) -> dict:
@@ -147,6 +148,22 @@ def build_entity_explanation(db: Session, case_id: str, entity_id: str) -> dict:
     if comm:
         reasoning.append(f"Community detection assigns this entity to {comm}.")
 
+    for row in list_entity_provenance(db, entity_id=entity_id, case_id=case_id):
+        citations.append(
+            {
+                "source_type": row["source_type"],
+                "source_id": row["source_id"],
+                "excerpt": row["excerpt"],
+                "record_id": row.get("record_id"),
+                "extraction_method": row.get("extraction_method"),
+                "timestamp": row.get("timestamp"),
+            }
+        )
+        reasoning.append(
+            f"Evidence trace: {row['extraction_method']} on {row['source_type']} "
+            f"{row['source_id']} ({row['relationship_kind']}, {row['resolution_action']})."
+        )
+
     fir_hits = db.execute(
         text(
             """
@@ -155,7 +172,7 @@ def build_entity_explanation(db: Session, case_id: str, entity_id: str) -> dict:
             LIMIT 3
             """
         ),
-        {"cid": case_id, "pat": f"%{label.split()[0]}%"},
+        {"cid": case_id, "pat": f"%{label}%"},
     ).mappings().all()
     for fir in fir_hits:
         citations.append(

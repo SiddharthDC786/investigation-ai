@@ -13,6 +13,7 @@ from app.routers import analyze, audit, auth, case_summary, cases, entities, exp
 from app.services.audit_chain import ensure_audit_table
 from app.services.graph_sync import sync_postgres_to_neo4j
 from app.services.neo4j_schema import ensure_schema
+from app.services.provenance_service import ensure_provenance_tables, reconcile_graph_counts
 from app.services.review_service import ensure_reviews_table
 
 logger = logging.getLogger(__name__)
@@ -24,9 +25,11 @@ async def lifespan(app: FastAPI):
     try:
         ensure_schema()
         ensure_audit_table(db)
+        ensure_provenance_tables(db)
         ensure_reviews_table(db)
         counts = sync_postgres_to_neo4j(db)
-        logger.info("Startup graph sync: %s", counts)
+        reconcile = reconcile_graph_counts(db)
+        logger.info("Startup graph sync: %s reconcile=%s", counts, reconcile.get("consistent"))
     except Exception as exc:
         logger.warning("Startup sync skipped: %s", exc)
     finally:

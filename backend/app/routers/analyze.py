@@ -3,6 +3,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.dependencies.auth import assert_case_access, get_current_user
 from app.schemas.analysis import (
     CentralityResponse,
     CommunitiesResponse,
@@ -19,7 +20,12 @@ router = APIRouter(prefix="/cases/{case_id}/analyze", tags=["analysis"])
 
 
 @router.get("/centrality", response_model=CentralityResponse)
-def get_centrality(case_id: str, db: Session = Depends(get_db)):
+def get_centrality(
+    case_id: str,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
+):
+    assert_case_access(user, case_id)
     case_exists = db.execute(
         text("SELECT 1 FROM cases WHERE case_id = :cid"),
         {"cid": case_id},
@@ -35,7 +41,12 @@ def get_centrality(case_id: str, db: Session = Depends(get_db)):
 
 
 @router.get("/communities", response_model=CommunitiesResponse)
-def get_communities(case_id: str, db: Session = Depends(get_db)):
+def get_communities(
+    case_id: str,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
+):
+    assert_case_access(user, case_id)
     case_exists = db.execute(
         text("SELECT 1 FROM cases WHERE case_id = :cid"),
         {"cid": case_id},
@@ -51,7 +62,12 @@ def get_communities(case_id: str, db: Session = Depends(get_db)):
 
 
 @router.get("/risk-score", response_model=RiskScoreResponse)
-def get_risk_scores(case_id: str, db: Session = Depends(get_db)):
+def get_risk_scores(
+    case_id: str,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
+):
+    assert_case_access(user, case_id)
     case_exists = db.execute(
         text("SELECT 1 FROM cases WHERE case_id = :cid"),
         {"cid": case_id},

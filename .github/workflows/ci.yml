@@ -27,24 +27,27 @@ jobs:
       AUTH_ENABLED: "true"
       NEO4J_ENABLED: "false"
       JWT_SECRET: ci-test-secret-change-me
+      ENVIRONMENT: test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install backend deps
-        working-directory: backend-api/backend
+        working-directory: backend
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Load schema
-        run: psql "$DATABASE_URL" -f backend-api/dataset/schema.sql
+      - name: Load schema and CI seed
+        run: |
+          psql "$DATABASE_URL" -f dataset/schema.sql
+          psql "$DATABASE_URL" -f dataset/ci_seed.sql
       - name: Run pytest
-        working-directory: backend-api/backend
+        working-directory: backend
         run: pytest -q
       - name: Run eval metrics
-        working-directory: backend-api/backend
-        run: python ../dataset/eval/run_eval.py || true
+        working-directory: backend
+        run: python ../dataset/eval/run_eval.py
 
   frontend:
     runs-on: ubuntu-latest
@@ -54,7 +57,7 @@ jobs:
         with:
           node-version: "22"
       - name: Install and build frontend
-        working-directory: backend-api/frontend
+        working-directory: frontend
         run: |
           npm ci
           npm run lint

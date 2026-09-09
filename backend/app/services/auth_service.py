@@ -3,6 +3,8 @@ from __future__ import annotations
 import hashlib
 import hmac
 import secrets
+import time
+from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
@@ -13,6 +15,8 @@ from app.config import settings
 
 ROLE_INVESTIGATOR = "investigator"
 ROLE_SUPERVISOR = "supervisor"
+
+_failed_attempts: dict[str, list[float]] = defaultdict(list)
 
 
 def _hash_password(password: str, salt: str) -> str:
@@ -30,7 +34,9 @@ def _verify_password(password: str, salt: str, expected_hash: str) -> bool:
 
 
 def _demo_users() -> dict[str, dict[str, Any]]:
-    """Demo accounts — passwords verified via env-backed hashes, not stored in source."""
+    """Demo accounts — disabled in production unless explicitly allowed."""
+    if settings.environment.lower() == "production" and not settings.allow_demo_passwords:
+        return {}
     salt = settings.auth_password_salt
     return {
         settings.demo_investigator_badge: {
@@ -52,13 +58,34 @@ def _demo_users() -> dict[str, dict[str, Any]]:
     }
 
 
+def _check_login_rate_limit(badge_id: str) -> None:
+    key = badge_id.strip().upper()
+    now = time.time()
+    window = settings.login_rate_window_seconds
+    attempts = [t for t in _failed_attempts[key] if now - t < window]
+    _failed_attempts[key] = attempts
+    if len(attempts) >= settings.login_rate_limit:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Too many failed login attempts — try again later",
+        )
+
+
+def _record_failed_login(badge_id: str) -> None:
+    _failed_attempts[badge_id.strip().upper()].append(time.time())
+
+
 def authenticate_user(badge_id: str, password: str) -> dict[str, Any]:
+    _check_login_rate_limit(badge_id)
     users = _demo_users()
     user = users.get(badge_id.strip().upper())
     if not user:
+        _record_failed_login(badge_id)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid badge or password")
     if not _verify_password(password, settings.auth_password_salt, user["password_hash"]):
+        _record_failed_login(badge_id)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid badge or password")
+    _failed_attempts.pop(badge_id.strip().upper(), None)
     return {
         "badge_id": user["badge_id"],
         "name": user["name"],

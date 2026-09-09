@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 FIXTURES = ROOT / "fixtures.json"
+FIXTURES_EXTRA = ROOT / "fixtures_extended.json"
 
 sys.path.insert(0, str(ROOT.parent.parent / "backend"))
 sys.path.insert(0, str(ROOT.parent.parent))
@@ -58,21 +59,24 @@ def eval_resolution(case_id: str, name: str, context_phones: list[str], fixture:
         db.close()
 
     passed = True
+    incorrect_merge = False
     if fixture.get("expect_action"):
         passed = result.action == fixture["expect_action"]
     if fixture.get("expect_action_in"):
-        passed = result.action in fixture["expect_action"]
+        passed = result.action in fixture["expect_action_in"]
     if fixture.get("expect_requires_review"):
         passed = passed and result.requires_review is True
     if fixture.get("expect_not_auto_merge_without_phone") and not context_phones:
         if result.action == "merged" and "corroborating" not in (result.match_reason or ""):
             passed = False
+            incorrect_merge = True
 
     return {
         "action": result.action,
         "requires_review": result.requires_review,
         "match_reason": result.match_reason,
         "passed": passed,
+        "incorrect_merge": incorrect_merge,
     }
 
 
@@ -93,11 +97,16 @@ def eval_osint(case_id: str, entity_id: str, lookup_id: str, nonsense: str) -> d
 
 
 def main() -> int:
+    fixture_paths = [FIXTURES]
+    if FIXTURES_EXTRA.exists():
+        fixture_paths.append(FIXTURES_EXTRA)
     if not FIXTURES.exists():
         print("Missing fixtures.json")
         return 1
 
-    fixtures = json.loads(FIXTURES.read_text())
+    fixtures: list[dict] = []
+    for path in fixture_paths:
+        fixtures.extend(json.loads(path.read_text()))
     results: list[dict] = []
     ner_precisions: list[float] = []
     ner_recalls: list[float] = []
@@ -149,9 +158,12 @@ def main() -> int:
     passed = sum(1 for r in results if r.get("passed") is True)
     failed = sum(1 for r in results if r.get("passed") is False)
     skipped = sum(1 for r in results if r.get("passed") is None)
+    incorrect_merges = sum(1 for r in results if r.get("incorrect_merge"))
 
     print("\n--- Summary ---")
     print(f"Fixtures: {len(results)} | passed: {passed} | failed: {failed} | skipped: {skipped}")
+    if incorrect_merges:
+        print(f"Incorrect auto-merges: {incorrect_merges} (critical — higher priority than missed suggestions)")
     if ner_precisions:
         avg_p = sum(ner_precisions) / len(ner_precisions)
         avg_r = sum(ner_recalls) / len(ner_recalls)
@@ -159,7 +171,19 @@ def main() -> int:
         print("(Held-out fixtures — not used for rule tuning.)")
 
     out = ROOT / "eval_report.json"
-    out.write_text(json.dumps({"results": results, "summary": {"passed": passed, "failed": failed}}, indent=2))
+    out.write_text(
+        json.dumps(
+            {
+                "results": results,
+                "summary": {
+                    "passed": passed,
+                    "failed": failed,
+                    "incorrect_merges": incorrect_merges,
+                },
+            },
+            indent=2,
+        )
+    )
     print(f"Report: {out}")
     return 1 if failed else 0
 

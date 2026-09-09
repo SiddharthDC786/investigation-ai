@@ -72,20 +72,7 @@ def _case_history_score(db: Session, case_id: str, person_id: str) -> tuple[floa
             fir = fir_full
             score += 12.0
             notes.append("full name in FIR complaint")
-        else:
-            fir_partial = db.execute(
-                text(
-                    """
-                    SELECT COUNT(*) FROM fir
-                    WHERE case_id = :cid AND complaint_text ILIKE :pat
-                    """
-                ),
-                {"cid": case_id, "pat": f"%{person.name.split()[0]}%"},
-            ).scalar() or 0
-            if fir_partial:
-                fir = fir_partial
-                score += 6.0
-                notes.append("first name mentioned in FIR")
+        # First-name-only FIR mentions are intentionally excluded — too weak for triage.
 
     return score, notes
 

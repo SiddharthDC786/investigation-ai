@@ -3,6 +3,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.dependencies.auth import assert_case_access, get_current_user
 from app.schemas.explain import ExplainResponse, SourceCitation, RelationshipFact
 from app.services.explain_service import build_entity_explanation
 
@@ -14,7 +15,9 @@ def explain_entity(
     entity_id: str,
     case_id: str = Query(..., alias="case_id"),
     db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
 ):
+    assert_case_access(user, case_id)
     case_exists = db.execute(
         text("SELECT 1 FROM cases WHERE case_id = :cid"),
         {"cid": case_id},

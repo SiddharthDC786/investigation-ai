@@ -3,6 +3,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.dependencies.auth import assert_case_access, get_current_user
 from app.schemas.graph import GraphResponse
 from app.services.case_graph import build_case_graph, build_simplified_case_graph
 
@@ -15,7 +16,9 @@ def get_graph(
     center_person_id: str | None = Query(None, alias="center_person_id"),
     simplified: bool = Query(True, description="People-only view with fewer nodes"),
     db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user),
 ):
+    assert_case_access(user, case_id)
     case_exists = db.execute(
         text("SELECT 1 FROM cases WHERE case_id = :cid"),
         {"cid": case_id},

@@ -1,4 +1,4 @@
-import { apiPost, getApiBase, isApiConfigured } from './client'
+import { apiPost, getAccessToken, getApiBase, isApiConfigured } from './client'
 
 export interface IngestMention {
   text: string
@@ -35,6 +35,11 @@ export interface IngestPreviewResponse {
   extracted_text?: string | null
 }
 
+function authUploadHeaders(): HeadersInit {
+  const token = getAccessToken()
+  return token ? { Authorization: `Bearer ${token}` } : {}
+}
+
 export async function previewIngest(text: string): Promise<IngestPreviewResponse> {
   return apiPost<IngestPreviewResponse>('/ingest/preview', { text })
 }
@@ -45,6 +50,7 @@ export async function previewFirImage(file: File): Promise<IngestPreviewResponse
 
   const res = await fetch(`${getApiBase()}/ingest/preview/image`, {
     method: 'POST',
+    headers: authUploadHeaders(),
     body,
   })
   if (!res.ok) {
@@ -61,6 +67,7 @@ export async function ingestFirText(caseId: string, text: string): Promise<Inges
 
   const res = await fetch(`${getApiBase()}/ingest/fir/text`, {
     method: 'POST',
+    headers: authUploadHeaders(),
     body,
   })
   if (!res.ok) {
@@ -77,6 +84,7 @@ export async function ingestFirImage(caseId: string, file: File): Promise<Ingest
 
   const res = await fetch(`${getApiBase()}/ingest/fir/image`, {
     method: 'POST',
+    headers: authUploadHeaders(),
     body,
   })
   if (!res.ok) {

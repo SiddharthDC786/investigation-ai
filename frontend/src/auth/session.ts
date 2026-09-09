@@ -2,12 +2,13 @@ import { DEMO_USERS, SESSION_KEY, SESSION_MINUTES } from './users'
 import type { AuthUser, SessionPayload } from './types'
 
 function encode(payload: SessionPayload): string {
-  return btoa(JSON.stringify(payload))
+  // btoa only supports Latin1; station names may include Unicode (e.g. em dash).
+  return btoa(unescape(encodeURIComponent(JSON.stringify(payload))))
 }
 
 function decode(raw: string): SessionPayload | null {
   try {
-    const payload = JSON.parse(atob(raw)) as SessionPayload
+    const payload = JSON.parse(decodeURIComponent(escape(atob(raw)))) as SessionPayload
     if (!payload.user?.badgeId || !payload.expiresAt) return null
     return payload
   } catch {

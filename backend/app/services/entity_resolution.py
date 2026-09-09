@@ -10,6 +10,11 @@ from sqlalchemy.orm import Session
 
 from ai.ner_pipeline import ExtractedEntity
 from app.services.neo4j_client import get_session, is_neo4j_available
+from app.services.provenance_service import (
+    is_identity_blocked,
+    normalize_name,
+    officer_confirmed_link,
+)
 
 LABEL_TO_NEO4J = {
     "person": "Person",
@@ -27,11 +32,42 @@ TYPE_TO_RESPONSE = {
     "location": "LOCATION",
 }
 
-AUTO_MERGE_FUZZ_THRESHOLD = 96
-
-
 def normalize_label(value: str) -> str:
-    return " ".join(value.strip().lower().split())
+    return normalize_name(value)
+
+
+def provisional_person_id(
+    case_id: str | None,
+    source_id: str | None,
+    mention_start: int,
+    name: str,
+) -> str:
+    """Unique ID per mention — identical names never share a provisional ID."""
+    scope = case_id or "GLOBAL"
+    sid = source_id or "NO-SRC"
+    digest = hashlib.sha256(
+        f"{scope}:{sid}:{mention_start}:{normalize_label(name)}".encode()
+    ).hexdigest()[:10].upper()
+    return f"PU-{digest}"
+
+
+def phones_near_mention(
+    text: str,
+    person_start: int,
+    person_end: int,
+    mentions: list[ExtractedEntity],
+    *,
+    window: int = 120,
+) -> list[str]:
+    """Phones within character window of a person mention — not whole-document phones."""
+    phones: list[str] = []
+    for mention in mentions:
+        if mention.entity_type != "phone":
+            continue
+        dist = min(abs(mention.start - person_end), abs(mention.end - person_start))
+        if dist <= window:
+            phones.append(mention.text)
+    return phones
 
 
 def _entity_id(entity_type: str, label: str) -> str:
@@ -134,9 +170,11 @@ def _pg_resolve_person(
     *,
     context_phones: list[str] | None = None,
     context_city: str | None = None,
+    source_id: str | None = None,
+    mention_start: int = 0,
 ) -> ResolutionResult:
     label = name.strip()
-    provisional_id = _entity_id("person", label)
+    provisional_id = provisional_person_id(case_id, source_id, mention_start, label)
 
     if not case_id:
         return ResolutionResult(
@@ -164,16 +202,22 @@ def _pg_resolve_person(
         {"cid": case_id, "name": label},
     ).mappings().first()
     if alias_row and alias_row["person_id"] in case_people:
-        return ResolutionResult(
-            entity_id=alias_row["person_id"],
-            action="merged",
-            matched_on=alias_row["recorded_name"],
-            match_reason="Case alias linked to person with confirmed person_id",
-            requires_review=False,
-        )
+        pid = alias_row["person_id"]
+        if is_identity_blocked(db, case_id=case_id, name=label, candidate_person_id=pid):
+            pass
+        elif officer_confirmed_link(db, case_id=case_id, name=label, person_id=pid):
+            return ResolutionResult(
+                entity_id=pid,
+                action="merged",
+                matched_on=alias_row["recorded_name"],
+                match_reason="Officer-confirmed alias link",
+                requires_review=False,
+            )
 
     exact_candidates: list[tuple[str, str]] = []
     for pid in case_people:
+        if is_identity_blocked(db, case_id=case_id, name=label, candidate_person_id=pid):
+            continue
         person = _fetch_person_row(db, pid)
         if not person:
             continue
@@ -246,6 +290,8 @@ def _pg_resolve_person(
     best_name = None
     best_score = 0
     for pid in case_people:
+        if is_identity_blocked(db, case_id=case_id, name=label, candidate_person_id=pid):
+            continue
         person = _fetch_person_row(db, pid)
         if not person:
             continue
@@ -292,17 +338,27 @@ def resolve_entity(
     mention: ExtractedEntity,
     context_phones: list[str] | None = None,
     context_city: str | None = None,
+    source_id: str | None = None,
+    all_mentions: list[ExtractedEntity] | None = None,
+    source_text: str | None = None,
 ) -> ResolutionResult:
     label = mention.text.strip()
     entity_type = "person" if mention.entity_type == "alias" else mention.entity_type
 
     if entity_type == "person":
+        local_phones = context_phones
+        if all_mentions and source_text is not None:
+            local_phones = phones_near_mention(
+                source_text, mention.start, mention.end, all_mentions
+            )
         return _pg_resolve_person(
             db,
             case_id,
             label,
-            context_phones=context_phones,
+            context_phones=local_phones,
             context_city=context_city,
+            source_id=source_id,
+            mention_start=mention.start,
         )
     if entity_type == "phone":
         existing = _pg_resolve_phone(db, label, case_id)

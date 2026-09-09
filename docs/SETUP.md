@@ -55,6 +55,8 @@ curl http://localhost:8000/health
 curl -X POST http://localhost:8000/auth/login \
   -H "Content-Type: application/json" \
   -d '{"badge_id":"INV-2847","password":"vigil2026"}'
-cd backend-api/backend && pytest -q
-cd frontend && npm run build
+cd backend && pytest -q
+cd backend && python ../dataset/eval/run_eval.py
 ```
+
+CI loads `dataset/schema.sql` + `dataset/ci_seed.sql` and fails if eval fixtures fail.

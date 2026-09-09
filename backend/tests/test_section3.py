@@ -55,8 +55,13 @@ def test_osint_unknown_lookup(client):
     assert response.status_code == 400
 
 
-def test_audit_verify_empty_case(client):
-    response = client.get("/audit/verify?case_id=CASE9999")
+def test_audit_verify_denied_other_case(auth_headers, raw_client):
+    response = raw_client.get("/audit/verify?case_id=CASE9999", headers=auth_headers)
+    assert response.status_code == 403
+
+
+def test_audit_verify_supervisor_other_case(supervisor_headers, raw_client):
+    response = raw_client.get("/audit/verify?case_id=CASE9999", headers=supervisor_headers)
     assert response.status_code == 200
     assert response.json()["status"] == "verified"
     assert response.json()["entries_checked"] == 0

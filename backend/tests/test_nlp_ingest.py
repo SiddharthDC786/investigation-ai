@@ -26,9 +26,12 @@ def test_ingest_preview_extracts_entities(client):
 
 
 def test_ingest_fir_text(client):
+    import uuid
+
+    text = SAMPLE + f"\nMarker {uuid.uuid4().hex}\n"
     response = client.post(
         "/ingest/fir/text",
-        data={"text": SAMPLE, "case_id": "CASE0001"},
+        data={"text": text, "case_id": "CASE0001"},
     )
     assert response.status_code == 200
     body = response.json()

@@ -44,6 +44,16 @@ class Settings(BaseSettings):
     demo_supervisor_badge: str = Field(default="SUP-1001")
     demo_investigator_cases: list[str] = Field(default=["CASE0001"])
     demo_investigator_password_hash: str | None = Field(default=None)
+    environment: str = Field(
+        default="development",
+        validation_alias=AliasChoices("ENVIRONMENT", "environment"),
+    )
+    allow_demo_passwords: bool = Field(
+        default=True,
+        validation_alias=AliasChoices("ALLOW_DEMO_PASSWORDS", "allow_demo_passwords"),
+    )
+    login_rate_limit: int = Field(default=8)
+    login_rate_window_seconds: int = Field(default=300)
     demo_supervisor_password_hash: str | None = Field(default=None)
 
     model_config = SettingsConfigDict(
@@ -53,4 +63,21 @@ class Settings(BaseSettings):
     )
 
 
+def validate_runtime_settings() -> None:
+    """Reject unsafe production configuration at startup."""
+    if settings.environment.lower() != "production":
+        return
+    unsafe_secrets = (
+        "change-me-in-production-use-long-random-secret",
+        "vigil-demo-salt-change-in-production",
+    )
+    if settings.jwt_secret in unsafe_secrets:
+        raise RuntimeError("Production requires a unique JWT_SECRET")
+    if settings.auth_password_salt in unsafe_secrets:
+        raise RuntimeError("Production requires a unique AUTH_PASSWORD_SALT")
+    if settings.allow_demo_passwords:
+        raise RuntimeError("Set ALLOW_DEMO_PASSWORDS=false in production")
+
+
 settings = Settings()
+validate_runtime_settings()

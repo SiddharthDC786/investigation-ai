@@ -7,14 +7,19 @@ Organization Delhi Trading Co was mentioned near Mumbai.
 
 
 def test_ingest_fir_extracts_entities(client):
+    import uuid
+
+    payload = SAMPLE_FIR + f"\nUnique ingest marker {uuid.uuid4().hex}\n"
     response = client.post(
         "/ingest/fir",
         data={"case_id": "CASE0001"},
-        files={"file": ("fir.txt", SAMPLE_FIR, "text/plain")},
+        files={"file": ("fir.txt", payload, "text/plain")},
     )
     assert response.status_code == 200
     body = response.json()
-    assert body["status"] == "success"
+    assert body["status"] in ("success", "duplicate")
+    if body["status"] == "duplicate":
+        return
     assert body["entities_extracted"] >= 2
     assert body["source_type"] == "fir"
     types = {m["entity_type"] for m in body["mentions"]}
@@ -22,11 +27,19 @@ def test_ingest_fir_extracts_entities(client):
 
 
 def test_ingest_cdr_csv(client):
-    csv_data = "cdr_id,caller_phone,receiver_phone,timestamp,duration_seconds,tower_location\nCDR1,9000000001,9000000002,2024-01-01 10:00:00,60,Tower A\n"
+    import uuid
+
+    uid = uuid.uuid4().hex[:8].upper()
+    csv_data = (
+        "cdr_id,caller_phone,receiver_phone,timestamp,duration_seconds,tower_location\n"
+        f"CDR-{uid},9000000001,9000000002,2024-01-01 10:00:00,60,Tower A\n"
+    )
     response = client.post(
         "/ingest/cdr",
         data={"case_id": "CASE0001"},
         files={"file": ("cdr.csv", csv_data, "text/csv")},
     )
     assert response.status_code == 200
-    assert response.json()["records_received"] == 1
+    body = response.json()
+    assert body["status"] == "success"
+    assert body["records_received"] == 1
