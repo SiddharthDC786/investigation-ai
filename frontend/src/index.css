@@ -72,21 +72,3 @@ input {
   background: var(--color-console-border-strong);
   border-radius: 0;
 }
-
-html.presentation-mode {
-  font-size: 17px;
-}
-
-html.presentation-mode button,
-html.presentation-mode input,
-html.presentation-mode select {
-  min-height: 48px;
-}
-
-html.presentation-mode .presentation-mode\:min-h-\[56px\] {
-  min-height: 56px;
-}
-
-html.presentation-mode .presentation-mode\:min-h-\[52px\] {
-  min-height: 52px;
-}

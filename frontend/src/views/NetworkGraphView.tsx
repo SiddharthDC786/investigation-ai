@@ -471,8 +471,8 @@ export function NetworkGraphView({
                   diamond = shared number link
                 </p>
                 <p>
-                  <span className="inline-block h-2 w-4 rounded-full bg-[#e85d4c] align-middle" /> Centre = selected
-                  focus
+                  <span className="inline-block h-2 w-4 rounded-full bg-[#e85d4c] align-middle" /> Centre = primary
+                  suspect
                 </p>
               </div>
               {legendRoles.length > 0 && (
@@ -496,7 +496,7 @@ export function NetworkGraphView({
           {focusEntity && (
             <div className="border-b border-console-border px-4 py-4">
               <p className="text-[10px] font-semibold uppercase tracking-wider text-risk-high">
-                {focusEntity.role === 'suspect' ? t.network.primarySuspect : t.network.investigationFocus}
+                {t.network.primarySuspect}
               </p>
               <p className="mt-1 text-lg font-semibold text-text-primary">{focusEntity.label}</p>
               <p className="mt-0.5 text-xs text-text-muted">
@@ -526,7 +526,7 @@ export function NetworkGraphView({
             {groupedConnections.direct.length > 0 && (
               <>
                 <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">
-                  {t.network.directLinks}
+                  Calls with suspect
                 </p>
                 <ul className="mt-2 space-y-2">{groupedConnections.direct.map((l, i) => renderConnectionRow(l, `d-${i}`))}</ul>
               </>

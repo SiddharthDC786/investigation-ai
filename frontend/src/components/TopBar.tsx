@@ -6,7 +6,6 @@ import { CASE_DISPLAY_REF } from '../data/mockCase'
 import { displayCaseTitle } from '../lib/displayCase'
 import { useCase } from '../context/CaseContext'
 import { useLanguage } from '../i18n/LanguageContext'
-import { usePresentationMode } from '../i18n/PresentationModeContext'
 import { ConnectionStatusBadge } from './ConnectionStatusBadge'
 import { LanguageSelector } from './LanguageSelector'
 import { SihBadge } from './SihBadge'
@@ -14,8 +13,7 @@ import { SihBadge } from './SihBadge'
 export function TopBar() {
   const { user, minutesLeft, logout } = useAuth()
   const { t } = useLanguage()
-  const { enabled: presentationMode, toggle: togglePresentation } = usePresentationMode()
-  const { caseId, cases, setCaseId, loading: casesLoading } = useCase()
+  const { caseId } = useCase()
   const [caseTitle, setCaseTitle] = useState('Loading case…')
   const [briefing, setBriefing] = useState<string | null>(null)
 
@@ -43,21 +41,6 @@ export function TopBar() {
             <span className="text-base font-semibold text-text-primary">Vigil</span>
             <SihBadge compact />
             <span className="text-xs text-accent-steel">{CASE_DISPLAY_REF}</span>
-            {cases.length > 1 && (
-              <select
-                value={caseId}
-                disabled={casesLoading}
-                onChange={(e) => setCaseId(e.target.value)}
-                className="border border-console-border-strong bg-console-bg px-2 py-1 text-xs text-text-primary"
-                aria-label="Select investigation case"
-              >
-                {cases.map((c) => (
-                  <option key={c.case_id} value={c.case_id}>
-                    {c.case_id} — {c.title}
-                  </option>
-                ))}
-              </select>
-            )}
           </div>
           <p className="truncate text-sm text-text-secondary">{caseTitle}</p>
           {briefing && (
@@ -69,18 +52,6 @@ export function TopBar() {
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <ConnectionStatusBadge />
         <LanguageSelector compact />
-        <button
-          type="button"
-          onClick={togglePresentation}
-          title={t.presentation.hint}
-          className={`min-h-[40px] border px-3 py-2 text-xs ${
-            presentationMode
-              ? 'border-accent-amber/60 bg-accent-amber/15 text-accent-amber'
-              : 'border-console-border-strong text-text-secondary hover:border-accent-steel/40'
-          }`}
-        >
-          {presentationMode ? t.presentation.on : t.presentation.off}
-        </button>
         <div className="hidden text-right sm:block">
           <p className="font-medium text-text-primary">{user?.name}</p>
           <p className="text-xs text-text-muted">

@@ -111,7 +111,7 @@ export function AuditTrailView({
               onClick={handleExport}
               disabled={!canExport}
               title={canExport ? t.audit.exportTitleSupervisor : t.audit.exportTitleDenied}
-              className="min-h-[44px] border border-console-border-strong px-4 py-2 text-sm text-text-secondary hover:border-accent-steel hover:text-accent-steel disabled:cursor-not-allowed disabled:opacity-40 presentation-mode:min-h-[52px]"
+              className="min-h-[44px] border border-console-border-strong px-4 py-2 text-sm text-text-secondary hover:border-accent-steel hover:text-accent-steel disabled:cursor-not-allowed disabled:opacity-40"
             >
               {t.audit.export}
             </button>

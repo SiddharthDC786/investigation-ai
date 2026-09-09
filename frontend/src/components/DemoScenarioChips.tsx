@@ -34,7 +34,7 @@ export function DemoScenarioChips({ onRun, disabled }: DemoScenarioChipsProps) {
             type="button"
             disabled={disabled}
             onClick={() => runScenario(scenario.id)}
-            className="min-h-[48px] border border-console-border-strong bg-console-bg px-3 py-2.5 text-left transition-colors hover:border-accent-amber/50 hover:bg-accent-amber/5 disabled:opacity-50 presentation-mode:min-h-[56px]"
+            className="min-h-[48px] border border-console-border-strong bg-console-bg px-3 py-2.5 text-left transition-colors hover:border-accent-amber/50 hover:bg-accent-amber/5 disabled:opacity-50"
           >
             <span className="block text-sm font-medium text-accent-amber">
               {t.demo[scenario.labelKey]}
