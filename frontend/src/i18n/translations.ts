@@ -183,6 +183,7 @@ export type TranslationTree = {
     loading: string
     empty: string
     primarySuspect: string
+    investigationFocus: string
     directLinks: string
     lineThickness: string
     tapForProfile: string
@@ -505,11 +506,12 @@ export const translations: Record<Language, TranslationTree> = {
       legendRing: 'Coloured ring = role',
       bridgeCallout: '',
       bridgeTap: '',
-      simpleHint: 'Suspect at centre · thicker lines = more calls · tap a name for details',
+      simpleHint: 'Selected person at centre · thicker lines = more calls · tap a name for details',
       loading: 'Loading map…',
       empty: 'No people linked in this case yet.',
       primarySuspect: 'Primary suspect',
-      directLinks: 'Direct links',
+      investigationFocus: 'Investigation focus',
+      directLinks: 'Direct phone calls',
       lineThickness: 'Line thickness = call frequency',
       tapForProfile: 'Tap a node to open their file',
       calls: 'calls',
@@ -825,11 +827,12 @@ export const translations: Record<Language, TranslationTree> = {
       legendRing: 'रंगीन घेरा = भूमिका',
       bridgeCallout: '',
       bridgeTap: '',
-      simpleHint: 'संदिग्ध केंद्र में · मोटी रेखा = अधिक कॉल · विवरण के लिए नाम टैप करें',
+      simpleHint: 'चयनित व्यक्ति केंद्र में · मोटी रेखा = अधिक कॉल · विवरण के लिए नाम टैप करें',
       loading: 'मैप लोड हो रहा है…',
       empty: 'इस मामले में अभी कोई व्यक्ति लिंक नहीं।',
       primarySuspect: 'मुख्य संदिग्ध',
-      directLinks: 'प्रत्यक्ष संबंध',
+      investigationFocus: 'जांच फोकस',
+      directLinks: 'प्रत्यक्ष फोन कॉल',
       lineThickness: 'रेखा की मोटाई = कॉल की संख्या',
       tapForProfile: 'फ़ाइल खोलने के लिए नोड टैप करें',
       calls: 'कॉल',

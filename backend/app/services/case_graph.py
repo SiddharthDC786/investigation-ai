@@ -70,7 +70,12 @@ def _resolve_focus_person(db: Session, case_id: str, center_person_id: str | Non
     return center_person_id or "P00014"
 
 
-def _cdr_person_edges(db: Session, case_id: str) -> list[tuple[str, str, int]]:
+def _cdr_person_edges(
+    db: Session,
+    case_id: str,
+    *,
+    min_calls: int = 3,
+) -> list[tuple[str, str, int]]:
     rows = db.execute(
         text(
             """
@@ -80,13 +85,50 @@ def _cdr_person_edges(db: Session, case_id: str) -> list[tuple[str, str, int]]:
             JOIN phones p2 ON p2.phone_number = c.receiver_phone
             WHERE c.case_id = :cid AND p1.person_id <> p2.person_id
             GROUP BY p1.person_id, p2.person_id
-            HAVING COUNT(*) >= 3
+            HAVING COUNT(*) >= :min_calls
             ORDER BY cnt DESC
             """
         ),
-        {"cid": case_id},
+        {"cid": case_id, "min_calls": min_calls},
     ).mappings().all()
     return [(r["a"], r["b"], int(r["cnt"])) for r in rows]
+
+
+def _connected_person_ids_for_case(
+    db: Session,
+    case_id: str,
+    *,
+    min_calls: int = 1,
+) -> set[str]:
+    """Everyone in the case network: relationships, narrative cast, and CDR-linked people."""
+    included = _person_ids_for_case(db, case_id)
+    included.update(NARRATIVE_ROLES.get(case_id, {}).keys())
+
+    cdr_people = db.execute(
+        text(
+            """
+            SELECT DISTINCT ph.person_id
+            FROM cdr c
+            JOIN phones ph ON ph.phone_number IN (c.caller_phone, c.receiver_phone)
+            WHERE c.case_id = :cid AND ph.person_id IS NOT NULL
+            """
+        ),
+        {"cid": case_id},
+    ).scalars().all()
+    included.update(pid for pid in cdr_people if pid)
+
+    cdr_edges = _cdr_person_edges(db, case_id, min_calls=min_calls)
+    changed = True
+    while changed:
+        changed = False
+        before = len(included)
+        for a, b, _cnt in cdr_edges:
+            if a in included or b in included:
+                included.add(a)
+                included.add(b)
+        changed = len(included) > before
+
+    return {pid for pid in included if _fetch_person(db, pid)}
 
 
 def _shared_contact_bridges(
@@ -229,7 +271,9 @@ def _build_person_node(
         entity.score = score + (8 if is_focus else 0)
         entity.severity = severity  # type: ignore[assignment]
     if is_focus:
-        entity.subtitle = (entity.subtitle or "") + " · Primary suspect" if entity.subtitle else "Primary suspect in this case"
+        focus_label = _role_label(role or roles.get(person_id))
+        suffix = f" · Investigation focus ({focus_label})"
+        entity.subtitle = (entity.subtitle or "") + suffix if entity.subtitle else f"Investigation focus ({focus_label})"
     return entity
 
 
@@ -240,33 +284,9 @@ def build_investigation_map(
 ) -> GraphResponse:
     focus = _resolve_focus_person(db, case_id, center_person_id)
     roles = _case_roles(db, case_id)
-    cdr_edges = _cdr_person_edges(db, case_id)
-
-    included: set[str] = {focus}
-    for a, b, cnt in cdr_edges:
-        if a == focus or b == focus:
-            included.add(a)
-            included.add(b)
-
-    # Second hop — strong links between first-ring contacts
-    for a, b, cnt in cdr_edges:
-        if cnt >= 20 and (a in included or b in included):
-            included.add(a)
-            included.add(b)
-
-    # Cap size but always keep focus + top contacts by call volume to focus
-    contact_weights: dict[str, int] = defaultdict(int)
-    for a, b, cnt in cdr_edges:
-        if a == focus:
-            contact_weights[b] += cnt
-        if b == focus:
-            contact_weights[a] += cnt
-    for pid, _ in sorted(contact_weights.items(), key=lambda x: -x[1])[:8]:
-        included.add(pid)
-
-    if len(included) > 14:
-        keep = {focus, *list(sorted(contact_weights, key=contact_weights.get, reverse=True)[:10])}
-        included = keep
+    included = _connected_person_ids_for_case(db, case_id, min_calls=1)
+    included.add(focus)
+    cdr_edges = _cdr_person_edges(db, case_id, min_calls=1)
 
     bridges = _shared_contact_bridges(db, case_id, included)
     nodes: dict[str, InvestigationEntity] = {}
@@ -365,6 +385,7 @@ def build_investigation_map(
                 )
 
     focus_name = nodes[focus].label if focus in nodes else focus
+    focus_role = _role_label(nodes[focus].role if focus in nodes else roles.get(focus))
     person_count = sum(1 for n in nodes.values() if n.type == "person")
     direct_links = [
         l for l in links if l.source == focus or l.target == focus
@@ -379,9 +400,9 @@ def build_investigation_map(
             top_contact = f" Strongest phone contact: {nodes[other_id].label} ({best.label})."
     bridge_count = sum(1 for n in nodes.values() if n.type == "phone")
     summary = (
-        f"{focus_name} is the hub of this network — {direct} direct phone link(s), "
-        f"{person_count} people on map."
-        f"{top_contact} Red lines = calls to/from suspect; gold diamonds = shared numbers."
+        f"Case connection map — {person_count} connected people, {len(links)} link(s). "
+        f"Focus: {focus_name} ({focus_role}), {direct} direct phone link(s) to them."
+        f"{top_contact} Red lines = calls; gold diamonds = shared numbers."
     )
 
     story = _build_connection_story(focus, nodes, links)
